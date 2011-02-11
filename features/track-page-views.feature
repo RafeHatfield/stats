@@ -3,33 +3,32 @@
 #	As a Suite101 writer
 #	I want to see which of my articles are generating the most page views
 
+@tracking @pageviews
 Feature: Track page views
-In order to protect revenue
+In order to retain valuable writers
 As Suite101 Product Manager
-I want to know which articles are getting the most page views
+I want to track each articles pageviews
+So I can show writers how their articles are performing
 
 	Background:
 		Given an article "My test article"
-			And "My test article" has 1 view
-			And an analyst "Anthony"
 			And a reader "Northrop Frye"
 	
 	Scenario: Count number of times an article is viewed
+		Given "My test article" has 1 view
 		When "Northrop Frye" visits "My test article"
 		Then "My test article" has 2 views
 	
 	Scenario: Internal page view
-		Given an article "My referring article"
-			And "Northrop Frye" is reading "My referring article"
-			And "Northrop Frye" clicks on a link to "My test article"
+		Given "Northrop Frye" is on the page "Previous Path" at "Suite101"
 		When "Northrop Frye" visits "My test article"
-		Then "Anthony" can see that "My test article" has 2 views
-			And that "Suite101" has sent one view to "My test article"
-			And that "reading" "My referring article" led to a view of "My test article"
+		Then "My test article" gets a view with "Suite101" as the source
+			And "My test article" tracks an entrance path from "Previous Path"
 			And that "My test article" received an "internal" view
 			
 	Scenario: Organic page view
 		Given that "Google" is a search engine
+			And "My test article" has 1 view
 			And "Northrop Frye" searched for "My test keyphrase" on "Google"
 			And "Northrop Frye" clicks on a link to "My test article"
 		When "Northrop Frye" visits "My test article"
@@ -40,6 +39,7 @@ I want to know which articles are getting the most page views
 			
 	Scenario: Direct page view
 		Given that "Facebook" is a social network
+			And "My test article" has 1 view
 			And "Northrop Frye"'s friends shared a link to "My test article" on "Facebook"
 			And "Northrop Frye" clicks on a link to "My test article"
 		When "Northrop Frye" visits "My test article"

@@ -1,27 +1,35 @@
+@authentication
 Feature: Provide authentication functionality for Suite101 Stats
 	In order to stop other people from seeing my stats
 	As a Suite101 writer
 	I want to have my stats be password protected
-
-	Background:
-		Given a Suite101 writer "Homer"
-			And a Suite101 writer "Plato"
 	
 	Scenario: Successful login
-		Given "Homer" has a password "foo"
-			And "Homer" is on the login page
-		When "Homer" enters "homer@greece.gr" in the "email" field
-			And "Homer" enters "foo" in the "password" field
-		Then "Homer" successfully logs in
-			And "Homer" should see "Stats Dashboard"
-		
-	Scenario: Unsuccessful login (first 2)
-		Given "Homer" has a password "foo"
-			And "Homer" is on the login page
-		When "Homer" enters "homer@greece.gr" in the "email" field
-			And "Homer" enters "bar" in the "password" field
-		Then "Homer" sees log in failed.
+		Given "Homer" has an account at Suite101
+		When "Homer" enters correct details for login
+		Then "Homer" is logged in
+			And stays on the page he was reading
 	
 	Scenario: Unsuccessful login 3 times in a row
-	#Reset password - mail them | block ip for a few hours
+		Given "Homer" has an account at Suite101
+			And "Homer" has entered the wrong details for login 2 times in a row
+		When "Homer" enters wrong details for login
+		Then "Homer" goes to the "login blocked" page
+			And "Homer"'s IP is blocked from logging in for 2 hours.
+		
+	Scenario: Unsuccessful login
+		Given "Homer" has an account at Suite101
+		When "Homer" enters wrong details for login
+		Then "Homer" goes to the "login failed" page
 
+	Scenario: Access Suite101 Stats
+		Given "Homer" isn't logged in
+		When "Homer" visits any page in Suite101 Stats other than the "login" page
+		Then "Homer" goes to the "login" page
+
+	Scenario: Can't access another person's stats
+		Given "Homer" is logged in
+			And "Solon" has an account at Suite101
+		When "Homer" visits a page with "Solon"'s stats
+		Then "Homer" goes to the "permission denied" page
+		
