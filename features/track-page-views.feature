@@ -9,9 +9,13 @@ In order to retain valuable writers
 As Suite101 Product Manager
 I want to track each articles pageviews
 So I can show writers how their articles are performing
-
 	Background:
 		Given an article "My test article"
+	
+	Scenario: track a page view
+		Given I have no page view
+		When I go to a tracking page
+		Then I should see 1 page view
 	
 	Scenario: Count number of times an article is viewed
 		Given "My test article" has 1 view
