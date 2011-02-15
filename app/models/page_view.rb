@@ -10,4 +10,8 @@ class PageView < Ohm::Model
   attribute :cookie_id
 
   index :writer_id  
+  
+  def validate
+    assert_present :page_url, :writer_id
+  end
 end
