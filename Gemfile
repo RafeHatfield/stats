@@ -3,7 +3,7 @@ source 'http://rubygems.org'
 gem 'rails', '3.0.4'
 
 gem 'sqlite3-ruby', :require => 'sqlite3'
-gem 'ohm'
+
 gem 'thin'
 gem 'SystemTimer'
 gem 'engineyard'
@@ -11,6 +11,11 @@ gem 'engineyard'
 group :development do
 	gem 'ruby-debug'
 	gem "nifty-generators"
+	gem 'ohm'
+end
+
+group :staging, :production do
+	gem 'ohm', '0.0.35'
 end
 
 group :test do
