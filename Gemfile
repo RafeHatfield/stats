@@ -14,6 +14,7 @@ gem 'SystemTimer'
 group :development do
 	gem 'ruby-debug'
 	gem "nifty-generators"
+	gem "autotest"
 end
 
 group :staging, :production do
