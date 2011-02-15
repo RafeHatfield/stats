@@ -9,6 +9,6 @@ class PageViewsController < ApplicationController
   end
   
   def index
-    @pageviews = PageView.all
+    
   end
 end
