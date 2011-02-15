@@ -13,8 +13,8 @@ gem 'SystemTimer'
 
 group :development do
 	gem 'ruby-debug'
-	gem "nifty-generators"
 	gem "autotest"
+	gem "rails3-generators"
 end
 
 group :staging, :production do
@@ -27,5 +27,6 @@ group :test do
 	gem 'rspec-rails'
 	gem 'shoulda-matchers'
 	gem 'mocha'
+	gem "shoulda"
 	gem 'factory_girl'
 end

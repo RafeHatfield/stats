@@ -1,4 +1,5 @@
-class PageViewTest < Test::Unit::TestCase
+
+class PageViewTest < ActiveSupport::TestCase
   
   context "on tracking page views" do
     setup do

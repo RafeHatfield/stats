@@ -11,4 +11,8 @@ class PageViewsController < ApplicationController
   def index
     @pageviews = PageView.all
   end
+  
+  def show
+    
+  end
 end

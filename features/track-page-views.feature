@@ -10,42 +10,36 @@ As Suite101 Product Manager
 I want to track each articles pageviews
 So I can show writers how their articles are performing
 	Background:
-		Given an article "My test article"
+		Given I have no page view
 	
 	Scenario: track a page view
-		Given I have no page view
 		When I go to a tracking page
 		Then I should see 1 page view
-	
-	Scenario: Count number of times an article is viewed
-		Given "My test article" has 1 view
-		When a reader visits "My test article"
-		Then "My test article" has 2 views
-		
-	Scenario Outline: track page view
-		Given a reader is coming from "<source>"
-		When they visit an article
-		Then we track a "<type>" page view
-
-		Examples:
-			|source|type|
-			|Suite101|internal|
-			|Google|organic|
-			|Email|direct|
-			# |typing suite101.com into browser|direct|
-			# |Bing|organic|
-		
-	Scenario: Organic view
-		When there is an organic view tracked
-		Then we store the keyphrase searched for
-		
-	Scenario: Internal view
-		When there is an internal view tracked
-		Then we store the entrance path to the article
-		
-	Scenario: Direct view
-		When there is a direct view tracked
-		Then we store the entrance source
+			
+	# Scenario Outline: track page view
+	# 	Given a reader is coming from "<source>"
+	# 	When they visit an article
+	# 	Then we track a "<type>" page view
+	# 
+	# 	Examples:
+	# 		|source|type|
+	# 		|Suite101|internal|
+	# 		|Google|organic|
+	# 		|Email|direct|
+	# 		# |typing suite101.com into browser|direct|
+	# 		# |Bing|organic|
+	# 	
+	# Scenario: Organic view
+	# 	When there is an organic view tracked
+	# 	Then we store the keyphrase searched for
+	# 	
+	# Scenario: Internal view
+	# 	When there is an internal view tracked
+	# 	Then we store the entrance path to the article
+	# 	
+	# Scenario: Direct view
+	# 	When there is a direct view tracked
+	# 	Then we store the entrance source
 	
 	
 		# Given "Northrop Frye" is on the page "Previous Path" at "Suite101"
