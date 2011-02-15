@@ -4,15 +4,13 @@ gem 'rails', '3.0.4'
 
 gem 'sqlite3-ruby', :require => 'sqlite3'
 
-gem 'thin'
-gem 'SystemTimer'
 gem 'engineyard'
 gem 'ohm', '0.0.35'
+gem 'haml'
 
 group :development do
 	gem 'ruby-debug'
 	gem "nifty-generators"
-	# gem 'ohm'
 end
 
 group :staging, :production do
