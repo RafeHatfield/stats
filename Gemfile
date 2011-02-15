@@ -6,6 +6,7 @@ gem 'sqlite3-ruby', :require => 'sqlite3'
 gem 'ohm'
 gem 'thin'
 gem 'SystemTimer'
+gem 'engineyard'
 
 group :development do
 	gem 'ruby-debug'
