@@ -91,6 +91,8 @@ GEM
     nokogiri (1.4.4)
     ohm (0.0.35)
       redis (>= 1.0.4)
+    ohm-contrib (0.1.1)
+      ohm
     polyglot (0.3.1)
     rack (1.2.1)
     rack-mount (0.6.13)
@@ -163,6 +165,7 @@ DEPENDENCIES
   mocha
   nifty-generators
   ohm (= 0.0.35)
+  ohm-contrib
   rails (= 3.0.4)
   rspec-rails
   ruby-debug

@@ -6,6 +6,7 @@ gem 'sqlite3-ruby', :require => 'sqlite3'
 
 gem 'engineyard'
 gem 'ohm', '0.0.35'
+gem 'ohm-contrib', :require => 'ohm/contrib'
 gem 'haml'
 
 group :development do
