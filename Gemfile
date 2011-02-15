@@ -28,5 +28,6 @@ group :test do
 	gem 'shoulda-matchers'
 	gem 'mocha'
 	gem "shoulda"
+	gem 'shoulda-context'
 	gem 'factory_girl'
 end

@@ -1,3 +1,4 @@
+require 'test_helper'
 
 class PageViewTest < ActiveSupport::TestCase
   
@@ -8,8 +9,8 @@ class PageViewTest < ActiveSupport::TestCase
     end
 
     should "create page view" do
-      @pageview.page_title.should == "Chocolate has an Expiration Date"
+      assert_equal @pageview.page_title, "Chocolate has an Expiration Date"
     end
-  end
+  end  
   
 end
