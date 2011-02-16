@@ -1,5 +1,6 @@
 class PageView < Ohm::Model
-  # check out the ohm extension at http://labs.sinefunc.com/ohm-contrib/doc/ and https://github.com/sinefunc/ohm-contrib  
+  include Ohm::Boundaries
+  
   reference :page, Page
     
   attribute :visited_at
@@ -7,5 +8,6 @@ class PageView < Ohm::Model
   attribute :cookie_id
 
   index :cookie_id  
+  # check out the ohm extension at http://labs.sinefunc.com/ohm-contrib/doc/ and https://github.com/sinefunc/ohm-contrib  
   
 end
