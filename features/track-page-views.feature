@@ -10,7 +10,7 @@ As Suite101 Product Manager
 I want to track each articles pageviews
 So I can show writers how their articles are performing
 	Background:
-	
+
 	# Scenario: track a page view
 	# 		Given I have no page view
 	# 		When I go to a tracking page
@@ -19,7 +19,7 @@ So I can show writers how their articles are performing
 	
 	Scenario: track the page view for a given article
 		Given "a test article" has "1" page view
-		When I go to "a test article"
+		When I go to a test article
 		Then I should see "2" page views for "a test article"		
 	
 	# 
