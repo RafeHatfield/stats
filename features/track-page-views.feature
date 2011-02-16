@@ -17,9 +17,8 @@ So I can show writers how their articles are performing
 	
 	Scenario: a reader visit a page multiple times
 		Given test article has no page view
-		When I go to test article page
-		When I go to test article page
-		Then the system should record 1 page view for page id "653476"
+		Given I visit the test article 2 times within 30 minutes
+		Then the system should record 1 page view for the test article
 		
 	# Scenario Outline: track page view
 	# 	Given a reader is coming from "<source>"
