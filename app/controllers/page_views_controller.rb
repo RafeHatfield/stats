@@ -12,7 +12,7 @@ class PageViewsController < ApplicationController
     
     page_views_for_user = @page.page_views.find(:cookie_id => params[:cookie_id])
     last_pageview = @page_views_for_users.last
-    if last_pageview.visited_at < 30.minutes.ago
+    if 30.minutes.ago > last_pageview.visited_at
       @page.page_views.create(pageview_hash)
     end
     send_file 'public/images/page_view.gif'
