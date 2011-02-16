@@ -10,12 +10,21 @@ As Suite101 Product Manager
 I want to track each articles pageviews
 So I can show writers how their articles are performing
 	Background:
-		Given I have no page view
 	
 	Scenario: track a page view
+		Given I have no page view
 		When I go to a tracking page
-		Then I should see 1 page view
-			
+		Then I should see "1" page view
+	
+	Scenario: track the page view for a given article	
+		When I go to an article "test article"
+		Then I should see "1" more page view for "test article"		
+	
+	Scenario: a reader visit a page multiple times
+		Give I have been on "test article" in the past "30" minutes
+		When I go to an article "test article"
+		Then system should not track a page view for "test article"
+		
 	# Scenario Outline: track page view
 	# 	Given a reader is coming from "<source>"
 	# 	When they visit an article
