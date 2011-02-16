@@ -7,3 +7,7 @@ end
 Then /^I should see (\d+) page view$/ do |count|
   PageView.all.size.should == count
 end
+
+Then /^system should not track a page view for "([^"]*)"$/ do |article|
+  
+end
