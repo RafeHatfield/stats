@@ -180,6 +180,7 @@ DEPENDENCIES
   launchy
   mocha
   ohm
+  ohm-contrib
   rails (= 3.0.4)
   rails3-generators
   rspec-rails
