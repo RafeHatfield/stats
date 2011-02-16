@@ -1,4 +1,6 @@
 class PageView < Ohm::Model
+  include Ohm::Boundaries
+  
   reference :page, Page
     
   attribute :visited_at
