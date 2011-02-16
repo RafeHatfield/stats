@@ -29,4 +29,5 @@ group :test do
 	gem 'mocha'
 	gem "shoulda"
 	gem 'factory_girl'
+	gem 'launchy'
 end
