@@ -11,19 +11,15 @@ I want to track each articles pageviews
 So I can show writers how their articles are performing
 	Background:
 	
-	# Scenario: track a page view
-	# 	Given I have no page view
-	# 	When I go to a tracking page
-	# 	Then I should see "1" page view
-	# 
 	# Scenario: track the page view for a given article	
 	# 	When I go to an article "test article"
 	# 	Then I should see "1" more page view for "test article"		
 	
 	Scenario: a reader visit a page multiple times
-		Give I have been on "test article" in the past "30" minutes
-		When I go to the test article page
-		Then system should not track a page view for "test article"
+		Given test article has no page view
+		When I go to test article page
+		When I go to test article page
+		Then the system should record 1 page view for page id "653476"
 		
 	# Scenario Outline: track page view
 	# 	Given a reader is coming from "<source>"
