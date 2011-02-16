@@ -8,6 +8,12 @@ Then /^I should see (\d+) page view$/ do |count|
   PageView.all.size.should == count
 end
 
-Then /^I should see "([^"]*)" more page view for "([^"]*)"$/ do |addition_views, article|
-  1.should == 0
+Then /^I should see "([^"]*)" page views for "([^"]*)"$/ do |views, article|
+  Page.find(:article_id => 15).page_views.size.should == 1
+end
+
+Given /^"([^"]*)" has "([^"]*)" page view$/ do |article, current_views|
+  # Zero out page views for this article
+  # Add current_views page view for article
+
 end

@@ -13,7 +13,7 @@ module NavigationHelpers
     when /a tracking page$/
       '/test.html'
     when /a test article/
-      '/test.html'
+      '/generate_article_view/15'
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #

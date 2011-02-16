@@ -15,4 +15,8 @@ class PageViewsController < ApplicationController
   def show
     
   end
+  
+  def generate_article_view
+  end
+  
 end

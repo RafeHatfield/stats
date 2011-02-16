@@ -17,9 +17,10 @@ So I can show writers how their articles are performing
 	# 		Then I should see "1" page view
 	# 	
 	
-	Scenario: track the page view for a given article	
+	Scenario: track the page view for a given article
+		Given "a test article" has "1" page view
 		When I go to "a test article"
-		Then I should see "1" more page view for "a test article"		
+		Then I should see "2" page views for "a test article"		
 	
 	# 
 	# Scenario: a reader visit a page multiple times
