@@ -5,7 +5,7 @@ class PageViewsController < ApplicationController
     if @page.blank?
       @page = Page.create(page_hash)
     end
-    
+        
     pageview_hash = {:referer_url => params[:referer_url], :page_title => params[:page_title], :cookie_id => params[:cookie_id]}
     visited_at = params[:visited_at].blank? ? Time.now : params[:visited_at]
     pageview_hash.merge!({:visited_at => visited_at })
