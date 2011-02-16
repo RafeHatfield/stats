@@ -31,4 +31,5 @@ group :test do
 	gem "shoulda"
 	gem 'shoulda-context'
 	gem 'factory_girl'
+	gem 'launchy'
 end
