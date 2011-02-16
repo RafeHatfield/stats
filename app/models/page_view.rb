@@ -1,13 +1,11 @@
 class PageView < Ohm::Model
   # check out the ohm extension at http://labs.sinefunc.com/ohm-contrib/doc/ and https://github.com/sinefunc/ohm-contrib  
-  attribute :page_id
-  attribute :page_title
-  attribute :page_url
-  
-  attribute :writer_id
+  reference :page, Page
+    
   attribute :visited_at
   attribute :referer_url
   attribute :cookie_id
 
-  index :writer_id  
+  index :cookie_id  
+  
 end
