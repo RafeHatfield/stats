@@ -17,4 +17,5 @@ class PageViewsController < ApplicationController
   def show
     
   end
+
 end

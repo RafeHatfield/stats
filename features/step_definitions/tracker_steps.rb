@@ -18,3 +18,20 @@ end
 Then /^the system should record (\d+) page view for the test article$/ do |view_count|
   @page.page_views.size.should == view_count
 end
+
+
+Given /^"a test article" has "1" page view$/ do
+  # Delete the existing page for "a test article" if it exists.
+  existing_page = Page.find(:page_id => 15).first
+  existing_page.delete if !existing_page.nil?
+  
+  # Create a fresh page for "a test article".
+  new_page = Page.create(:page_id => 15, :page_url => "http://www.google.ca", :writer_id => 12345)
+  
+  # Add a page view to the new page.
+  new_page.page_views << PageView.create(:cookie_id => 999999)
+end
+
+Then /^I should see "2" page views for "a test article"$/ do
+  Page.find(:page_id => 15).first.page_views.size.should == 2
+end
