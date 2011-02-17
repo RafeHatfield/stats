@@ -10,4 +10,8 @@ class PageView < Ohm::Model
   index :cookie_id  
   # check out the ohm extension at http://labs.sinefunc.com/ohm-contrib/doc/ and https://github.com/sinefunc/ohm-contrib  
   
+  def validate
+    assert_present :page_id
+  end
+  
 end
