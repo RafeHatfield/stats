@@ -21,6 +21,10 @@ So I can show writers how their articles are performing
 		Given "a test article" has "1" page view
 		When I go to "a test article"
 		Then I should see "2" page views for "a test article"		
+
+  Scenario: Organic view
+    When a page view has an organic referrer
+    Then we store the keyphrase searched for
 	
 	# 
 	# Scenario: a reader visit a page multiple times
@@ -30,10 +34,12 @@ So I can show writers how their articles are performing
 	# 	
 
 
-	Scenario: a reader visit a page multiple times
-		Given test article has no page view
-		Given I visit the test article 2 times within 30 minutes
-		Then the system should record 1 page view for the test article
+  # Scenario: a reader visit a page multiple times
+  #   Given test article has no page view
+  #   Given I visit the test article 2 times within 30 minutes
+  #   Then the system should record 1 page view for the test article
+
+
 
 	# Scenario Outline: track page view
 	# 	Given a reader is coming from "<source>"
@@ -48,9 +54,7 @@ So I can show writers how their articles are performing
 	# 		# |typing suite101.com into browser|direct|
 	# 		# |Bing|organic|
 	# 	
-	# Scenario: Organic view
-	# 	When there is an organic view tracked
-	# 	Then we store the keyphrase searched for
+
 	# 	
 	# Scenario: Internal view
 	# 	When there is an internal view tracked
