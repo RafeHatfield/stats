@@ -3,9 +3,7 @@ Then /^I should see (\d+) page view$/ do |count|
 end
 
 Given /^test article has no page view$/ do
-  hash ={:page_title=>"Chocolate has an Expiration Date", :page_url=>"http://www.suite101.com/content/chocolate-has-an-expiration-date-a347637", :page_id=>rand(10000), :writer_id=>"731923"}
-  
-  @page = Page.create(hash)
+  @page = create_page({:page_id => '234567'})
   @page.page_views.clear
 end
 

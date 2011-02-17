@@ -9,7 +9,7 @@ class PageViewTest < ActiveSupport::TestCase
     end
 
     should "create a page view" do
-      assert_equal @pageview.referer_url, "http://google.come"
+      assert_equal @pageview.referer_url, "http://google.com"
     end    
   end  
   
