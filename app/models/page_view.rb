@@ -6,6 +6,7 @@ class PageView < Ohm::Model
   attribute :visited_at
   attribute :referer_url
   attribute :cookie_id
+  attribute :keyword_page
 
   index :cookie_id  
   # check out the ohm extension at http://labs.sinefunc.com/ohm-contrib/doc/ and https://github.com/sinefunc/ohm-contrib  
@@ -27,7 +28,7 @@ class PageView < Ohm::Model
       :aol => /aol\..*\?/,
       :ask => /ask\..*\?/,
       :yandex => /yandex\..*\?/,
-      :search => /search\..*\?/
+      :search => /www\.search\.com.*\?/
     }
                  
     @engine_regex.each do |engine, regex|

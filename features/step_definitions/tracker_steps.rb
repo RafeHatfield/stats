@@ -35,3 +35,11 @@ end
 Then /^I should see "2" page views for "a test article"$/ do
   Page.find(:page_id => 15).first.page_views.size.should == 2
 end
+
+When /^a page view has an organic referrer$/ do
+  # create new page view
+end
+
+Then /^we store the keyphrase searched for$/ do
+  # new page view has keyword_phrase that is right  
+end
