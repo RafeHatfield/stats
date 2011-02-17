@@ -35,9 +35,11 @@ Then /^I should see "2" page views for "a test article"$/ do
 end
 
 When /^a page view has an organic referrer$/ do
-  # create new page view
+  @page = create_page({:page_id => 23})
+  @page_view = create_page_view({:referrer_url => "http://www.google.ca/search?q=awesome+sauce&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a"})
+  @page.page_views << @page_view
 end
 
 Then /^we store the keyphrase searched for$/ do
-  # new page view has keyword_phrase that is right  
+  @page_view.keyword_phrase.should == "awesome sauce"
 end
