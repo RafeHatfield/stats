@@ -17,7 +17,7 @@ class Page < Ohm::Model
     assert_unique :page_id
   end
   
-  def insert_page_view(params)    
+  def insert_page_view(params)      
     page_views_for_user = self.page_views.all.find_all{|p| p.cookie_id == params[:cookie_id]}
     last_pageview_for_user = page_views_for_user.last
     if last_pageview_for_user.blank? || 30.minutes.ago > Time.parse(last_pageview_for_user.visited_at)

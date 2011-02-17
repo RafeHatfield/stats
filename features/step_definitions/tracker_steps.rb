@@ -35,11 +35,22 @@ Then /^I should see "2" page views for "a test article"$/ do
 end
 
 When /^a page view has an organic referrer$/ do
+  # Fake a visit to a suite101 article with a google search referrer
+  
+  # Delete the page if it exists
+  existing_page = Page.find(:page_id => 23).first
+  existing_page.delete if !existing_page.nil?
+  
   @page = create_page({:page_id => 23})
-  @page_view = create_page_view({:referrer_url => "http://www.google.ca/search?q=awesome+sauce&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a"})
-  @page.page_views << @page_view
+  @page.insert_page_view(
+    :referer_url=>"http://www.google.ca/search?q=awesome+sauce&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a", 
+    :visited_at=>Time.now, 
+    :cookie_id => '223445'
+    )
 end
 
-Then /^we store the keyphrase searched for$/ do
-  @page_view.keyword_phrase.should == "awesome sauce"
+Then /^we store the keyphrase searched for and search engine used$/ do
+  page_view = @page.page_views.first
+  page_view.keyword_phrase.should == "awesome sauce"
+  page_view.search_engine.should == "google"
 end
