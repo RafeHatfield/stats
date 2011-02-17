@@ -11,8 +11,8 @@ end
 
 Given /^I visit the test article (\d+) times within (\d+) minutes$/ do |visit_count, time_period|
   cookie_id = rand(1000)
-  @page.insert_page_views({:cookie_id => cookie_id, :page_id => @page.id})
-  @page.insert_page_views({:cookie_id => cookie_id, :page_id => @page.id})
+  @page.insert_page_view({:cookie_id => cookie_id, :page_id => @page.id})
+  @page.insert_page_view({:cookie_id => cookie_id, :page_id => @page.id})
 end
 
 Then /^the system should record (\d+) page view for the test article$/ do |view_count|
