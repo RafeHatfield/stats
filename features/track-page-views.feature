@@ -29,6 +29,12 @@ So I can show writers how their articles are performing
 	# 	Then system should not track a page view for "test article"
 	# 	
 
+
+	Scenario: a reader visit a page multiple times
+		Given test article has no page view
+		Given I visit the test article 2 times within 30 minutes
+		Then the system should record 1 page view for the test article
+
 	# Scenario Outline: track page view
 	# 	Given a reader is coming from "<source>"
 	# 	When they visit an article
