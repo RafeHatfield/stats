@@ -30,6 +30,5 @@ group :test do
 	gem 'mocha'
 	gem "shoulda"
 	gem 'shoulda-context'
-	gem 'factory_girl'
 	gem 'launchy'
 end

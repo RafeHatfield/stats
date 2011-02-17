@@ -5,7 +5,7 @@ class PageViewsController < ApplicationController
     if @page.blank?
       @page = Page.create(page_hash)
     end
-    @page.insert_page_views(params)
+    @page.insert_page_view(params)
     
     send_file 'public/images/page_view.gif'
   end
