@@ -3,28 +3,6 @@ Then /^I should see (\d+) page view$/ do |count|
   PageView.all.size.should == count
 end
 
-
-Then /^I should see "([^"]*)" page views for "([^"]*)"$/ do |views, article|
-  page = Page.find(:page_id => 15).first
-  page.nil?.should == false
-  page.page_views.size.should == 2
-end
-
-Given /^"([^"]*)" has "([^"]*)" page view$/ do |article, current_views|
-
-  # Zero out page views for this page or create a new page
-  if !(page = Page.find(:page_id => 15).first).nil?
-    page.page_views.clear
-  else
-    page = Page.create(:page_id => 15, :page_url => "http://www.google.ca", :writer_id => 12345)
-  end
-  
-  # Add a page view for article
-  page_view = PageView.create(:cookie_id => rand(1000), :page_id => 15)
-  page.page_views << page_view
-  
-end
-
 Then /^system should not track a page view for "([^"]*)"$/ do |article|
 end
 
@@ -38,3 +16,18 @@ Then /^the system should record (\d+) page view for page id "([^"]*)"$/ do |coun
   page.page_views.size.should == count
 end
 
+Given /^"a test article" has "1" page view$/ do
+  # Delete the existing page for "a test article" if it exists.
+  existing_page = Page.find(:page_id => 15).first
+  existing_page.delete if !existing_page.nil?
+  
+  # Create a fresh page for "a test article".
+  new_page = Page.create(:page_id => 15, :page_url => "http://www.google.ca", :writer_id => 12345)
+  
+  # Add a page view to the new page.
+  new_page.page_views << PageView.create(:cookie_id => 999999)
+end
+
+Then /^I should see "2" page views for "a test article"$/ do
+  Page.find(:page_id => 15).first.page_views.size.should == 2
+end
