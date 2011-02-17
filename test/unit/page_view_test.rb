@@ -32,7 +32,7 @@ class PageViewTest < ActiveSupport::TestCase
         :yandex => "http://yandex.com/yandsearch?text=awesome+sauce&lr=21353",
         :ask => "http://www.ask.com/web?q=awesome+sauce&search=&qsrc=0&o=0&l=dir"        
       }
-      @searched_keywords = ["awesome","sauce"]
+      @searched_keywords = "awesome sauce"
     end
 
     context "keywords" do
@@ -40,6 +40,12 @@ class PageViewTest < ActiveSupport::TestCase
         @search_url.each do |engine, url|
           assert_equal @searched_keywords, PageView.get_keywords(url, engine)
         end
+      end
+      
+      should "get the correct keywords if we have a search with quotes" do
+        search_url = "http://www.google.ca/search?q=%22awesome%20sauce%22%20happy&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a"
+        searched_keywords = "\"awesome sauce\" happy"
+        assert_equal searched_keywords, PageView.get_keywords(search_url, :google)
       end
     end
     

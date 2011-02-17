@@ -11,9 +11,14 @@ class PageView < Ohm::Model
   # check out the ohm extension at http://labs.sinefunc.com/ohm-contrib/doc/ and https://github.com/sinefunc/ohm-contrib  
 
 
-  # Given a natural search engine search url return the search engine
-  # Return nil if we don't match any search engine.
+  # Given a natural search engine search url return the search engine.
+  # If we don't match any search engine, return nil.
   def self.get_search_engine(url)
+    
+    # Match "engine_name" followed by a "." with a "?" after it.
+    # NOTE: Search.com matching must be last because other engines
+    #       use "search." in their domain and we want to catch them first.
+    
     @engine_regex = {
       :google => /google\..*\?/,
       :yahoo => /yahoo\..*\?/,
@@ -26,20 +31,21 @@ class PageView < Ohm::Model
     }
                  
     @engine_regex.each do |engine, regex|
-      if (regex.match(url))
-         return engine
-      end
+      return engine if regex.match(url)
     end
-  
+
     return nil
+        
   end
 
-  # Given a search url and a valid engine symbol return an array of the search keywords
-  # If the engine symbol is not valid then return nil
-  def self.get_keywords(url, search_engine)
-    # For google and bing the keywords are after the "?q=" and before the first "&". They are separated by "+".
-    # For yahoo its the same but uses "?p="
+  # Given a search url and a valid engine symbol return a keyword string.
+  # If the engine symbol is not valid then return nil.
+  def self.get_keywords(url, search_engine)  
     
+    # Search url make-up:
+    # => [stuff][query_string]=[keyword_string]&[other_stuff]
+    # Keywords are separated by %20 or +, these are converted to " " when unescaped.
+
     @engine_query_string = {
       :google => 'q',
       :bing => 'q',
@@ -49,16 +55,14 @@ class PageView < Ohm::Model
       :ask => 'q',
       :yandex => 'text',
       :search => 'q'
-      
     }
     
     @engine_query_string.each do |engine, query_string|
-      if( search_engine == engine )
-        return CGI.unescape(url.split(query_string+"=")[1].split("&")[0]).split(' ')
-      end
+      return CGI.unescape(url.split(query_string+"=")[1].split("&")[0]) if search_engine == engine
     end
     
     return nil
+    
   end
   
 end
