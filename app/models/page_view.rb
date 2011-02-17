@@ -62,12 +62,7 @@ class PageView < Ohm::Model
       return CGI.unescape(url.split(query_string+"=")[1].split("&")[0]) if search_engine == engine
     end
     
-    return nil
+    return nil  
+  end
     
-  end
-  
-  def validate
-    assert_present :page_id
-  end
-  
 end
