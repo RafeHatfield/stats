@@ -4,18 +4,18 @@ class Page < Ohm::Model
   attribute :writer_id
   attribute :page_title
   attribute :page_url
-  attribute :page_id
+  attribute :tracked_page_id
   
   collection :page_views, PageView
   
   counter :total_view_count
-  index :page_id
+  index :tracked_page_id
   index :writer_id
   
   def validate
     assert_present :page_url, :writer_id
-    assert_present :page_id
-    assert_unique :page_id
+    assert_present :tracked_page_id
+    assert_unique :tracked_page_id
   end
   
   def insert_page_view(params)      
@@ -35,3 +35,5 @@ class Page < Ohm::Model
     pages_for_writer = Page.find(:writer_id => writer_id)
     pages_for_writer.sort_by(:lifetime_view_count, :limit => limit)
   end  
+  
+end

@@ -3,7 +3,7 @@ Then /^I should see (\d+) page view$/ do |count|
 end
 
 Given /^test article has no page view$/ do
-  @page = create_page({:page_id => rand(10000).to_s})
+  @page = create_page({:tracked_page_id => rand(10000).to_s})
   @page.page_views.clear
 end
 

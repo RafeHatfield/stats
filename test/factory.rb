@@ -4,14 +4,14 @@ module Factory
     {
       :page_title=>"Chocolate has an Expiration Date", 
       :page_url=>"http://www.suite101.com/content/chocolate-has-an-expiration-date-a347637", 
-      :page_id=>rand(100000).to_s, 
+      :tracked_page_id=>rand(100000).to_s, 
       :writer_id=>rand(100000).to_s
     }
   end
   
   def create_page(hash={})
     page_hash = params_for_page.merge!(hash)
-    page = Page.find(:page_id => page_hash[:page_id]).first
+    page = Page.find(:tracked_page_id => page_hash[:tracked_page_id]).first
     if page.blank?
       page = Page.create(page_hash)
     end
