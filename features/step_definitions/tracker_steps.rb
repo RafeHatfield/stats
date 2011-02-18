@@ -33,14 +33,9 @@ end
 
 When /^a page view has an organic referrer$/ do
   # Fake a visit to a suite101 article with a google search referrer
-  
-  # Create a unique page
+
   @page = create_page
-  @page.insert_page_view(
-    :referer_url=>"http://www.google.ca/search?q=awesome+sauce&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a", 
-    :visited_at=>Time.now, 
-    :cookie_id => '223445'
-    )
+  @page.insert_page_view(params_for_page_view.merge!(:referer_url => "http://www.google.ca/search?q=awesome+sauce&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a"))
 end
 
 Then /^we store the keyphrase searched for and search engine used$/ do
