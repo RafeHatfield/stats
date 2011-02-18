@@ -18,4 +18,28 @@ class PageTest < ActiveSupport::TestCase
     end 
   end  
   
+  context "when a writer looks at his list of articles" do
+    setup do
+      @pages = []
+      @writer_id = rand(10000).to_s
+      10.times do |page_index|
+        page = create_page({:writer_id => @writer_id})
+        page_index.times do |page_view_count|
+          page.insert_page_view({:page_id => page.id})
+        end
+        @pages << page
+      end
+    end
+
+    should "return 5 least viewed articles" do
+      least_viewed = Page.least_viewed_for(@writer_id, 5)
+      assert_contains least_viewed, @pages[0]
+      assert_contains least_viewed, @pages[1]
+      assert_contains least_viewed, @pages[2]
+      assert_contains least_viewed, @pages[3]
+      assert_contains least_viewed, @pages[4]
+    end
+  end
+  
+  
 end
