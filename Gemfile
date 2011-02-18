@@ -26,7 +26,7 @@ group :test do
 	gem 'capybara'
 	gem 'database_cleaner'
 	gem 'rspec-rails'
-	gem 'shoulda-matchers'
+	#gem 'shoulda-matchers'
 	gem 'mocha'
 	gem "shoulda"
 	gem 'shoulda-context'

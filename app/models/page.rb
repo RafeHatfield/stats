@@ -5,7 +5,6 @@ class Page < Ohm::Model
   attribute :page_title
   attribute :page_url
   attribute :tracked_page_id
-  
   collection :page_views, PageView
   
   counter :total_view_count
@@ -13,8 +12,10 @@ class Page < Ohm::Model
   index :writer_id
   
   def validate
-    assert_present :page_url, :writer_id
+    assert_present :page_title
     assert_present :tracked_page_id
+    assert_present :page_url
+    assert_present :writer_id
     assert_unique :tracked_page_id
   end
   
