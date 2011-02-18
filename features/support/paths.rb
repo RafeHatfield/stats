@@ -13,7 +13,7 @@ module NavigationHelpers
     when /a tracking page$/
       '/test.html'
     when /a test article/
-      article_id = 15
+      article_id = @a_test_article.page_id
       "/pageview?page_id=#{article_id}&page_url=http://www.suite101.com/content/chocolate-has-an-expiration-date-a347637&page_title=Chocolate%20has%20an%20Expiration%20Date&writer_id=731923&cookie_id=12346&referrer_url="
 
     # Add more mappings here.
