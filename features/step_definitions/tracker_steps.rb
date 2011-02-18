@@ -19,29 +19,23 @@ end
 
 
 Given /^"a test article" has "1" page view$/ do
-  # Delete the existing page for "a test article" if it exists.
-  existing_page = Page.find(:page_id => '15').first
-  existing_page.delete if !existing_page.nil?
   
-  # Create a fresh page for "a test article".
-  new_page = Page.create(:page_id => '15', :page_url => "http://www.google.ca", :writer_id => '12345')
+  # Create unique page for "a test article".
+  @a_test_article = create_page
   
   # Add a page view to the new page.
-  new_page.page_views << PageView.create(:cookie_id => '999999')
+  @a_test_article.page_views << create_page_view(:page_id => @a_test_article.id)
 end
 
 Then /^I should see "2" page views for "a test article"$/ do
-  Page.find(:page_id => 15).first.page_views.size.should == 2
+  @a_test_article.page_views.size.should == 2
 end
 
 When /^a page view has an organic referrer$/ do
   # Fake a visit to a suite101 article with a google search referrer
   
-  # Delete the page if it exists
-  existing_page = Page.find(:page_id => 23).first
-  existing_page.delete if !existing_page.nil?
-  
-  @page = create_page({:page_id => 23})
+  # Create a unique page
+  @page = create_page
   @page.insert_page_view(
     :referer_url=>"http://www.google.ca/search?q=awesome+sauce&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a", 
     :visited_at=>Time.now, 
