@@ -1,20 +1,21 @@
-  class Page < Ohm::Model
+class Page < Ohm::Model
   include Ohm::Boundaries
   
   attribute :writer_id
   attribute :page_title
   attribute :page_url
-  attribute :tracked_page_id
+  attribute :page_id
   
   collection :page_views, PageView
   
-  counter :lifetime_view_count
-  index :tracked_page_id
+  counter :total_view_count
+  index :page_id
+  index :writer_id
   
   def validate
     assert_present :page_url, :writer_id
-    assert_present :tracked_page_id
-    assert_unique :tracked_page_id
+    assert_present :page_id
+    assert_unique :page_id
   end
   
   def insert_page_view(params)      
@@ -23,9 +24,14 @@
     if last_pageview_for_user.blank? || 30.minutes.ago > Time.parse(last_pageview_for_user.visited_at)
       pageview_hash = {:referer_url => params[:referer_url], :cookie_id => params[:cookie_id]}
       visited_at = params[:visited_at].blank? ? Time.now : params[:visited_at]
-      pageview_hash.merge!({:visited_at => visited_at})
-      self.page_views << PageView.create(pageview_hash)
+      pageview_hash.merge!({:visited_at => visited_at, :page_id => self.id})
+      page_view = PageView.create(pageview_hash)
+      self.page_views << page_view
+      page_view
     end
   end
   
-end
+  def self.least_viewed_for(writer_id, limit)
+    pages_for_writer = Page.find(:writer_id => writer_id)
+    pages_for_writer.sort_by(:lifetime_view_count, :limit => limit)
+  end  
