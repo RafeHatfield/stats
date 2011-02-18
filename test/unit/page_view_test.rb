@@ -12,5 +12,4 @@ class PageViewTest < ActiveSupport::TestCase
       assert_equal @pageview.referer_url, "http://google.com"
     end    
   end  
-  
 end
