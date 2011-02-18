@@ -1,20 +1,20 @@
-class Page < Ohm::Model
+  class Page < Ohm::Model
   include Ohm::Boundaries
   
   attribute :writer_id
   attribute :page_title
   attribute :page_url
-  attribute :page_id
+  attribute :tracked_page_id
   
   collection :page_views, PageView
   
   counter :lifetime_view_count
-  index :page_id
+  index :tracked_page_id
   
   def validate
     assert_present :page_url, :writer_id
-    assert_present :page_id
-    assert_unique :page_id
+    assert_present :tracked_page_id
+    assert_unique :tracked_page_id
   end
   
   def insert_page_view(params)      

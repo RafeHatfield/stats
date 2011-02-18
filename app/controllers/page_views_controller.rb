@@ -1,7 +1,7 @@
 class PageViewsController < ApplicationController
   def create
-    page_hash = {:page_id => params[:page_id], :writer_id => params[:writer_id], :page_url => params[:page_url]}
-    @page = Page.find(:page_id => params[:page_id]).andand.first
+    page_hash = {:tracked_page_id => params[:tracked_page_id], :writer_id => params[:writer_id], :page_url => params[:page_url]}
+    @page = Page.find(:tracked_page_id => params[:tracked_page_id]).andand.first
     if @page.blank?
       @page = Page.create(page_hash)
     end
