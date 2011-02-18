@@ -19,11 +19,8 @@ end
 
 
 Given /^"a test article" has "1" page view$/ do
-  
-  # Create unique page for "a test article".
   @a_test_article = create_page
-  
-  # Add a page view to the new page.
+  @a_test_article.page_views.clear
   @a_test_article.page_views << create_page_view(:page_id => @a_test_article.id)
 end
 
