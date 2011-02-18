@@ -24,7 +24,7 @@ So I can show writers how their articles are performing
 
   Scenario: Organic view
     When a page view has an organic referrer
-    Then we store the keyphrase searched for
+    Then we store the keyphrase searched for and search engine used
 	
 	# 
 	# Scenario: a reader visit a page multiple times
