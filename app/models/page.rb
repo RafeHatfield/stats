@@ -19,16 +19,11 @@ class Page < Ohm::Model
     assert_unique :tracked_page_id
   end
   
-  def insert_page_view(params)      
-    page_views_for_user = self.page_views.all.find_all{|p| p.cookie_id == params[:cookie_id]}
-    last_pageview_for_user = page_views_for_user.last
-    if last_pageview_for_user.blank? || 30.minutes.ago > Time.parse(last_pageview_for_user.visited_at)
-      pageview_hash = {:referer_url => params[:referer_url], :cookie_id => params[:cookie_id]}
-      visited_at = params[:visited_at].blank? ? Time.now : params[:visited_at]
-      pageview_hash.merge!({:visited_at => visited_at, :page_id => self.id})
-      page_view = PageView.create(pageview_hash)
-      self.page_views << page_view
-      page_view
+  def insert_page_view(pv_hash)
+    if unique_page_view?(pv_hash[:cookie_id])
+      pv_hash[:visited_at] ||= Time.now
+      pv_hash[:page_id] = self.id
+      self.page_views << PageView.create(pv_hash)
     end
   end
   
@@ -37,4 +32,21 @@ class Page < Ohm::Model
     pages_for_writer.sort_by(:lifetime_view_count, :limit => limit)
   end  
   
+  def self.find_or_create_by_tracked_page_id(tracked_page_id, params)
+    page_set = Page.find(:tracked_page_id => tracked_page_id)
+    if page_set.empty?
+      Page.create(params)
+    else
+      page_set.first
+    end
+  end
+  
+  private
+  
+  # Would a new view with the identifier "cookie_id" be unique?
+  def unique_page_view?(cookie_id)
+    page_views_for_user = self.page_views.all.find_all{|p| p.cookie_id == cookie_id}
+    most_recent_page_view_for_user = page_views_for_user.last
+    most_recent_page_view_for_user.blank? || Time.parse(most_recent_page_view_for_user.visited_at) < 30.minutes.ago
+  end
 end
