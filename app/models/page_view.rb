@@ -7,13 +7,19 @@ class PageView < Ohm::Model
   attribute :visited_at
   attribute :referer_url
   attribute :cookie_id
+  
   attribute :keyword_phrase
   attribute :search_engine
 
   index :cookie_id  
   # check out the ohm extension at http://labs.sinefunc.com/ohm-contrib/doc/ and https://github.com/sinefunc/ohm-contrib  
 
-  before :save, :save_keywords_and_search_engine
+  def validate
+     assert_present :visited_at
+     assert_present :cookie_id
+  end
+
+  #before :save, :save_keywords_and_search_engine
 
   protected
   

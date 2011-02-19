@@ -34,6 +34,27 @@ class PageTest < ActiveSupport::TestCase
     end
   end  
   
+  context "inserting a page view" do
+    context "a unique page view" do
+      should "create a new page view" do
+        page = create_page
+        page.insert_page_view(params_for_page_view)
+        assert_equal 1, page.page_views.size
+        assert_equal true, page.page_views.first.valid?
+      end
+    end
+    
+    context "a non-unique page view" do
+      should "not create a new page view" do
+        page = create_page
+        page.insert_page_view(params_for_page_view.merge!(:cookie_id => 1))
+        assert_equal 1, page.page_views.size
+        page.insert_page_view(params_for_page_view.merge!(:cookie_id => 1))
+        assert_equal 1, page.page_views.size
+      end
+    end
+  end
+  
   context "when a writer looks at his list of articles" do
     setup do
       @pages = []
