@@ -3,7 +3,8 @@ class PageViewsController < ApplicationController
     @page = Page.find_or_create_by_tracked_page_id(params[:tracked_page_id], {
       :tracked_page_id => params[:tracked_page_id],
       :writer_id => params[:writer_id],
-      :page_url => params[:page_url]
+      :page_url => params[:page_url],
+      :page_title => params[:page_title]
     })
     
     @page.insert_page_view({

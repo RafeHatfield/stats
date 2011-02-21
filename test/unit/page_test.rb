@@ -67,15 +67,7 @@ class PageTest < ActiveSupport::TestCase
         @pages << page
       end
     end
-  
-    should "return 5 least viewed articles" do
-      least_viewed = Page.least_viewed_for(@writer_id, 5)
-      assert_contains least_viewed, @pages[0]
-      assert_contains least_viewed, @pages[1]
-      assert_contains least_viewed, @pages[2]
-      assert_contains least_viewed, @pages[3]
-      assert_contains least_viewed, @pages[4]
-    end
+
   end
   
   

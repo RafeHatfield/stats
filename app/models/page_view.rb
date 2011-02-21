@@ -19,7 +19,7 @@ class PageView < Ohm::Model
      assert_present :cookie_id
   end
 
-  #before :save, :save_keywords_and_search_engine
+  before :save, :save_keywords_and_search_engine
 
   protected
   

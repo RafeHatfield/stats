@@ -41,11 +41,11 @@ class Page < Ohm::Model
     end
   end
   
-  #private
+  private
   
   # Would a new view with the identifier "cookie_id" be unique?
   def unique_page_view?(cookie_id)
     last_user_page_view = self.page_views.find(:cookie_id => cookie_id).all.last
-    last_user_page_view.blank? || Time.parse(last_user_page_view.visited_at) > 30.minutes.ago
+    last_user_page_view.blank? || Time.parse(last_user_page_view.visited_at) < 30.minutes.ago
   end
 end
