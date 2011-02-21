@@ -17,7 +17,7 @@ end
 
 Then /^"Homer" sees 21 for "Total Pageviews"$/ do
   within("#total_page_views") do
-    page.should have_content?("21")
+    assert_equal true, page.has_content?("21")
   end
 end
 

@@ -59,34 +59,39 @@ class PageTest < ActiveSupport::TestCase
     setup do
       @pages = []
       @writer_id = rand(10000).to_s
+      @total_page_views = 0
       10.times do |page_index|
         page = create_page({:writer_id => @writer_id})
         page_index.times do |page_view_count|
           page.insert_page_view(params_for_page_view.merge!(:page_id => page.id))
+          @total_page_views += 1
         end
         @pages << page
       end
     end
 
     should "return 5 least viewed articles" do
-      # not working yet. Getting back to this later.
       least_viewed = Page.least_viewed_for(@writer_id, 5)
       
-      puts "PAGES"
-      @pages.each do |page|
-        puts "id #{page.id} views #{page.page_views.size}"
-      end
+      # puts "PAGES"
+      # @pages.each do |page|
+      #   puts "id #{page.id} views #{page.page_views.size}"
+      # end
+      # 
+      # puts "LEAST VIEWED"
+      # least_viewed.each do |page|
+      #   puts "id #{page.id} views #{page.page_views.size}"
+      # end
       
-      puts "LEAST VIEWED"
-      least_viewed.each do |page|
-        puts "id #{page.id} views #{page.page_views.size}"
-      end
-      
-      # assert_contains least_viewed, @pages[0]
-      # assert_contains least_viewed, @pages[1]
-      # assert_contains least_viewed, @pages[2]
-      # assert_contains least_viewed, @pages[3]
-      # assert_contains least_viewed, @pages[4]
+      assert_contains least_viewed, @pages[0]
+      assert_contains least_viewed, @pages[1]
+      assert_contains least_viewed, @pages[2]
+      assert_contains least_viewed, @pages[3]
+      assert_contains least_viewed, @pages[4]
+    end
+    
+    should "return the writers lifetime total page views" do
+      assert_equal @total_page_views, Page.total_page_views_for(@writer_id)
     end
 
   end

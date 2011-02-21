@@ -31,9 +31,16 @@ class Page < Ohm::Model
   # Get an array of the least viewed pages which belong
   # to the given writer.
   def self.least_viewed_for(writer_id, limit)
-    pages_for_writer = Page.find(:writer_id => writer_id)
-    pages_for_writer.sort_by(:total_view_count, :limit => limit)
+    Page.pages_for_writer(writer_id).sort_by(:total_view_count, :limit => limit)
   end  
+  
+  def self.total_page_views_for(writer_id)
+    views = 0
+    Page.pages_for_writer(writer_id).each do |page|
+      views += page.total_view_count
+    end
+    return views
+  end
   
   def self.find_or_create_by_tracked_page_id(tracked_page_id, params)
     page_set = Page.find(:tracked_page_id => tracked_page_id)
@@ -50,5 +57,9 @@ class Page < Ohm::Model
   def unique_page_view?(cookie_id)
     last_user_page_view = self.page_views.find(:cookie_id => cookie_id).all.last
     last_user_page_view.blank? || Time.parse(last_user_page_view.visited_at) < 30.minutes.ago
+  end
+  
+  def self.pages_for_writer(writer_id)
+    Page.find(:writer_id => writer_id)
   end
 end
