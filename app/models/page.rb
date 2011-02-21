@@ -24,12 +24,15 @@ class Page < Ohm::Model
       pv_hash[:visited_at] ||= Time.now
       pv_hash[:page_id] = self.id
       self.page_views << PageView.create(pv_hash)
+      incr(:total_view_count)
     end
   end
   
+  # Get an array of the least viewed pages which belong
+  # to the given writer.
   def self.least_viewed_for(writer_id, limit)
     pages_for_writer = Page.find(:writer_id => writer_id)
-    pages_for_writer.sort_by(:lifetime_view_count, :limit => limit)
+    pages_for_writer.sort_by(:total_view_count, :limit => limit)
   end  
   
   def self.find_or_create_by_tracked_page_id(tracked_page_id, params)

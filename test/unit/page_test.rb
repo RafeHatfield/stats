@@ -62,7 +62,7 @@ class PageTest < ActiveSupport::TestCase
       10.times do |page_index|
         page = create_page({:writer_id => @writer_id})
         page_index.times do |page_view_count|
-          page.insert_page_view({:page_id => page.id})
+          page.insert_page_view(params_for_page_view.merge!(:page_id => page.id))
         end
         @pages << page
       end
@@ -70,7 +70,18 @@ class PageTest < ActiveSupport::TestCase
 
     should "return 5 least viewed articles" do
       # not working yet. Getting back to this later.
-      # least_viewed = Page.least_viewed_for(@writer_id, 5)
+      least_viewed = Page.least_viewed_for(@writer_id, 5)
+      
+      puts "PAGES"
+      @pages.each do |page|
+        puts "id #{page.id} views #{page.page_views.size}"
+      end
+      
+      puts "LEAST VIEWED"
+      least_viewed.each do |page|
+        puts "id #{page.id} views #{page.page_views.size}"
+      end
+      
       # assert_contains least_viewed, @pages[0]
       # assert_contains least_viewed, @pages[1]
       # assert_contains least_viewed, @pages[2]
