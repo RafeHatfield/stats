@@ -3,20 +3,20 @@ Feature: View total page views
 	As Suite101 Product Manager
 	I want to show our writers their lifetime total page views
 
-	Background:
-	Given a Suite101 writer "Homer"
-		And Homer has published articles with these pageviews lifetime:
-		|Title|Views|
-		|Article 1|1|
-		|Article 2|2|
-		|Article 3|3|
-		|Article 4|4|
-		|Article 5|5|
-		|Article 6|6|
-	
-	Scenario: See total number of page views
-	When "Homer" visits Suite101 Stats
-	Then "Homer" sees 21 for "Total Pageviews"
+  # Background:
+  # Given a Suite101 writer "Homer"
+  #   And Homer has published articles with these pageviews lifetime:
+  #   |Title|Views|
+  #   |Article 1|1|
+  #   |Article 2|2|
+  #   |Article 3|3|
+  #   |Article 4|4|
+  #   |Article 5|5|
+  #   |Article 6|6|
+  # 
+  # Scenario: See total number of page views
+  # When "Homer" visits Suite101 Stats
+  # Then "Homer" sees 21 for "Total Pageviews"
 
   # Scenario: See total number of page views by week
   # When "Homer" logs into Suite101 Stats

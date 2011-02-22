@@ -13,9 +13,6 @@ group :development do
 	gem 'ruby-debug'
 end
 
-group :staging, :production do
-end
-
 group :test do
 	gem 'cucumber-rails'
 	gem 'capybara'
@@ -26,5 +23,9 @@ group :test do
 	gem "shoulda"
 	gem 'shoulda-context'
 	gem 'annotate-models'
+	gem 'memcache-client'
+end
+
+group :development, :test do
 	gem 'factory_girl_rails', '1.1.beta1'
 end

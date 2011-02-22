@@ -8,18 +8,10 @@ module NavigationHelpers
   def path_to(page_name)
     case page_name
 
-    when /the home\s?page/
-      '/'
     when /a test article/
-      article_id = @a_test_article.tracked_page_id
-      "/pageview?tracked_page_id=#{article_id}&page_url=http://www.suite101.com/content/chocolate-has-an-expiration-date-a347637&page_title=Chocolate%20has%20an%20Expiration%20Date&writer_id=731923&cookie_id=12346&referrer_url="
-
-    # Add more mappings here.
-    # Here is an example that pulls values out of the Regexp:
-    #
-    #   when /^(.*)'s profile page$/i
-    #     user_profile_path(User.find_by_login($1))
-
+      article_id = @article_id
+      "/"
+      #"/add_page_view?tracked_page_id=#{article_id}&page_url=http://www.suite101.com/content/chocolate-has-an-expiration-date-a347637&page_title=Chocolate%20has%20an%20Expiration%20Date&writer_id=731923&cookie_id=12346&referrer_url="
     else
       begin
         page_name =~ /the (.*) page/
@@ -34,3 +26,7 @@ module NavigationHelpers
 end
 
 World(NavigationHelpers)
+
+#     when /a test article/
+#       article_id = @a_test_article.tracked_page_id
+#       "/pageview?tracked_page_id=#{article_id}&page_url=http://www.suite101.com/content/chocolate-has-an-expiration-date-a347637&page_title=Chocolate%20has%20an%20Expiration%20Date&writer_id=731923&cookie_id=12346&referrer_url="

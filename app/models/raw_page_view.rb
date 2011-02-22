@@ -17,7 +17,6 @@ class RawPageView < ActiveRecord::Base
 
   validate :view_must_be_unique
   validates_presence_of :page_title, :tracked_page_id, :page_url, :page_title, :writer_id, :referrer_url, :cookie_id, :visited_at
-
   
   @@uniqueness_hash = {}
 
