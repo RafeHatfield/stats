@@ -26,4 +26,5 @@ group :test do
 	gem "shoulda"
 	gem 'shoulda-context'
 	gem 'annotate-models'
+	gem 'factory_girl_rails', '1.1.beta1'
 end

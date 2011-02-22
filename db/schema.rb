@@ -10,6 +10,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 0) do
+ActiveRecord::Schema.define(:version => 20110222190224) do
+
+  create_table "raw_page_views", :force => true do |t|
+    t.integer  "tracked_page_id"
+    t.string   "page_url"
+    t.string   "page_title"
+    t.integer  "writer_id"
+    t.string   "referrer_url"
+    t.string   "cookie_id"
+    t.datetime "visited_at"
+  end
 
 end
