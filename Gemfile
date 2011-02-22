@@ -5,17 +5,12 @@ gem 'rails', '3.0.4'
 gem 'sqlite3-ruby', :require => 'sqlite3'
 
 gem 'engineyard'
-gem 'ohm'
-gem 'ohm-contrib', :require => 'ohm/contrib'
-gem 'haml'
+gem 'haml-rails'
 gem 'andand'
 gem 'SystemTimer'
-gem 'andand'
 
 group :development do
 	gem 'ruby-debug'
-	gem "autotest"
-	gem "rails3-generators"
 end
 
 group :staging, :production do
@@ -26,9 +21,9 @@ group :test do
 	gem 'capybara'
 	gem 'database_cleaner'
 	gem 'rspec-rails'
-	#gem 'shoulda-matchers'
+	gem 'shoulda-matchers'
 	gem 'mocha'
 	gem "shoulda"
 	gem 'shoulda-context'
-	gem 'launchy'
+	gem 'annotate-models'
 end

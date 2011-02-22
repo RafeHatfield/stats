@@ -41,7 +41,12 @@ module Stats
     config.generators do |g|
       g.stylesheets false
       g.test_framework :shoulda
+      g.template_engine :haml
       g.fixture_replacement :factory_girl
     end
   end
+  
+  require 'rails/generators'
+  Rails::Generators.fallbacks[:shoulda] = :test_unit
+  
 end
