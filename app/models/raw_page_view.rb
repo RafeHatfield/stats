@@ -26,11 +26,11 @@ class RawPageView < ActiveRecord::Base
     
     previous_visited_at = RawPageView.uniqueness_cache.get(page_view_uuid)
     
-    if previous_visited_at && visited_at - previous_visited_at <= 30.minutes
+    if previous_visited_at && self.visited_at - previous_visited_at <= 30.minutes
       errors.add(:base, "This view is not unique.")
     end
     
-    RawPageView.uniqueness_cache.set(page_view_uuid, visited_at)
+    RawPageView.uniqueness_cache.set(page_view_uuid, self.visited_at)
     
   end
   
