@@ -16,7 +16,7 @@ So I can show writers how their articles are performing
      When I go to "a test article"
      Then I should have "2" page views recorded for "a test article"
           
-  Scenario: unique page views
+  Scenario: non-unique page views
        Given "a test article" has "1" page view recorded
        When I go to "a test article"
        And I reload the page

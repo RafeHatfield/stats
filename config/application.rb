@@ -51,4 +51,6 @@ module Stats
   
 end
 
+# Default memcached connection string
+# override this in the environment specific config files as needed.
 ENV["MEMCACHED_CONNECTION_PATH"] = "localhost:11211"

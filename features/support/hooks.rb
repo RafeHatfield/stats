@@ -1,4 +1,4 @@
 Before do
-  # Clear raw_page_view memcache
+  # Clear the uniqueness cache before each scenario.
   RawPageView.uniqueness_cache.flush_all
 end
