@@ -1,15 +1,5 @@
 class TrackingController < ApplicationController
 
-  #  id              :integer         not null, primary key
-  #  tracked_page_id :integer
-  #  page_url        :string(255)
-  #  page_title      :string(255)
-  #  writer_id       :integer
-  #  referrer_url    :string(255)
-  #  cookie_id       :string(255)
-  #  visited_at      :datetime
-  #
-
   def add_page_view
     
     raw_page_view_data = {

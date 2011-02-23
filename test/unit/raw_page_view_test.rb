@@ -26,7 +26,6 @@ class RawPageViewTest < ActiveSupport::TestCase
   context "uniqueness" do
     
     setup do
-      
       # Clear memcache
       RawPageView.uniqueness_cache.flush_all
       
