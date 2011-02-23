@@ -35,7 +35,7 @@ class RawPageView < ActiveRecord::Base
   end
   
   def self.uniqueness_cache
-    @@uniqueness_cache ||= MemCache.new "localhost:11211"
+    @@uniqueness_cache ||= MemCache.new ENV["MEMCACHED_CONNECTION_PATH"]
   end
   
 end
