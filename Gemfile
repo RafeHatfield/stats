@@ -12,6 +12,7 @@ gem 'andand'
 gem 'SystemTimer'
 gem 'memcache-client'
 gem 'resque'
+gem 'newrelic_rpm'
 
 group :development do
 	gem 'ruby-debug'
