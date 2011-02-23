@@ -15,9 +15,6 @@ class RawPageViewTest < ActiveSupport::TestCase
     should "require a writer_id" do
       assert_equal false, FactoryGirl.build(:raw_page_view, :writer_id => nil).valid?
     end
-    should "require a referrer_url" do
-      assert_equal false, FactoryGirl.build(:raw_page_view, :referrer_url => nil).valid?
-    end
     should "require a cookie_id" do
       assert_equal false, FactoryGirl.build(:raw_page_view, :cookie_id => nil).valid?
     end
@@ -29,6 +26,10 @@ class RawPageViewTest < ActiveSupport::TestCase
   context "uniqueness" do
     
     setup do
+      
+      # Clear memcache
+      RawPageView.uniqueness_cache.flush_all
+      
       @first_view_data = {
         :tracked_page_id => 65432,
         :writer_id => 12345,

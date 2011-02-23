@@ -1,3 +1,3 @@
 Stats::Application.routes.draw do
-  match '/:id' => 'members#index'
+  match '/add_page_view' => 'tracking#add_page_view'
 end
