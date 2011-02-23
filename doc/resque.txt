@@ -1,0 +1,7 @@
+Run the following commands in sequence to get resque working.
+memcached
+redis-server
+QUEUE=* rake environment resque:work
+
+To see resque debug message, run the following command:
+VVERBOSE=1 QUEUE=* rake environment resque:work
