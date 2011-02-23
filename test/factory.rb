@@ -1,9 +1,9 @@
 FactoryGirl.define do
 
   factory :raw_page_view do
-    tracked_page_id {rand(100000)}
-    writer_id {rand(100000)}
-    cookie_id {rand(100000).to_s}
+    tracked_page_id 123456
+    writer_id 65432
+    cookie_id "arandomcookie"
     page_title "Chocolate has an Expiration Date"
     page_url "http://www.suite101.com/content/chocolate-has-an-expiration-date-a347637"
     referrer_url "http://www.google.ca/search?q=awesome+sauce&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a"

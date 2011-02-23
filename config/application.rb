@@ -50,3 +50,5 @@ module Stats
   Rails::Generators.fallbacks[:shoulda] = :test_unit
   
 end
+
+ENV["MEMCACHED_CONNECTION_PATH"] = "localhost:11211"

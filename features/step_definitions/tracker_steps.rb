@@ -1,7 +1,8 @@
 Given /^"a test article" has "1" page view recorded$/ do
   @article_id = 999
+  @first_viewer_cookie_id = 111
   RawPageView.where(:tracked_page_id => @article_id).delete_all
-  FactoryGirl.create(:raw_page_view, :tracked_page_id => @article_id)
+  FactoryGirl.create(:raw_page_view, :tracked_page_id => @article_id, :cookie_id => @first_viewer_cookie_id)
 end
 
 Then /^I should have "2" page views recorded for "a test article"$/ do
