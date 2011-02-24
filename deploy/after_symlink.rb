@@ -1,1 +1,1 @@
-run "restart-resque"
+run "monit restart all -g {app_name}_resque"
