@@ -42,8 +42,12 @@ class RawPageView < ActiveRecord::Base
   
   def debug_validation_errors
     if !self.errors.empty?
-      logger.debug("--Validations failed for RawPageView:")
-      logger.debug(errors.inspect)
+      # logger.debug("--Validations failed for RawPageView:")
+      #       logger.debug(errors.inspect)
+      
+      ## TODO: Make this only log in the development environment so that the log file doesn't overflow.
+      logger.info("--Validations failed for RawPageView:")
+      logger.info(errors.inspect)           
     end
   end
   
