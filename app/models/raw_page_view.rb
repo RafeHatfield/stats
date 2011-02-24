@@ -20,6 +20,8 @@ class RawPageView < ActiveRecord::Base
   validate :view_must_be_unique
   validates_presence_of :page_title, :tracked_page_id, :page_url, :page_title, :writer_id, :cookie_id, :visited_at
   
+  after_validation :debug_validation_errors
+  
   def view_must_be_unique
     
     page_view_uuid = "#{self.tracked_page_id}#{self.referrer_url}#{self.cookie_id}".hash.to_s
@@ -36,6 +38,13 @@ class RawPageView < ActiveRecord::Base
   
   def self.uniqueness_cache
     @@uniqueness_cache ||= MemCache.new ENV["MEMCACHED_CONNECTION_PATH"]
+  end
+  
+  def debug_validation_errors
+    if !self.errors.empty?
+      logger.debug("--Validations failed for RawPageView:")
+      logger.debug(errors.inspect)
+    end
   end
   
 end

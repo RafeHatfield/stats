@@ -6,14 +6,13 @@ Start the redis server:
 > redis-server
 
 Create a resque worker: 
-(This loads the rails environment on startup.)
 (You can specify a specific queue, e.g. page_views)
-> QUEUE=* rake environment resque:work
+> QUEUE=* rake resque:work
 
 To create a rescue worker with debug messages, run:
-> VVERBOSE=1 QUEUE=* rake environment resque:work
+> VVERBOSE=1 QUEUE=* rake resque:work
 
 To create multiple rescue workers:
-> COUNT=5 QUEUE=* rake environment resque:workers
+> COUNT=5 QUEUE=* rake resque:workers
 
 To monitor rescue, visit: http://[server_name]/resque
