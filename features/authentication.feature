@@ -1,3 +1,17 @@
+Feature: Authentication
+
+Scenario: Successful login
+  Given Homer has a writer_id 123
+  When Homer visits the dashboard with the proper key
+  Then Homer sees his dashboard
+  
+Scenario: Successful login
+  Given Homer has a writer_id 123
+  When Homer visits the dashboard with the wrong key
+  Then Homer sees a 404 error page
+  
+
+
 # @authentication
 # Feature: Provide authentication functionality for Suite101 Stats
 # 	In order to stop other people from seeing my stats
