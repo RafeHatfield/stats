@@ -19,5 +19,6 @@ Then /^Homer sees his dashboard$/ do
 end
 
 Then /^Homer sees a 404 error page$/ do
+  assert_equal 404, page.driver.status_code
   assert_equal true, page.has_content?("The page you were looking for doesn't exist.")
 end
