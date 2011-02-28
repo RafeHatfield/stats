@@ -9,6 +9,13 @@ FactoryGirl.define do
     referrer_url "http://www.google.ca/search?q=awesome+sauce&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a"
     visited_at {Time.now}
   end
+  
+  factory :article do
+    suite101_article_id 1
+    title "MyString"
+    writer_id 1
+    permalink "MyString"
+  end
 
 end
 

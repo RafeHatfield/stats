@@ -10,7 +10,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110222190224) do
+ActiveRecord::Schema.define(:version => 20110228212009) do
+
+  create_table "articles", :force => true do |t|
+    t.integer  "suite101_article_id"
+    t.string   "title"
+    t.integer  "writer_id"
+    t.string   "permalink"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "raw_page_views", :force => true do |t|
     t.integer  "tracked_page_id"
