@@ -16,6 +16,13 @@ FactoryGirl.define do
     writer_id 1
     permalink "MyString"
   end
+  
+  factory :daily_page_view do
+    date "2011-02-28"
+    article_id 1
+    count 1
+    writer_id 1
+  end
 
 end
 

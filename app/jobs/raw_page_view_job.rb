@@ -4,35 +4,21 @@ class RawPageViewJob
   def self.perform(raw_page_view_data)
     # Create a new page view
     hash = ActiveSupport::JSON.decode(raw_page_view_data)
-    RawPageView.create(hash)
+    raw_page_view = RawPageView.create(hash)
     
-    ## flow for job
-    # insert into raw_page_view table
+    article = Article.find_and_update_title_or_create({
+      :suite101_article_id => raw_page_view.tracked_page_id,
+      :title => raw_page_view.page_title,
+      :writer_id => raw_page_view.writer_id,
+      :permalink => raw_page_view.page_url
+    })
 
-    # update articles table
-    # if not article_id in articles table
-    # => insert into articles table
-    # else
-    # => if title doesn't match, update it
-
-    # update page_views table
-    # check for a row on this day for this article
-    # if it exists
-    # => increment count
-    # else 
-    # => create with 1 count
+    article.increment_page_view_on(:date => raw_page_view.visited_at.to_date)
     # (can do this: try updating day/article row, if updated, ok. else insert)
-    
+        
     # parse the referrer url to get an array of keywords, and a domain
-    
     # update the keywords table 
     # 
-    
-
-    
-    
-    
-    
   end
   
 end
