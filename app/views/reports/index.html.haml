@@ -1,2 +1,20 @@
 %h1 My Suite101 Stats
 %h2== Welcome #{@suite101_member_id}, you are just a number to us.
+
+= link_to "This week", dashboard_path(@suite101_member_id, @key, :start_days_ago => 7)
+= link_to "This month", dashboard_path(@suite101_member_id, @key, :start_days_ago => 30)
+= link_to "Last 90 days", dashboard_path(@suite101_member_id, @key, :start_days_ago => 90)
+
+%br
+
+== Showing views between #{@start_date.to_date} and #{@end_date.to_date}
+%br
+
+== Your total views over the range is: #{@total_views}
+%br
+
+- @views.each do |view|
+  = view.date
+  |
+  = view.count 
+  %br

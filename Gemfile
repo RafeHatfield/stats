@@ -13,6 +13,7 @@ gem 'SystemTimer'
 gem 'memcache-client'
 gem 'resque'
 gem 'newrelic_rpm'
+gem 'jquery-rails', '>= 0.2.6'
 
 group :development do
 	gem 'ruby-debug'

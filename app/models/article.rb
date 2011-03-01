@@ -20,9 +20,13 @@ class Article < ActiveRecord::Base
   validates_uniqueness_of :suite101_article_id
   
   def increment_page_view_on(date)
+    # Strip the time part off of date.
+    date = date.to_date
+    
     daily_page_view = self.daily_page_views.where(:date => date).first
     if daily_page_view
       daily_page_view.increment!(:count)
+      return daily_page_view
     else
       self.daily_page_views.create(:date => date, :writer_id => self.writer_id, :count => 1)
     end
@@ -33,6 +37,7 @@ class Article < ActiveRecord::Base
     
     if article
       article.update_attribute(:title, data[:title])
+      return article
     else
       Article.create!(:suite101_article_id => data[:suite101_article_id], :title => data[:title], :writer_id => data[:writer_id], :permalink => data[:permalink])
     end
