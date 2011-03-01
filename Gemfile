@@ -13,6 +13,7 @@ gem 'SystemTimer'
 gem 'memcache-client'
 gem 'resque'
 gem 'newrelic_rpm'
+gem 'hoptoad_notifier'
 
 group :development do
 	gem 'ruby-debug'
