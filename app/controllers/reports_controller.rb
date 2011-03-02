@@ -9,11 +9,24 @@ class ReportsController < ApplicationController
       render :file => "/public/404.html", :status => 404
     end
 
-    params[:start_days_ago] ||= "90"
-    @start_date = params[:start_days_ago].to_i.days.ago
-    @end_date = Date.today
-
+    if params[:start_date]
+      @start_date = Date.civil(params[:start_date]["year"].to_i, params[:start_date]["month"].to_i, params[:start_date]["day"].to_i)
+    else
+      @start_date = 7.days.ago.to_date
+    end
+    
+    if params[:end_date]
+      @end_date = Date.civil(params[:end_date]["year"].to_i, params[:end_date]["month"].to_i, params[:end_date]["day"].to_i)
+    else
+      @end_date = Date.today
+    end
+    
     @views = DailyPageView.views_for_writer_between(@suite101_member_id, @start_date, @end_date)
+        
+    @view_counts = (@start_date..@end_date).map do |day| 
+      view = @views.detect{|v| v.date == day}
+      (view && view.count) || 0
+    end
     
     @total_views = @views.sum{|v| v.count}
 

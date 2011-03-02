@@ -1,20 +1,98 @@
-%h1 My Suite101 Stats
-%h2== Welcome #{@suite101_member_id}, you are just a number to us.
+:javascript
+  function set_selected_option(select_id, value){
+    $("#" + select_id + " option[selected]").removeAttr("selected");
+    $("#" + select_id + " option[value='" + value + "']").attr("selected","selected");
+  }
 
-= link_to "This week", dashboard_path(@suite101_member_id, @key, :start_days_ago => 7)
-= link_to "This month", dashboard_path(@suite101_member_id, @key, :start_days_ago => 30)
-= link_to "Last 90 days", dashboard_path(@suite101_member_id, @key, :start_days_ago => 90)
+  $(function(){
+    var chart;
+    chart = new Highcharts.Chart({
+      chart: {
+        renderTo: 'page_view_plot',
+        defaultSeriesType: 'line',
+        marginRight: 130,
+        marginBottom: 85
+      },
+      title: {
+        text: 'Page Views',
+        x: -20 //center
+      },
+      legend: {
+        enabled: false
+      },
+      xAxis: {
+        type: 'datetime'
+      },
+      yAxis: {
+        title: {
+          text: 'Views'
+          },
+        min: 0
+      },
+      tooltip: {
+        formatter: function() {
+          return Highcharts.dateFormat("%B %e %Y", this.x) + ': ' + this.y;
+        }
+      },
+      series: [{
+        name: 'This week',
+        pointInterval: #{1.day * 1000},
+        pointStart: #{@start_date.at_midnight.to_i * 1000},
+        data: #{@view_counts.inspect}
+      }]
+    });
+    
+    $("#this_week").click(function(){
+      set_selected_option("start_date_year", "#{1.week.ago.year}");
+      set_selected_option("start_date_month", "#{1.week.ago.month}");
+      set_selected_option("start_date_day", "#{1.week.ago.day}");
+      $("form").submit();
+      return false;
+    });
+    $("#this_month").click(function(){
+      set_selected_option("start_date_year", "#{1.month.ago.year}");
+      set_selected_option("start_date_month", "#{1.month.ago.month}");
+      set_selected_option("start_date_day", "#{1.month.ago.day}");
+      $("form").submit();
+      return false;
+    });
+    $("#last_90_days").click(function(){
+      set_selected_option("start_date_year", "#{90.days.ago.year}");
+      set_selected_option("start_date_month", "#{90.days.ago.month}");
+      set_selected_option("start_date_day", "#{90.days.ago.day}");
+      $("form").submit();
+      return false;
+    });
+  });
+
+/ %h1 My Suite101 Stats
+
+=form_tag dashboard_path(@suite101_member_id, @key) do
+  == Start date #{select_date(@start_date, {:start_year => 2010, :end_year => Date.today.year, :prefix => "start_date"})}
+  == End date #{select_date(@end_date, {:start_year => 2010, :end_year => Date.today.year, :prefix => "end_date"})}
+  = submit_tag 'Update'
+  
+%br
+
+%a#this_week{:href => ""} This week
+%a#this_month{:href => ""} This month
+%a#last_90_days{:href => ""} Last 90 days
 
 %br
 
-== Showing views between #{@start_date.to_date} and #{@end_date.to_date}
+#page_view_plot{:style => "width: 700px; height: 400px;"}
+
+== Total: #{@total_views}
+%br
 %br
 
-== Your total views over the range is: #{@total_views}
-%br
-
-- @views.each do |view|
-  = view.date
-  |
-  = view.count 
-  %br
+/ %hr
+/ Debugging output
+/ %br
+/ - @views.each do |view|
+/   = view.date
+/   |
+/   = view.count 
+/   %br
+/   
+/ = debug(@view_counts)
