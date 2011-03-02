@@ -1,1 +1,1 @@
-run "monit restart all -g {app_name}_resque"
+run "sudo monit restart all -g stats_resque"

@@ -11,6 +11,7 @@ class TrackingController < ApplicationController
       :cookie_id => params[:cookie_id],
       :visited_at => params[:visited_at]
     }
+    
     Resque.enqueue(RawPageViewJob, raw_page_view_data.to_json)
     
     # Send a 1px image back to the requester.
