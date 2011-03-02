@@ -115,7 +115,6 @@ GEM
       nest (~> 1.0)
     ohm-contrib (0.1.1)
       ohm
-    pg (0.10.1)
     polyglot (0.3.1)
     rack (1.2.1)
     rack-mount (0.6.13)
@@ -215,7 +214,6 @@ DEPENDENCIES
   newrelic_rpm
   ohm
   ohm-contrib
-  pg
   rails (= 3.0.4)
   rails3-generators
   resque

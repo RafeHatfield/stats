@@ -1,4 +1,5 @@
 :javascript
+  // Set the selected element on the select tag with id select tag to the option with value value.
   function set_selected_option(select_id, value){
     $("#" + select_id + " option[selected]").removeAttr("selected");
     $("#" + select_id + " option[value='" + value + "']").attr("selected","selected");
@@ -42,27 +43,27 @@
       }]
     });
     
-    $("#this_week").click(function(){
-      set_selected_option("start_date_year", "#{1.week.ago.year}");
-      set_selected_option("start_date_month", "#{1.week.ago.month}");
-      set_selected_option("start_date_day", "#{1.week.ago.day}");
-      $("form").submit();
-      return false;
-    });
-    $("#this_month").click(function(){
-      set_selected_option("start_date_year", "#{1.month.ago.year}");
-      set_selected_option("start_date_month", "#{1.month.ago.month}");
-      set_selected_option("start_date_day", "#{1.month.ago.day}");
-      $("form").submit();
-      return false;
-    });
-    $("#last_90_days").click(function(){
-      set_selected_option("start_date_year", "#{90.days.ago.year}");
-      set_selected_option("start_date_month", "#{90.days.ago.month}");
-      set_selected_option("start_date_day", "#{90.days.ago.day}");
-      $("form").submit();
-      return false;
-    });
+    // Set the on click for link with id 'id' to update the date selectors with the given start and end dates.
+    function set_date_selector_click(id, start_date_year, start_date_month, start_date_day, end_date_year, end_date_month, end_date_day){
+      $("#"+id).click(function(){
+        set_selected_option("start_date_year", start_date_year);
+        set_selected_option("start_date_month", start_date_month);
+        set_selected_option("start_date_day", start_date_day);
+        set_selected_option("end_date_year", end_date_year);
+        set_selected_option("end_date_month", end_date_month);
+        set_selected_option("end_date_day", end_date_day);
+        $("form").submit();
+        return false;
+      });
+    }
+
+    // Setup click handlers for the short cut date range selectors.
+    set_date_selector_click("this_week", #{1.week.ago.year}, #{1.week.ago.month}, #{1.week.ago.day}, #{Date.today.year}, #{Date.today.month}, #{Date.today.day});
+    set_date_selector_click("last_week", #{2.weeks.ago.year}, #{2.weeks.ago.month}, #{2.weeks.ago.day}, #{1.week.ago.year}, #{1.week.ago.month}, #{1.week.ago.day});
+    set_date_selector_click("this_month", #{1.month.ago.year}, #{1.month.ago.month}, #{1.month.ago.day}, #{Date.today.year}, #{Date.today.month}, #{Date.today.day});
+    set_date_selector_click("last_month", #{2.months.ago.year}, #{2.months.ago.month}, #{2.months.ago.day}, #{1.month.ago.year}, #{1.month.ago.month}, #{1.month.ago.day});
+    set_date_selector_click("last_90_days", #{90.days.ago.year}, #{90.days.ago.month}, #{90.days.ago.day}, #{Date.today.year}, #{Date.today.month}, #{Date.today.day});
+
   });
 
 %h1 My Suite101 Stats
@@ -74,7 +75,9 @@
 %br
 
 %a#this_week{:href => ""} This week
+%a#last_week{:href => ""} Last week
 %a#this_month{:href => ""} This month
+%a#last_month{:href => ""} Last month
 %a#last_90_days{:href => ""} Last 90 days
 %br
 

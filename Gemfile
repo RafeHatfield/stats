@@ -4,7 +4,7 @@ gem 'rails', '3.0.4'
 gem 'sqlite3-ruby', :require => 'sqlite3'
 
 
-gem 'pg'
+#gem 'pg'
 gem 'engineyard'
 gem 'ohm'
 gem 'ohm-contrib', :require => 'ohm/contrib'
