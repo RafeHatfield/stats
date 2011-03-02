@@ -71,20 +71,17 @@
   == Start date #{select_date(@start_date, {:start_year => 2010, :end_year => Date.today.year, :prefix => "start_date"})}
   == End date #{select_date(@end_date, {:start_year => 2010, :end_year => Date.today.year, :prefix => "end_date"})}
   = submit_tag 'Update'
-  
 %br
 
 %a#this_week{:href => ""} This week
 %a#this_month{:href => ""} This month
 %a#last_90_days{:href => ""} Last 90 days
-
 %br
 
 #page_view_plot{:style => "width: 700px; height: 400px;"}
 
 == Total: #{@total_views}
-%br
-%br
+
 
 / %hr
 / Debugging output
