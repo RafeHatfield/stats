@@ -62,7 +62,9 @@
     set_date_selector_click("last_week", #{2.weeks.ago.year}, #{2.weeks.ago.month}, #{2.weeks.ago.day}, #{1.week.ago.year}, #{1.week.ago.month}, #{1.week.ago.day});
     set_date_selector_click("this_month", #{1.month.ago.year}, #{1.month.ago.month}, #{1.month.ago.day}, #{Date.today.year}, #{Date.today.month}, #{Date.today.day});
     set_date_selector_click("last_month", #{2.months.ago.year}, #{2.months.ago.month}, #{2.months.ago.day}, #{1.month.ago.year}, #{1.month.ago.month}, #{1.month.ago.day});
-    set_date_selector_click("last_90_days", #{90.days.ago.year}, #{90.days.ago.month}, #{90.days.ago.day}, #{Date.today.year}, #{Date.today.month}, #{Date.today.day});
+    set_date_selector_click("this_year", #{1.year.ago.year}, #{1.year.ago.month}, #{1.year.ago.day}, #{Date.today.year}, #{Date.today.month}, #{Date.today.day});
+    set_date_selector_click("last_year", #{2.years.ago.year}, #{2.years.ago.month}, #{2.years.ago.day}, #{1.year.ago.year}, #{1.year.ago.month}, #{1.year.ago.day});
+    set_date_selector_click("lifetime", #{90.days.ago.year}, #{90.days.ago.month}, #{90.days.ago.day}, #{Date.today.year}, #{Date.today.month}, #{Date.today.day});
 
   });
 
@@ -78,7 +80,9 @@
 %a#last_week{:href => ""} Last week
 %a#this_month{:href => ""} This month
 %a#last_month{:href => ""} Last month
-%a#last_90_days{:href => ""} Last 90 days
+%a#this_year{:href => ""} This year
+%a#last_year{:href => ""} Last year
+%a#lifetime{:href => ""} Lifetime
 %br
 
 #page_view_plot{:style => "width: 700px; height: 400px;"}
