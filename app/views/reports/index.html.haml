@@ -65,7 +65,7 @@
     });
   });
 
-/ %h1 My Suite101 Stats
+%h1 My Suite101 Stats
 
 =form_tag dashboard_path(@suite101_member_id, @key) do
   == Start date #{select_date(@start_date, {:start_year => 2010, :end_year => Date.today.year, :prefix => "start_date"})}
