@@ -13,7 +13,7 @@ class RawPageViewJob
       :permalink => raw_page_view.page_url
     })
 
-    article.increment_page_view_on(:date => raw_page_view.visited_at.to_date)
+    article.increment_page_view_on(raw_page_view.visited_at.to_date)
     # (can do this: try updating day/article row, if updated, ok. else insert)
         
     # parse the referrer url to get an array of keywords, and a domain
