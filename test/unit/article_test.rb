@@ -3,9 +3,6 @@ require 'test_helper'
 class ArticleTest < ActiveSupport::TestCase
   
   context "validations" do
-    setup do
-    end
-    
     should "require a suite101_article_id" do
       assert_equal false, FactoryGirl.build(:article, :suite101_article_id => nil).valid?
     end
@@ -48,9 +45,7 @@ class ArticleTest < ActiveSupport::TestCase
   context "incrementing daily page views" do
     
     setup do
-      a_id = 123
-      Article.where(:suite101_article_id => a_id).delete_all
-      @article = FactoryGirl.create(:article, :suite101_article_id => a_id)
+      @article = FactoryGirl.create(:article)
     end
     
     should "give 1 page view if there are none for today" do
@@ -69,10 +64,8 @@ class ArticleTest < ActiveSupport::TestCase
   context "incrementing daily keyphrase views" do
 
      setup do
-       a_id = 123
        @keyphrase = "awesome sauce"
-       Article.where(:suite101_article_id => a_id).delete_all
-       @article = FactoryGirl.create(:article, :suite101_article_id => a_id)
+       @article = FactoryGirl.create(:article)
      end
      
      should "give 1 keyphrase view if there are none for today" do
@@ -97,69 +90,46 @@ class ArticleTest < ActiveSupport::TestCase
   context "find and update title or create" do
     
     should "create an article if it doesn't exist" do
-      article_data = FactoryGirl.attributes_for(:article, :suite101_article_id => 111)
-      article = Article.find_and_update_title_or_create(article_data)
-      assert Article.exists?(:suite101_article_id => 111)
+      article_id = 111
+      Article.find_and_update_title_or_create(FactoryGirl.attributes_for(:article, :suite101_article_id => article_id))
+      assert Article.exists?(:suite101_article_id => article_id)
     end
     
     should "update the title of an article that exists" do
-      article_data = FactoryGirl.attributes_for(:article, :suite101_article_id => 112, :title => "first")
-      article = FactoryGirl.create(:article, article_data)
-      Article.find_and_update_title_or_create(article_data.merge!(:title => "second"))
+      article = FactoryGirl.create(:article, :title => "first")
+      Article.find_and_update_title_or_create(FactoryGirl.attributes_for(:article, :title => "second"))
       article.reload
       assert article.title == "second"
     end
-    
-    
+
   end
   
   context "counting views" do
     should "get the right view count between two dates" do
-      article_id = 333
-      Article.where(:suite101_article_id => article_id).delete_all
-      article = FactoryGirl.create(:article, :suite101_article_id => article_id)
+      article = FactoryGirl.create(:article)
       3.times do
         article.increment_page_view_on(Date.yesterday)
       end
       6.times do
         article.increment_page_view_on(Date.today)
       end
-      
       assert_equal 9, article.view_count_between(Date.yesterday, Date.today)
-      
     end
-    
-    
   end
   
   context "getting titles and counts" do
-    
     should "get all the titles and counts for those articles" do
-      writer_id = 345
-      Article.where(:writer_id => writer_id).delete_all
-      
-      article_title_counts_in = [["Article 1", 3],["Article 2", 2]]
-      
-      article_title_counts_in.each do |a|
-        article = FactoryGirl.create(:article, :writer_id => writer_id, :suite101_article_id => rand(100000), :title => a[0])
-        a[1].times do
+      writer_id = 345    
+      1.upto(3) do |i|
+        article = FactoryGirl.create(:article, :suite101_article_id => i, :writer_id => writer_id, :title => "Article #{i}")
+        i.times do
           article.increment_page_view_on(Date.today)
         end
       end
-      
-      article_title_counts_out = Article.title_counts_for_writer_between(writer_id, Date.today, Date.today)
-      
-      assert_equal article_title_counts_in, article_title_counts_out
-      
+
+      title_counts_out = Article.title_counts_for_writer_between(writer_id, Date.today, Date.today)      
+      assert_equal [["Article 1",1], ["Article 2",2], ["Article 3",3]], title_counts_out
     end
-    
-    
-    
-    
   end
-  
-  
-  
-  
 
 end
