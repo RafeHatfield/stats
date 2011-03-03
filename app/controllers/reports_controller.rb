@@ -6,7 +6,7 @@ class ReportsController < ApplicationController
     @start_date = get_selected_date(params[:start_date], 7.days.ago.to_date)
     @end_date = get_selected_date(params[:end_date], Date.today)
     
-    @views = DailyPageView.views_for_writer_between(@suite101_member_id, @start_date, @end_date)
+    @views = DailyPageView.views_for_writer_between(@user[:id], @start_date, @end_date)
     
     @view_counts = (@start_date..@end_date).map do |day| 
       views_on_day = @views.find_all{|v| v.date == day}
@@ -16,7 +16,7 @@ class ReportsController < ApplicationController
     @total_views = @views.sum{|v| v.count}
 
     # Get a list of article titles and view counts for this range for the writer.    
-    @article_counts = Article.title_counts_for_writer_between(@suite101_member_id, @start_date, @end_date)
+    @article_counts = Article.title_counts_for_writer_between(@user[:id], @start_date, @end_date)
     
     # Sort articles by the view count descending
     @sorted_article_counts = @article_counts.sort_by {|i| i[1]*-1}
@@ -25,7 +25,7 @@ class ReportsController < ApplicationController
   
   def article_views_csv
     
-    @article_counts = Article.title_counts_for_writer_between(@suite101_member_id, Date.yesterday, Date.yesterday)
+    @article_counts = Article.title_counts_for_writer_between(@user[:id], Date.yesterday, Date.yesterday)
     
     csv_string = FasterCSV.generate do |csv|
       csv << ["Title", "Views Yesterday"]
@@ -44,19 +44,13 @@ class ReportsController < ApplicationController
   
   def test_index
     # Generate a key for the user and redirect to their dashbaord
-    
-    suite101_member_id = params[:id]
-    key = Base64.encode64(suite101_member_id)
-    
-    redirect_to dashboard_url(suite101_member_id, key)
-    
+    redirect_to dashboard_url(params[:id], Base64.encode64(params[:id]))    
   end
   
   def verify_key
-    @suite101_member_id = params[:id]
-    @key = params[:key]
+    @user = {:id => params[:id], :key => params[:key]}
     
-    if @suite101_member_id != Base64.decode64(params[:key])
+    if @user[:id] != Base64.decode64(@user[:key])
       render :file => "/public/404.html", :status => 404
       return false
     end

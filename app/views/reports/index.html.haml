@@ -1,11 +1,26 @@
 :javascript
-  // Set the selected element on the select tag with id select tag to the option with value value.
-  function set_selected_option(select_id, value){
-    $("#" + select_id + " option[selected]").removeAttr("selected");
-    $("#" + select_id + " option[value='" + value + "']").attr("selected","selected");
-  }
-
   $(function(){
+    function set_selected_option(select_id, value){
+      // Set the selected element on the select tag with id select tag to the option with value value.
+      $("#" + select_id + " option[selected]").removeAttr("selected");
+      $("#" + select_id + " option[value='" + value + "']").attr("selected","selected");
+    }
+    
+    function set_date_selector_click(id, start_date_year, start_date_month, start_date_day, end_date_year, end_date_month, end_date_day){
+      // Set the on click for link with id 'id' to update the date selectors with the given start and end dates.
+      $("#"+id).click(function(){
+        set_selected_option("start_date_year", start_date_year);
+        set_selected_option("start_date_month", start_date_month);
+        set_selected_option("start_date_day", start_date_day);
+        set_selected_option("end_date_year", end_date_year);
+        set_selected_option("end_date_month", end_date_month);
+        set_selected_option("end_date_day", end_date_day);
+        $("form").submit();
+        return false;
+      });
+    }
+
+    // Make the 'page_view_plot' div a highchart showing the total view counts.
     var chart;
     chart = new Highcharts.Chart({
       chart: {
@@ -42,20 +57,6 @@
         data: #{@view_counts.inspect}
       }]
     });
-    
-    // Set the on click for link with id 'id' to update the date selectors with the given start and end dates.
-    function set_date_selector_click(id, start_date_year, start_date_month, start_date_day, end_date_year, end_date_month, end_date_day){
-      $("#"+id).click(function(){
-        set_selected_option("start_date_year", start_date_year);
-        set_selected_option("start_date_month", start_date_month);
-        set_selected_option("start_date_day", start_date_day);
-        set_selected_option("end_date_year", end_date_year);
-        set_selected_option("end_date_month", end_date_month);
-        set_selected_option("end_date_day", end_date_day);
-        $("form").submit();
-        return false;
-      });
-    }
 
     // Setup click handlers for the short cut date range selectors.
     set_date_selector_click("this_week", #{1.week.ago.year}, #{1.week.ago.month}, #{1.week.ago.day}, #{Date.today.year}, #{Date.today.month}, #{Date.today.day});
@@ -65,12 +66,11 @@
     set_date_selector_click("this_year", #{1.year.ago.year}, #{1.year.ago.month}, #{1.year.ago.day}, #{Date.today.year}, #{Date.today.month}, #{Date.today.day});
     set_date_selector_click("last_year", #{2.years.ago.year}, #{2.years.ago.month}, #{2.years.ago.day}, #{1.year.ago.year}, #{1.year.ago.month}, #{1.year.ago.day});
     set_date_selector_click("lifetime", #{90.days.ago.year}, #{90.days.ago.month}, #{90.days.ago.day}, #{Date.today.year}, #{Date.today.month}, #{Date.today.day});
-
   });
 
 %h1 My Suite101 Stats
 
-=form_tag dashboard_path(@suite101_member_id, @key) do
+=form_tag dashboard_path(@user[:id], @user[:key]) do
   == Start date #{select_date(@start_date, {:start_year => 2010, :end_year => Date.today.year, :prefix => "start_date"})}
   == End date #{select_date(@end_date, {:start_year => 2010, :end_year => Date.today.year, :prefix => "end_date"})}
   = submit_tag 'Update'
@@ -87,9 +87,8 @@
 
 #page_view_plot{:style => "width: 700px; height: 400px;"}
 
-== Total: #{@total_views}
-
-%hr
+%p== Total: #{@total_views}
+%br
 
 %table
   - @sorted_article_counts.each do |article_count|
@@ -97,16 +96,4 @@
       %td= article_count[0]
       %td= article_count[1]
 
-=link_to "CSV", article_view_csv_path(@suite101_member_id, @key)
-
-
-/ %hr
-/ Debugging output
-/ %br
-/ - @views.each do |view|
-/   = view.date
-/   |
-/   = view.count 
-/   %br
-/   
-/ = debug(@view_counts)
+=link_to "CSV", article_view_csv_path(@user[:id], @user[:key])
