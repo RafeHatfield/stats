@@ -15,11 +15,11 @@ gem 'rpm_contrib'
 gem 'newrelic_rpm'
 gem 'jquery-rails', '>= 0.2.6'
 gem 'hoptoad_notifier'
-gem 'ruby-debug'
-
+gem 'resque-cleaner'
 
 group :development do
 	gem "autotest"
+	gem 'ruby-debug'
 	gem "rails3-generators"
 end
 
