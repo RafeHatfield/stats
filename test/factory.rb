@@ -24,6 +24,13 @@ FactoryGirl.define do
     writer_id 1
   end
 
+  factory :daily_keyphrase_view do
+    date "2011-03-03"
+    article_id 1
+    keyphrase "MyString"
+    count 1
+  end
+
 end
 
 

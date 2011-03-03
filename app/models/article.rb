@@ -14,7 +14,8 @@
 
 class Article < ActiveRecord::Base
 
-  has_many :daily_page_views
+  has_many :daily_page_views, :dependent => :destroy
+  has_many :daily_keyphrase_views, :dependent => :destroy
 
   validates_presence_of :suite101_article_id, :title, :writer_id, :permalink
   validates_uniqueness_of :suite101_article_id
@@ -28,7 +29,19 @@ class Article < ActiveRecord::Base
       daily_page_view.increment!(:count)
       return daily_page_view
     else
-      self.daily_page_views.create(:date => date, :writer_id => self.writer_id, :count => 1)
+      self.daily_page_views.create!(:date => date, :writer_id => self.writer_id, :count => 1)
+    end
+  end
+  
+  def increment_keyphrase_view_on(date,keyphrase)
+    # Strip the time part off of date.
+    date = date.to_date
+    daily_keyphrase_view = self.daily_keyphrase_views.where(:date => date, :keyphrase => keyphrase).first
+    if daily_keyphrase_view
+      daily_keyphrase_view.increment!(:count)
+      return daily_keyphrase_view
+    else
+      self.daily_keyphrase_views.create!(:date => date, :writer_id => self.writer_id, :keyphrase => keyphrase, :count => 1)
     end
   end
   

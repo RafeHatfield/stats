@@ -10,7 +10,7 @@ class ArticleTest < ActiveSupport::TestCase
         :page_title => "The GMHP Shiitake Mushroom Growing Kit", 
         :cookie_id => "#{rand(10000)}", 
         :tracked_page_id => @article_id, 
-        :referrer_url => "", 
+        :referrer_url => "http://www.google.ca/search?q=awesome+sauce&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a", 
         :writer_id => "658084", 
         :visited_at => "{ts '2011-03-02 12:58:52'}"
       })
@@ -35,6 +35,18 @@ class ArticleTest < ActiveSupport::TestCase
       assert article
       assert_equal 1, article.daily_page_views.where(:date => "2011-03-02".to_date).count
       
+    end
+    
+    should "add a daily keyphrase view to the viewed article on the proper day" do
+      article = Article.where(:suite101_article_id => @article_id).first
+      if article
+        article.daily_keyphrase_views.delete_all
+      end
+
+      RawPageViewJob.perform(@valid_queue_data)
+      article = Article.where(:suite101_article_id => @article_id).first
+      assert article
+      assert_equal 1, article.daily_keyphrase_views.where(:date => "2011-03-02".to_date, :keyphrase => "awesome sauce").count
     end
     
   end

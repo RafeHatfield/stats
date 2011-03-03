@@ -1,4 +1,4 @@
-class SearchURLParser
+class SearchUrlParser
 # Class to handle parsing of search engine and keywords from a search url.
   
   # Given a natural search engine search url return the search engine.

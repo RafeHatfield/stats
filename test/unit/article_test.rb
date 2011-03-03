@@ -33,10 +33,16 @@ class ArticleTest < ActiveSupport::TestCase
       assert_equal false, article2.valid?
     end
     
-    should "have many page views" do
+    should "have many daily page views" do
       article = FactoryGirl.build(:article)
       assert article.respond_to?(:daily_page_views)
     end
+    
+    should "have many daily keyphrase views" do
+      article = FactoryGirl.build(:article)
+      assert article.respond_to?(:daily_keyphrase_views)
+    end
+    
   end
   
   context "incrementing daily page views" do
@@ -59,6 +65,34 @@ class ArticleTest < ActiveSupport::TestCase
     end
     
   end
+  
+  context "incrementing daily keyphrase views" do
+
+     setup do
+       a_id = 123
+       @keyphrase = "awesome sauce"
+       Article.where(:suite101_article_id => a_id).delete_all
+       @article = FactoryGirl.create(:article, :suite101_article_id => a_id)
+     end
+     
+     should "give 1 keyphrase view if there are none for today" do
+       @article.increment_keyphrase_view_on(Date.today, @keyphrase )
+       assert_equal 1, @article.daily_keyphrase_views.where(:date => Date.today,:keyphrase => @keyphrase ).first.count
+     end
+
+     should "give 2 keyphrase view if there is already 1 for today" do
+       @article.increment_keyphrase_view_on(Date.today, @keyphrase )
+       @article.increment_keyphrase_view_on(Date.today, @keyphrase )
+       assert_equal 2, @article.daily_keyphrase_views.where(:date => Date.today,:keyphrase => @keyphrase ).first.count
+     end
+
+     should "should create new keyphrase for today if keyphrase is not found for today" do
+        @article.increment_keyphrase_view_on(Date.today, "not awesome sauce" )
+        @article.increment_keyphrase_view_on(Date.today, @keyphrase )
+        assert_equal 1, @article.daily_keyphrase_views.where(:date => Date.today,:keyphrase => @keyphrase ).first.count
+      end
+     
+   end
   
   context "find and update title or create" do
     
