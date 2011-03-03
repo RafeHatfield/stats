@@ -16,7 +16,7 @@ class RawPageViewJob
 
       article.increment_page_view_on(raw_page_view.visited_at.to_date)
     rescue => e
-      logger.info("Exception happened #{e}")
+      Rails.logger.info("Exception happened #{e}")
       raise "#{e}"
     end
     # (can do this: try updating day/article row, if updated, ok. else insert)
