@@ -1,13 +1,13 @@
 FactoryGirl.define do
 
   factory :raw_page_view do
-    tracked_page_id 123456
+    suite101_article_id 123456
     writer_id 65432
     cookie_id "arandomcookie"
-    page_title "Chocolate has an Expiration Date"
-    page_url "http://www.suite101.com/content/chocolate-has-an-expiration-date-a347637"
+    title "Chocolate has an Expiration Date"
+    permalink "http://www.suite101.com/content/chocolate-has-an-expiration-date-a347637"
     referrer_url "http://www.google.ca/search?q=awesome+sauce&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a"
-    visited_at {Time.now}
+    date {Time.now}
   end
   
   factory :article do

@@ -10,9 +10,9 @@ module NavigationHelpers
 
     when /a test article/
       article_id = @article_id
-      visited_at = CGI::escape(Time.now.to_s)
+      date = CGI::escape(Time.now.to_s)
       pv = FactoryGirl.attributes_for(:raw_page_view)
-      "/add_page_view?tracked_page_id=#{article_id}&page_url=pv[:page_url]&page_title=pv[:page_title]&writer_id=pv[:writer_id]&cookie_id=[:cookie_id]&visited_at=#{visited_at}&referrer_url=pv[:referrer_url]"
+      "/add_page_view?suite101_article_id=#{article_id}&permalink=#{pv[:permalink]}&title=#{pv[:title]}&writer_id=#{pv[:writer_id]}&cookie_id=#{pv[:cookie_id]}&date=#{date}&referrer_url=#{pv[:referrer_url]}"
     else
       begin
         page_name =~ /the (.*) page/

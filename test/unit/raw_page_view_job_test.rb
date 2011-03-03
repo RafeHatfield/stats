@@ -6,13 +6,13 @@ class ArticleTest < ActiveSupport::TestCase
     setup do
       @article_id = 45678
       RawPageViewJob.perform(ActiveSupport::JSON.encode({
-        :page_url =>"http://www.animal.intranet.suite101.com/content/the-gmhp-shiitake-mushroom-growing-kit-a120501", 
-        :page_title => "The GMHP Shiitake Mushroom Growing Kit", 
+        :permalink =>"http://www.animal.intranet.suite101.com/content/the-gmhp-shiitake-mushroom-growing-kit-a120501", 
+        :title => "The GMHP Shiitake Mushroom Growing Kit", 
         :cookie_id => "#{rand(10000)}", 
-        :tracked_page_id => @article_id, 
+        :suite101_article_id => @article_id, 
         :referrer_url => "http://www.google.ca/search?q=awesome+sauce&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a", 
         :writer_id => "658084", 
-        :visited_at => "{ts '2011-03-02 12:58:52'}"
+        :date => "{ts '2011-03-02 12:58:52'}"
       }))
       @article = Article.where(:suite101_article_id => @article_id).first
     end
@@ -22,7 +22,7 @@ class ArticleTest < ActiveSupport::TestCase
     end
     
     should "create a raw page view" do
-      assert_equal 1, RawPageView.where(:tracked_page_id => @article_id).count
+      assert_equal 1, RawPageView.where(:suite101_article_id => @article_id).count
     end
     
     should "add a daily page view to the viewed article on the proper day" do

@@ -3,7 +3,7 @@ class TrackingController < ApplicationController
   def add_page_view
     
     raw_page_view_data = {
-      :tracked_page_id => params[:tracked_page_id],
+      :suite101_article_id => params[:suite101_article_id],
       :page_url => params[:page_url],
       :page_title => params[:page_title],
       :writer_id  => params[:writer_id ],

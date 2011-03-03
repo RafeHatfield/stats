@@ -1,12 +1,12 @@
 Given /^"a test article" has "1" page view recorded$/ do
   @article_id = 999
   @first_viewer_cookie_id = 111
-  RawPageView.where(:tracked_page_id => @article_id).delete_all
-  FactoryGirl.create(:raw_page_view, :tracked_page_id => @article_id, :cookie_id => @first_viewer_cookie_id)
+  RawPageView.where(:suite101_article_id => @article_id).delete_all
+  FactoryGirl.create(:raw_page_view, :suite101_article_id => @article_id, :cookie_id => @first_viewer_cookie_id)
 end
 
 Then /^I should have "2" page views recorded for "a test article"$/ do
-  RawPageView.where(:tracked_page_id => @article_id).length.should == 2
+  RawPageView.where(:suite101_article_id => @article_id).length.should == 2
 end
 
 When /^I reload the page$/ do

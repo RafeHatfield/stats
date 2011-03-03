@@ -4,7 +4,7 @@ end
 
 Given /^Homer has published articles with these pageviews lifetime:$/ do |article_table|
   article_table.hashes.each do |article|
-    page = create_page(:tracked_page_id => rand(100000), :page_title => article[:Title].to_s, :writer_id => @homer_id)
+    page = create_page(:suite101_article_id => rand(100000), :title => article[:Title].to_s, :writer_id => @homer_id)
     article[:Views].to_i.times do
       page.insert_page_view(params_for_page_view.merge!(:page_id => page.id))
     end

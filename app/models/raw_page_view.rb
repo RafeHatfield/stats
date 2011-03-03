@@ -1,16 +1,16 @@
 # == Schema Information
-# Schema version: 20110222190224
+# Schema version: 20110303215305
 #
 # Table name: raw_page_views
 #
-#  id              :integer         not null, primary key
-#  tracked_page_id :integer
-#  page_url        :string(255)
-#  page_title      :string(255)
-#  writer_id       :integer
-#  referrer_url    :string(255)
-#  cookie_id       :string(255)
-#  visited_at      :datetime
+#  id                  :integer         not null, primary key
+#  suite101_article_id :integer
+#  permalink           :string(255)
+#  title               :string(255)
+#  writer_id           :integer
+#  referrer_url        :string(255)
+#  cookie_id           :string(255)
+#  date                :datetime
 #
 
 require 'memcache'
@@ -18,21 +18,21 @@ require 'memcache'
 class RawPageView < ActiveRecord::Base
 
   validate :view_must_be_unique
-  validates_presence_of :page_title, :tracked_page_id, :page_url, :page_title, :writer_id, :cookie_id, :visited_at
+  validates_presence_of :title, :suite101_article_id, :permalink, :title, :writer_id, :cookie_id, :date
   
   after_validation :debug_validation_errors
   
   def view_must_be_unique
     
-    page_view_uuid = "#{self.tracked_page_id}#{self.referrer_url}#{self.cookie_id}".hash.to_s
+    page_view_uuid = "#{self.suite101_article_id}#{self.referrer_url}#{self.cookie_id}".hash.to_s
     
-    previous_visited_at = RawPageView.uniqueness_cache.get(page_view_uuid)
+    previous_date = RawPageView.uniqueness_cache.get(page_view_uuid)
     
-    if previous_visited_at && self.visited_at - previous_visited_at <= 30.minutes
+    if previous_date && self.date - previous_date <= 30.minutes
       errors.add(:base, "This view is not unique.")
     end
     
-    RawPageView.uniqueness_cache.set(page_view_uuid, self.visited_at)
+    RawPageView.uniqueness_cache.set(page_view_uuid, self.date)
     
   end
   
