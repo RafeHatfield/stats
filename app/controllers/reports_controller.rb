@@ -22,13 +22,19 @@ class ReportsController < ApplicationController
     end
     
     @views = DailyPageView.views_for_writer_between(@suite101_member_id, @start_date, @end_date)
-        
+      
     @view_counts = (@start_date..@end_date).map do |day| 
       view = @views.detect{|v| v.date == day}
       (view && view.count) || 0
     end
     
     @total_views = @views.sum{|v| v.count}
+
+    # Get a list of article titles and view counts for this range for the writer.    
+    @article_counts = Article.title_counts_for_writer_between(@suite101_member_id, @start_date, @end_date)
+    
+    # Sort articles by the view count descending
+    @sorted_article_counts = @article_counts.sort_by {|i| i[1]*-1}
 
   end
   

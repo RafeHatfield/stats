@@ -79,6 +79,51 @@ class ArticleTest < ActiveSupport::TestCase
     
   end
   
+  context "counting views" do
+    should "get the right view count between two dates" do
+      article_id = 333
+      Article.where(:suite101_article_id => article_id).delete_all
+      article = FactoryGirl.create(:article, :suite101_article_id => article_id)
+      3.times do
+        article.increment_page_view_on(Date.yesterday)
+      end
+      6.times do
+        article.increment_page_view_on(Date.today)
+      end
+      
+      assert_equal 9, article.view_count_between(Date.yesterday, Date.today)
+      
+    end
+    
+    
+  end
+  
+  context "getting titles and counts" do
+    
+    should "get all the titles and counts for those articles" do
+      writer_id = 345
+      Article.where(:writer_id => writer_id).delete_all
+      
+      article_title_counts_in = [["Article 1", 3],["Article 2", 2]]
+      
+      article_title_counts_in.each do |a|
+        article = FactoryGirl.create(:article, :writer_id => writer_id, :suite101_article_id => rand(100000), :title => a[0])
+        a[1].times do
+          article.increment_page_view_on(Date.today)
+        end
+      end
+      
+      article_title_counts_out = Article.title_counts_for_writer_between(writer_id, Date.today, Date.today)
+      
+      assert_equal article_title_counts_in, article_title_counts_out
+      
+    end
+    
+    
+    
+    
+  end
+  
   
   
   

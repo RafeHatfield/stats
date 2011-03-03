@@ -32,6 +32,15 @@ class Article < ActiveRecord::Base
     end
   end
   
+  def view_count_between(start_date, end_date)
+    start_date = start_date.to_date
+    end_date = end_date.to_date
+    views = self.daily_page_views.where(:date => start_date...end_date + 1.day).all
+    # Note: With "..." range rails generates a sql where clause with date >= d1, date < d2 so we add an extra day to include today) 
+    
+    return views.sum{|v| v.count}
+  end
+  
   def self.find_and_update_title_or_create(data)
     article = Article.where(:suite101_article_id => data[:suite101_article_id]).first
     
@@ -42,5 +51,14 @@ class Article < ActiveRecord::Base
       Article.create!(:suite101_article_id => data[:suite101_article_id], :title => data[:title], :writer_id => data[:writer_id], :permalink => data[:permalink])
     end
   end
+  
+  def self.title_counts_for_writer_between(writer_id, start_date, end_date)
+    writer_articles = Article.where(:writer_id => writer_id).all
+    
+    writer_articles.map {|a| [a.title, a.view_count_between(start_date, end_date)]}
+    
+  end
+  
+  
   
 end

@@ -89,6 +89,14 @@
 
 == Total: #{@total_views}
 
+%hr
+
+%table
+  - @sorted_article_counts.each do |article_count|
+    %tr
+      %td= article_count[0]
+      %td= article_count[1]
+
 
 / %hr
 / Debugging output
