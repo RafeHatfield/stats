@@ -1,31 +1,16 @@
 class ReportsController < ApplicationController
   
+  before_filter :verify_key, :only => [:index, :article_views_csv]
+  
   def index
-    # Check if the id and key match
-    @suite101_member_id = params[:id]
-    @key = params[:key]
-    
-    if @suite101_member_id != Base64.decode64(params[:key])
-      render :file => "/public/404.html", :status => 404
-    end
-
-    if params[:start_date]
-      @start_date = Date.civil(params[:start_date]["year"].to_i, params[:start_date]["month"].to_i, params[:start_date]["day"].to_i)
-    else
-      @start_date = 7.days.ago.to_date
-    end
-    
-    if params[:end_date]
-      @end_date = Date.civil(params[:end_date]["year"].to_i, params[:end_date]["month"].to_i, params[:end_date]["day"].to_i)
-    else
-      @end_date = Date.today
-    end
+    @start_date = get_selected_date(params[:start_date], 7.days.ago.to_date)
+    @end_date = get_selected_date(params[:end_date], Date.today)
     
     @views = DailyPageView.views_for_writer_between(@suite101_member_id, @start_date, @end_date)
-      
+    
     @view_counts = (@start_date..@end_date).map do |day| 
-      view = @views.detect{|v| v.date == day}
-      (view && view.count) || 0
+      views_on_day = @views.find_all{|v| v.date == day}
+      views_on_day.any? ? views_on_day.sum{|v| v.count} : 0
     end
     
     @total_views = @views.sum{|v| v.count}
@@ -38,6 +23,25 @@ class ReportsController < ApplicationController
 
   end
   
+  def article_views_csv
+    
+    @article_counts = Article.title_counts_for_writer_between(@suite101_member_id, Date.yesterday, Date.yesterday)
+    
+    csv_string = FasterCSV.generate do |csv|
+      csv << ["Title", "Views Yesterday"]
+      @article_counts.each do |article_count|
+        csv << [article_count[0], article_count[1]]
+      end
+    end
+
+    # send it to the browsah
+    send_data csv_string,
+              :type => 'text/csv; charset=iso-8859-1; header=present',
+              :disposition => "attachment; filename=article_counts.csv"
+    
+    
+  end
+  
   def test_index
     # Generate a key for the user and redirect to their dashbaord
     
@@ -47,5 +51,27 @@ class ReportsController < ApplicationController
     redirect_to dashboard_url(suite101_member_id, key)
     
   end
+  
+  def verify_key
+    @suite101_member_id = params[:id]
+    @key = params[:key]
+    
+    if @suite101_member_id != Base64.decode64(params[:key])
+      render :file => "/public/404.html", :status => 404
+      return false
+    end
+  end
+  
+  private
+  
+  def get_selected_date(date_hash, default)
+    if date_hash
+      Date.civil(date_hash["year"].to_i, date_hash["month"].to_i, date_hash["day"].to_i)
+    else
+      default
+    end
+  end
+  
+
   
 end

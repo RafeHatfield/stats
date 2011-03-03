@@ -2,6 +2,8 @@ task :page_view_fill => :environment do
 
   writer_id = 888
 
+  DailyPageView.where(:writer_id => writer_id).delete_all
+
   article_data = [["Article 1", 1111], ["Article 2", 2222], ["Article 3", 3333]]
 
   article_data.each do |data|
@@ -15,7 +17,7 @@ task :page_view_fill => :environment do
     
     90.downto(0) do |i|
       date = i.days.ago
-      count = rand(5)
+      count = (6.*Math.sin(i*(360/6.28))).to_i + 6 + rand(4)
       count.times do
         article.increment_page_view_on(date)
       end

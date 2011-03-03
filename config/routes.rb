@@ -4,4 +4,5 @@ Stats::Application.routes.draw do
   
   match '/report/:id/:key' => 'reports#index', :as => :dashboard
   match '/test_report/:id' => 'reports#test_index'
+  match '/report/:id/:key/article_views.csv' => 'reports#article_views_csv'
 end
