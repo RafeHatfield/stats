@@ -12,7 +12,7 @@ class RawPageViewJob
 
         article = Article.find_and_update_title_or_create({
           :suite101_article_id => raw_page_view.suite101_article_id,
-          :title => raw_page_view.title,
+          :title => raw_page_view.title,  
           :writer_id => raw_page_view.writer_id,
           :permalink => raw_page_view.permalink
         })
