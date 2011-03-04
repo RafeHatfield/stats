@@ -5,3 +5,4 @@ tmp/
 config/database.yml
 config/database_postgres.yml
 config/database_sqlite.yml
+dump.rdb
