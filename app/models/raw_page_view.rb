@@ -12,9 +12,6 @@
 #  cookie_id           :string(255)
 #  date                :datetime
 #
-
-require 'memcache'
-
 class RawPageView < ActiveRecord::Base
   validates_presence_of :title, :suite101_article_id, :permalink, :title, :writer_id, :cookie_id, :date
   validates_numericality_of :suite101_article_id, :writer_id, :only_integer => true
