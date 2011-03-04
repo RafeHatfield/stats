@@ -18,4 +18,29 @@ class DailyKeyphraseViewTest < ActiveSupport::TestCase
       assert FactoryGirl.build(:daily_keyphrase_view).respond_to?(:article)
     end
   end
+  
+  context "getting keyphrase counts between two dates" do
+    
+    should "get the right keyphrase count" do
+      writer_id = 333
+      article = FactoryGirl.create(:article, :writer_id => writer_id)
+      phrase1 = "awesome sauce"
+      phrase2 = "awesome"
+      3.times do
+        article.increment_keyphrase_view_on(Date.yesterday, phrase1)
+      end
+      2.times do
+        article.increment_keyphrase_view_on(Date.yesterday, phrase2)
+      end
+      6.times do
+        article.increment_keyphrase_view_on(Date.today, phrase1)
+      end
+
+      expected_keyphrase_counts = [[phrase1, 3+6], [phrase2, 2]]
+      assert_equal expected_keyphrase_counts.to_set, DailyKeyphraseView.total_keyphrase_counts_for_writer_between(writer_id, Date.yesterday, Date.today).to_set
+      
+    end
+    
+  end
+  
 end

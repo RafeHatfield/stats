@@ -29,10 +29,7 @@
         marginRight: 130,
         marginBottom: 85
       },
-      title: {
-        text: 'Page Views',
-        x: -20 //center
-      },
+      title: false,
       legend: {
         enabled: false
       },
@@ -40,9 +37,7 @@
         type: 'datetime'
       },
       yAxis: {
-        title: {
-          text: 'Views'
-          },
+        title: false,
         min: 0
       },
       tooltip: {
@@ -68,13 +63,7 @@
     set_date_selector_click("lifetime", #{90.days.ago.year}, #{90.days.ago.month}, #{90.days.ago.day}, #{Date.today.year}, #{Date.today.month}, #{Date.today.day});
   });
 
-%h1 My Suite101 Stats (BETA)
-
-=form_tag dashboard_path(@user[:id], @user[:key]) do
-  == Start date #{select_date(@start_date, {:start_year => 2010, :end_year => Date.today.year, :prefix => "start_date"})}
-  == End date #{select_date(@end_date, {:start_year => 2010, :end_year => Date.today.year, :prefix => "end_date"})}
-  = submit_tag 'Update'
-%br
+%h1 My Stats (beta)
 
 %a#this_week{:href => ""} This week
 %a#last_week{:href => ""} Last week
@@ -85,15 +74,32 @@
 %a#lifetime{:href => ""} Lifetime
 %br
 
-#page_view_plot{:style => "width: 700px; height: 400px;"}
-
-%p== Total: #{@total_views}
+=form_tag dashboard_path(@user[:id], @user[:key]) do
+  == Start date #{select_date(@start_date, {:start_year => 2010, :end_year => Date.today.year, :prefix => "start_date"})}
+  == End date #{select_date(@end_date, {:start_year => 2010, :end_year => Date.today.year, :prefix => "end_date"})}
+  = submit_tag 'Update'
 %br
 
+%h2 Readers Viewing My Articles
+#page_view_plot{:style => "width: 700px; height: 400px;"}
+
+%h2 Totals
+%p== Page Views #{@total_view_count}
+
+
+%h2 Which of My Articles People Are Reading?
 %table
-  - @sorted_article_counts.each do |article_count|
+  - @article_counts.each do |a|
     %tr
-      %td= article_count[0]
-      %td= article_count[1]
-%div
-  =link_to "Download yesterday's data", article_view_csv_path(@user[:id], @user[:key])
+      %td= a[0]
+      %td= a[1]
+
+%h2 How People Are Finding Me  
+%table
+  - @keyphrase_counts.each do |k|
+    %tr
+      %td= k[0]
+      %td= k[1]
+
+%p
+  =link_to "Download yesterday's data", article_view_csv_path(@user[:id], @user[:key])  

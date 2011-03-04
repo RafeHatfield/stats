@@ -127,7 +127,7 @@ class ArticleTest < ActiveSupport::TestCase
         end
       end
 
-      title_counts_out = Article.title_counts_for_writer_between(writer_id, Date.today, Date.today)      
+      title_counts_out = Article.total_title_counts_for_writer_between(writer_id, Date.today, Date.today)      
       assert_equal [["Article 1",1], ["Article 2",2], ["Article 3",3]], title_counts_out
     end
   end

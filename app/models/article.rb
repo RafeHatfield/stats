@@ -65,11 +65,9 @@ class Article < ActiveRecord::Base
     end
   end
   
-  def self.title_counts_for_writer_between(writer_id, start_date, end_date)
+  def self.total_title_counts_for_writer_between(writer_id, start_date, end_date)
     writer_articles = Article.where(:writer_id => writer_id).all
-    
     writer_articles.map {|a| [a.title, a.view_count_between(start_date, end_date)]}
-    
   end
   
   

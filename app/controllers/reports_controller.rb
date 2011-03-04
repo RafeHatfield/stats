@@ -6,20 +6,15 @@ class ReportsController < ApplicationController
     @start_date = get_selected_date(params[:start_date], 7.days.ago.to_date)
     @end_date = get_selected_date(params[:end_date], Date.today)
     
-    @views = DailyPageView.views_for_writer_between(@user[:id], @start_date, @end_date)
-    
-    @view_counts = (@start_date..@end_date).map do |day| 
-      views_on_day = @views.find_all{|v| v.date == day}
-      views_on_day.any? ? views_on_day.sum{|v| v.count} : 0
-    end
-    
-    @total_views = @views.sum{|v| v.count}
+    @view_counts = DailyPageView.view_counts_for_writer_between(@user[:id], @start_date, @end_date)
+    @total_view_count = @view_counts.sum
 
-    # Get a list of article titles and view counts for this range for the writer.    
-    @article_counts = Article.title_counts_for_writer_between(@user[:id], @start_date, @end_date)
+    # Get a list of [titles, count] for this range for the writer, sorted by view count descending
+    article_counts = Article.total_title_counts_for_writer_between(@user[:id], @start_date, @end_date)
+    @article_counts = article_counts.sort_by {|i| i[1]*-1}
     
-    # Sort articles by the view count descending
-    @sorted_article_counts = @article_counts.sort_by {|i| i[1]*-1}
+    keyphrase_counts = DailyKeyphraseView.total_keyphrase_counts_for_writer_between(@user[:id], @start_date, @end_date)
+    @keyphrase_counts = keyphrase_counts.sort_by {|i| i[1]*-1}
 
   end
   
@@ -38,7 +33,6 @@ class ReportsController < ApplicationController
     send_data csv_string,
               :type => 'text/csv; charset=iso-8859-1; header=present',
               :disposition => "attachment; filename=article_counts.csv"
-    
     
   end
   
