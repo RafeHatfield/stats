@@ -18,7 +18,6 @@ require 'memcache'
 class RawPageView < ActiveRecord::Base
   validates_presence_of :title, :suite101_article_id, :permalink, :title, :writer_id, :cookie_id, :date
   validates_numericality_of :suite101_article_id, :writer_id, :only_integer => true
-  after_validation :debug_validation_errors
   
   # Return true if this view is considered unique.
   # Enter/update this view in the uniqueness Cache.
@@ -36,13 +35,6 @@ class RawPageView < ActiveRecord::Base
   
   def self.uniqueness_cache
     @@uniqueness_cache ||= MemCache.new ENV["MEMCACHED_CONNECTION_PATH"]
-  end
-  
-  def debug_validation_errors
-    if !self.errors.empty?
-      logger.info("--Validations failed for RawPageView:")
-      logger.info(errors.inspect)           
-    end
   end
   
   def insert_into_uniqueness_cache
