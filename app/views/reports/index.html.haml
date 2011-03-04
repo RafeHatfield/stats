@@ -68,7 +68,7 @@
     set_date_selector_click("lifetime", #{90.days.ago.year}, #{90.days.ago.month}, #{90.days.ago.day}, #{Date.today.year}, #{Date.today.month}, #{Date.today.day});
   });
 
-%h1 My Suite101 Stats
+%h1 My Suite101 Stats (BETA)
 
 =form_tag dashboard_path(@user[:id], @user[:key]) do
   == Start date #{select_date(@start_date, {:start_year => 2010, :end_year => Date.today.year, :prefix => "start_date"})}
@@ -95,5 +95,5 @@
     %tr
       %td= article_count[0]
       %td= article_count[1]
-
-=link_to "CSV", article_view_csv_path(@user[:id], @user[:key])
+%div
+  =link_to "Download yesterday's data", article_view_csv_path(@user[:id], @user[:key])

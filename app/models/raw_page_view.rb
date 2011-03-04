@@ -16,24 +16,22 @@
 require 'memcache'
 
 class RawPageView < ActiveRecord::Base
-
-  validate :view_must_be_unique
   validates_presence_of :title, :suite101_article_id, :permalink, :title, :writer_id, :cookie_id, :date
-  
+  validates_numericality_of :suite101_article_id, :writer_id, :only_integer => true
   after_validation :debug_validation_errors
   
-  def view_must_be_unique
+  # Return true if this view is considered unique.
+  # Enter/update this view in the uniqueness Cache.
+  def unique?    
+    # Get the last similar view from the uniqueness cache.
+    previous_date = RawPageView.uniqueness_cache.get(unique_identifier)
     
-    page_view_uuid = "#{self.suite101_article_id}#{self.referrer_url}#{self.cookie_id}".hash.to_s
+    # Put this view into the uniqueness cache.
+    insert_into_uniqueness_cache
     
-    previous_date = RawPageView.uniqueness_cache.get(page_view_uuid)
-    
-    if previous_date && self.date - previous_date <= 30.minutes
-      errors.add(:base, "This view is not unique.")
-    end
-    
-    RawPageView.uniqueness_cache.set(page_view_uuid, self.date)
-    
+    # If there wasn't a previous entry, or the previous entry was more than 30 minutes ago
+    # return true.
+    return !previous_date || self.date - previous_date > 30.minutes
   end
   
   def self.uniqueness_cache
@@ -42,13 +40,19 @@ class RawPageView < ActiveRecord::Base
   
   def debug_validation_errors
     if !self.errors.empty?
-      # logger.debug("--Validations failed for RawPageView:")
-      #       logger.debug(errors.inspect)
-      
-      ## TODO: Make this only log in the development environment so that the log file doesn't overflow.
       logger.info("--Validations failed for RawPageView:")
       logger.info(errors.inspect)           
     end
+  end
+  
+  def insert_into_uniqueness_cache
+    RawPageView.uniqueness_cache.set(unique_identifier, self.date)
+  end
+  
+  private
+  
+  def unique_identifier
+    "#{self.suite101_article_id}#{self.referrer_url}#{self.cookie_id}".hash.to_s
   end
   
 end
