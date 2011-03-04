@@ -25,10 +25,11 @@ class RawPageViewJob
         engine = SearchUrlParser.get_search_engine(raw_page_view.referrer_url)
         keyphrase = SearchUrlParser.get_keywords(raw_page_view.referrer_url, engine)
         article.increment_keyphrase_view_on(raw_page_view.date.to_date, keyphrase)
-      rescue => e
-        Rails.logger.info("Exception happened #{e}")
-        raise "#{e}"
       end
+      
+    rescue => e
+      Rails.logger.info("Exception happened #{e}")
+      raise "#{e}"
     end
   end
   
