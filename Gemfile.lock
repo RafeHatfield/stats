@@ -147,6 +147,8 @@ GEM
       redis-namespace (>= 0.10.0)
       sinatra (>= 0.9.2)
       vegas (~> 0.1.2)
+    resque-cleaner (0.1.1)
+      resque (~> 1.0)
     rest-client (1.6.1)
       mime-types (>= 1.16)
     rpm_contrib (1.0.13)
@@ -221,6 +223,7 @@ DEPENDENCIES
   rails (= 3.0.4)
   rails3-generators
   resque
+  resque-cleaner
   rpm_contrib
   rspec-rails
   ruby-debug

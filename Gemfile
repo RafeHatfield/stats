@@ -18,6 +18,7 @@ gem 'hoptoad_notifier'
 gem 'ruby-debug'
 gem 'sqlite3-ruby', :require => 'sqlite3'
 gem 'fastercsv'
+gem 'resque-cleaner'
 
 
 group :development do
@@ -33,7 +34,6 @@ group :test do
 	gem 'capybara'
 	gem 'database_cleaner'
 	gem 'rspec-rails'
-	#gem 'shoulda-matchers'
 	gem 'mocha'
 	gem "shoulda"
 	gem 'shoulda-context'
