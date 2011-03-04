@@ -10,4 +10,4 @@ Dir["#{Rails.root}/app/jobs/*.rb"].each { |file| require file }
 #   # server env support, defaults to RAILS_ENV or RACK_ENV
 #   config.server_environment = "production"
 # end
-ENV['INTERVAL'] = '2'
+ENV['INTERVAL'] = '3'
