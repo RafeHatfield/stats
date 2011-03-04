@@ -20,6 +20,7 @@ gem 'sqlite3-ruby', :require => 'sqlite3'
 gem 'fastercsv'
 gem 'resque-cleaner'
 gem 'memcache'
+gem 'resque-multi-job-forks'
 
 
 group :development do
