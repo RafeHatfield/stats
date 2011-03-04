@@ -16,6 +16,8 @@ gem 'newrelic_rpm'
 gem 'jquery-rails', '>= 0.2.6'
 gem 'hoptoad_notifier'
 gem 'ruby-debug'
+gem 'sqlite3-ruby', :require => 'sqlite3'
+gem 'fastercsv'
 
 
 group :development do
