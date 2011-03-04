@@ -3,7 +3,6 @@ class RawPageViewJob
 
   def self.perform(raw_page_view_data)
     # Create a new page view
-    begin   
       hash = ActiveSupport::JSON.decode(raw_page_view_data)
     
       raw_page_view = RawPageView.new(hash)
@@ -26,11 +25,5 @@ class RawPageViewJob
         keyphrase = SearchUrlParser.get_keywords(raw_page_view.referrer_url, engine)
         article.increment_keyphrase_view_on(raw_page_view.date.to_date, keyphrase)
       end
-      
-    rescue => e
-      Rails.logger.info("Exception happened #{e}")
-      raise "#{e}"
-    end
-  end
-  
+  end  
 end
