@@ -19,6 +19,7 @@ gem 'ruby-debug'
 gem 'sqlite3-ruby', :require => 'sqlite3'
 gem 'fastercsv'
 gem 'resque-cleaner'
+gem 'memcache'
 
 
 group :development do
