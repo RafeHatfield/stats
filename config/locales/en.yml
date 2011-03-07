@@ -1,5 +1,11 @@
-# Sample localization file for English. Add more files in this directory for other locales.
-# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
-
 en:
-  hello: "Hello world"
+  report:
+    header: "My stats (beta)"
+    page_view_graph_header: "Readers Viewing My Articles"
+    totals: 'Totals'
+    articles_header: 'Which of My Articles People Are Reading?'
+    keyword_header: 'How Are People Finding Me?'
+    update: 'Update'
+    start_date: 'Start Date'
+    end_date: 'End Date'
+    download_data: "Download yesterday's data"

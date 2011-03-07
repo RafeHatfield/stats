@@ -5,7 +5,7 @@ class ReportsController < ApplicationController
   def index
     @start_date = get_selected_date(params[:start_date], 7.days.ago.to_date)
     @end_date = get_selected_date(params[:end_date], Date.today)
-    
+
     @view_counts = DailyPageView.view_counts_for_writer_between(@user[:id], @start_date, @end_date)
     @total_view_count = @view_counts.sum
 
@@ -15,6 +15,7 @@ class ReportsController < ApplicationController
     
     keyphrase_counts = DailyKeyphraseView.total_keyphrase_counts_for_writer_between(@user[:id], @start_date, @end_date)
     @keyphrase_counts = keyphrase_counts.sort_by {|i| i[1]*-1}
+    
 
   end
   

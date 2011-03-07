@@ -63,7 +63,7 @@
     set_date_selector_click("lifetime", #{90.days.ago.year}, #{90.days.ago.month}, #{90.days.ago.day}, #{Date.today.year}, #{Date.today.month}, #{Date.today.day});
   });
 
-%h1 My Stats (beta)
+%h1= I18n.t('report.header')
 
 %a#this_week{:href => ""} This week
 %a#last_week{:href => ""} Last week
@@ -75,26 +75,26 @@
 %br
 
 =form_tag dashboard_path(@user[:id], @user[:key]) do
-  == Start date #{select_date(@start_date, {:start_year => 2010, :end_year => Date.today.year, :prefix => "start_date"})}
-  == End date #{select_date(@end_date, {:start_year => 2010, :end_year => Date.today.year, :prefix => "end_date"})}
-  = submit_tag 'Update'
+  == #{I18n.t('report.start_date')} #{select_date(@start_date, {:start_year => 2010, :end_year => Date.today.year, :prefix => "start_date"})}
+  == #{I18n.t('report.end_date')} #{select_date(@end_date, {:start_year => 2010, :end_year => Date.today.year, :prefix => "end_date"})}
+  = submit_tag I18n.t('report.update')
 %br
 
-%h2 Readers Viewing My Articles
+%h2= I18n.t('report.page_view_graph_header')
 #page_view_plot{:style => "width: 700px; height: 400px;"}
 
-%h2 Totals
+%h2= I18n.t('report.totals')
 %p== Page Views #{@total_view_count}
 
 
-%h2 Which of My Articles People Are Reading?
+%h2= I18n.t('report.articles_header')
 %table
   - @article_counts.each do |a|
     %tr
       %td= a[0]
       %td= a[1]
 
-%h2 How People Are Finding Me  
+%h2= I18n.t('report.keyword_header')
 %table
   - @keyphrase_counts.each do |k|
     %tr
@@ -102,4 +102,4 @@
       %td= k[1]
 
 %p
-  =link_to "Download yesterday's data", article_view_csv_path(@user[:id], @user[:key])  
+  =link_to I18n.t('report.download_data'), article_view_csv_path(@user[:id], @user[:key])  
