@@ -25,6 +25,8 @@ class RawPageViewJob
     # Increment the daily keyphrase view count for this article.
     engine = SearchUrlParser.get_search_engine(raw_page_view.referrer_url)
     keyphrase = SearchUrlParser.get_keywords(raw_page_view.referrer_url, engine)
-    article.increment_keyphrase_view_on(raw_page_view.date.to_date, keyphrase)
+    if keyphrase
+      article.increment_keyphrase_view_on(raw_page_view.date.to_date, keyphrase)
+    end
   end  
 end

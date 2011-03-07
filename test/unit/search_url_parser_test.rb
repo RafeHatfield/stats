@@ -39,6 +39,12 @@ class SearchUrlParserTest < ActiveSupport::TestCase
         searched_keywords = "\"awesome sauce\" happy"
         assert_equal searched_keywords, SearchUrlParser.get_keywords(search_url, :google)
       end
+      
+      should "return nil if the keywords couldn't be parsed properly" do
+        search_url = "http://www.google.com/imgres?imgurl=http://images.suite101.com/2851319_COM_jose_mourinho_real_madrid_1_.jpg&imgrefurl=http://www.suite101.com/content/mourinhos-real-madrid--fc-barcelona-copa-del-rey-final-2011-a342288&usg=__P35o0PEZ3gZEM8T4FgsGZp8cOH0=&h=300&w=300&sz=17&hl=en&start=43&zoom=1&tbnid=fRrHjtsOVq42NM:&tbnh=131&tbnw=131&ei=pending&prev=/images%3Fq%3Dreal%2Bmadrid%2B2011%26hl%3Den%26biw%3D1280%26bih%3D579%26gbv%3D2%26tbs%3Disch:10,788&itbs=1&iact=rc&dur=394&oei=qTtxTe22OJKGswaCp6GIDg&page=3&ndsp=21&ved=1t:429,r:12,s:43&tx=115&ty=14&biw=1280&bih=579"
+        assert_equal nil, SearchUrlParser.get_keywords(search_url, :google)
+      end
+      
     end
     
   end

@@ -9,7 +9,7 @@ class SearchUrlParser
     # NOTE: Search.com matching must be last because other engines
     #       use "search." in their domain and we want to catch them first.
     
-    @engine_regex = {
+    engine_regex = {
       :google => /google\..*\?/,
       :yahoo => /yahoo\..*\?/,
       :bing => /bing\..*\?/,
@@ -20,7 +20,7 @@ class SearchUrlParser
       :search => /www\.search\.com.*\?/
     }
                  
-    @engine_regex.each do |engine, regex|
+    engine_regex.each do |engine, regex|
       return engine if regex.match(url)
     end
 
@@ -36,7 +36,7 @@ class SearchUrlParser
     # => [stuff][query_string]=[keyword_string]&[other_stuff]
     # Keywords are separated by %20 or +, these are converted to " " when unescaped.
 
-    @engine_query_string = {
+    engine_query_string = {
       :google => 'q',
       :bing => 'q',
       :yahoo => 'p',
@@ -47,12 +47,15 @@ class SearchUrlParser
       :search => 'q'
     }
     
-    @engine_query_string.each do |engine, query_string|
-      return CGI.unescape(url.split(query_string+"=")[1].split("&")[0]) if search_engine == engine
+    query_string = engine_query_string[search_engine] + "="
+    
+    if url.include?(query_string)
+      post_query_string = url.split(query_string).second
+      keyword_string = post_query_string.split("&").first
+      return CGI.unescape(keyword_string)
+    else
+      return nil
     end
-    
-    return nil
-    
   end
   
 end
