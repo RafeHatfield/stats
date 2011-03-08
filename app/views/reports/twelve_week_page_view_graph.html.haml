@@ -22,13 +22,10 @@
       },
       xAxis: {
         type: 'datetime',
-        tickInterval: #{2.weeks * 1000},
         labels: {
           formatter: function() {
             return Highcharts.dateFormat("#{xlabel}", this.value);
-          },
-          rotation: -45,
-          align: 'right'
+          }
         }
       },
       yAxis: {

@@ -21,7 +21,7 @@
       legend: {
         enabled: #{legend_enabled}
       },
-      xAxis: {
+      xAxis: [{
         type: 'datetime',
         tickInterval: #{1.day * 1000},
         tickPosition: "inside",
@@ -31,6 +31,17 @@
           }
         }
       },
+      {
+        type: 'datetime',
+        tickInterval: #{1.day * 1000},
+        tickPosition: "inside",
+        labels: {
+          formatter: function() {
+            return Highcharts.dateFormat("", this.value);
+          }
+        },
+        offset: -1
+      }],
       yAxis: {
         title: false,
         min: 0
@@ -44,15 +55,17 @@
       {
         name: 'Last Month',
         pointInterval: #{1.day * 1000},
-        pointStart: #{@this_start_date.at_midnight.to_i * 1000},
-        data: #{@view_counts_last_month.inspect}
+        pointStart: #{@last_start_date.at_midnight.to_i * 1000},
+        data: #{@view_counts_last_month.to_json},
+        xAxis: 1
       },
       {
         name: 'This Month',
         pointInterval: #{1.day * 1000},
         pointStart: #{@this_start_date.at_midnight.to_i * 1000},
-        data: #{@view_counts_this_month.inspect},
-        type: 'line'
+        data: #{@view_counts_this_month.to_json},
+        type: 'line',
+        xAxis: 0
       }
       ]
       
