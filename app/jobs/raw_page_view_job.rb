@@ -2,13 +2,13 @@ class RawPageViewJob
   @queue = :page_view
 
   def self.perform(raw_page_view_data)
-      hash = ActiveSupport::JSON.decode(raw_page_view_data)
-      raw_page_view = RawPageView.new(hash)
-    
-      if raw_page_view.unique?
-        raw_page_view.save!
-        process_raw_page_view(raw_page_view)
-      end
+    hash = ActiveSupport::JSON.decode(raw_page_view_data)
+    raw_page_view = RawPageView.new(hash)
+
+    if raw_page_view.unique?
+      raw_page_view.save!
+      process_raw_page_view(raw_page_view)
+    end
   end
   
   def self.process_raw_page_view(raw_page_view)

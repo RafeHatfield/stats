@@ -1,70 +1,3 @@
-:javascript
-  $(function(){
-    function set_selected_option(select_id, value){
-      // Set the selected element on the select tag with id select tag to the option with value value.
-      $("#" + select_id + " option[selected]").removeAttr("selected");
-      $("#" + select_id + " option[value='" + value + "']").attr("selected","selected");
-    }
-    
-    function set_date_selector_click(id, start_date_year, start_date_month, start_date_day, end_date_year, end_date_month, end_date_day){
-      // Set the on click for link with id 'id' to update the date selectors with the given start and end dates.
-      $("#"+id).click(function(){
-        set_selected_option("start_date_year", start_date_year);
-        set_selected_option("start_date_month", start_date_month);
-        set_selected_option("start_date_day", start_date_day);
-        set_selected_option("end_date_year", end_date_year);
-        set_selected_option("end_date_month", end_date_month);
-        set_selected_option("end_date_day", end_date_day);
-        $("form").submit();
-        return false;
-      });
-    }
-
-    // Make the 'page_view_plot' div a highchart showing the total view counts.
-    var chart;
-    chart = new Highcharts.Chart({
-      chart: {
-        renderTo: 'page_view_plot',
-        defaultSeriesType: 'line',
-        marginRight: 130,
-        marginBottom: 85
-      },
-      title: false,
-      legend: {
-        enabled: false
-      },
-      xAxis: {
-        type: 'datetime',
-        min: #{@start_date.at_midnight.to_i * 1000},
-        startOnTick: true
-      },
-      yAxis: {
-        title: false,
-        min: 0
-      },
-      tooltip: {
-        formatter: function() {
-          return Highcharts.dateFormat("%B %e %Y", this.x) + ': ' + this.y;
-        }
-      },
-      series: [{
-        name: 'This week',
-        pointInterval: #{1.day * 1000},
-        pointStart: #{@start_date.at_midnight.to_i * 1000},
-        data: #{@view_counts.inspect}
-      }]
-    });
-
-    // Setup click handlers for the short cut date range selectors.
-    set_date_selector_click("this_week", #{1.week.ago.year}, #{1.week.ago.month}, #{1.week.ago.day}, #{Date.today.year}, #{Date.today.month}, #{Date.today.day});
-    set_date_selector_click("last_week", #{2.weeks.ago.year}, #{2.weeks.ago.month}, #{2.weeks.ago.day}, #{1.week.ago.year}, #{1.week.ago.month}, #{1.week.ago.day});
-    set_date_selector_click("this_month", #{1.month.ago.year}, #{1.month.ago.month}, #{1.month.ago.day}, #{Date.today.year}, #{Date.today.month}, #{Date.today.day});
-    set_date_selector_click("last_month", #{2.months.ago.year}, #{2.months.ago.month}, #{2.months.ago.day}, #{1.month.ago.year}, #{1.month.ago.month}, #{1.month.ago.day});
-    set_date_selector_click("this_year", #{1.year.ago.year}, #{1.year.ago.month}, #{1.year.ago.day}, #{Date.today.year}, #{Date.today.month}, #{Date.today.day});
-    set_date_selector_click("last_year", #{2.years.ago.year}, #{2.years.ago.month}, #{2.years.ago.day}, #{1.year.ago.year}, #{1.year.ago.month}, #{1.year.ago.day});
-    set_date_selector_click("lifetime", #{90.days.ago.year}, #{90.days.ago.month}, #{90.days.ago.day}, #{Date.today.year}, #{Date.today.month}, #{Date.today.day});
-  });
-
 %h1= I18n.t('report.header')
 
 %a#this_week{:href => ""} This week
@@ -76,7 +9,7 @@
 %a#lifetime{:href => ""} Lifetime
 %br
 
-=form_tag dashboard_path(@user[:id], @user[:key]) do
+=form_tag dashboard_path(@user[:id], @user[:key]), :method => :get do
   == #{I18n.t('report.start_date')} #{select_date(@start_date, {:start_year => 2010, :end_year => Date.today.year, :prefix => "start_date"})}
   == #{I18n.t('report.end_date')} #{select_date(@end_date, {:start_year => 2010, :end_year => Date.today.year, :prefix => "end_date"})}
   = submit_tag I18n.t('report.update')
@@ -103,5 +36,82 @@
       %td= k[0]
       %td= k[1]
 
+%h2 Traffic Sources in the Past 7 Days
+%table
+  - @article_counts.each do |a|
+    %tr
+      %td= a[0]
+      %td= a[1]
+
+
 %p
   =link_to I18n.t('report.download_data'), article_view_csv_path(@user[:id], @user[:key])  
+
+- content_for :page_javascript do
+  :javascript
+    $(function(){
+      function set_selected_option(select_id, value){
+        // Set the selected element on the select tag with id select tag to the option with value value.
+        $("#" + select_id + " option[selected]").removeAttr("selected");
+        $("#" + select_id + " option[value='" + value + "']").attr("selected","selected");
+      }
+
+      function set_date_selector_click(id, start_date_year, start_date_month, start_date_day, end_date_year, end_date_month, end_date_day){
+        // Set the on click for link with id 'id' to update the date selectors with the given start and end dates.
+        $("#"+id).click(function(){
+          set_selected_option("start_date_year", start_date_year);
+          set_selected_option("start_date_month", start_date_month);
+          set_selected_option("start_date_day", start_date_day);
+          set_selected_option("end_date_year", end_date_year);
+          set_selected_option("end_date_month", end_date_month);
+          set_selected_option("end_date_day", end_date_day);
+          $("form").submit();
+          return false;
+        });
+      }
+
+      // Make the 'page_view_plot' div a highchart showing the total view counts.
+      var chart;
+      chart = new Highcharts.Chart({
+        chart: {
+          renderTo: 'page_view_plot',
+          defaultSeriesType: 'line',
+          marginRight: 130,
+          marginBottom: 85
+        },
+        title: false,
+        legend: {
+          enabled: false
+        },
+        xAxis: {
+          type: 'datetime',
+          min: #{@start_date.at_midnight.to_i * 1000},
+          startOnTick: true
+        },
+        yAxis: {
+          title: false,
+          min: 0
+        },
+        tooltip: {
+          formatter: function() {
+            return Highcharts.dateFormat("%B %e %Y", this.x) + ': ' + this.y;
+          }
+        },
+        series: [{
+          name: 'This week',
+          pointInterval: #{1.day * 1000},
+          pointStart: #{@start_date.at_midnight.to_i * 1000},
+          data: #{@view_counts.inspect}
+        }]
+      });
+
+      // Setup click handlers for the short cut date range selectors.
+      set_date_selector_click("this_week", #{1.week.ago.year}, #{1.week.ago.month}, #{1.week.ago.day}, #{Date.today.year}, #{Date.today.month}, #{Date.today.day});
+      set_date_selector_click("last_week", #{2.weeks.ago.year}, #{2.weeks.ago.month}, #{2.weeks.ago.day}, #{1.week.ago.year}, #{1.week.ago.month}, #{1.week.ago.day});
+      set_date_selector_click("this_month", #{1.month.ago.year}, #{1.month.ago.month}, #{1.month.ago.day}, #{Date.today.year}, #{Date.today.month}, #{Date.today.day});
+      set_date_selector_click("last_month", #{2.months.ago.year}, #{2.months.ago.month}, #{2.months.ago.day}, #{1.month.ago.year}, #{1.month.ago.month}, #{1.month.ago.day});
+      set_date_selector_click("this_year", #{1.year.ago.year}, #{1.year.ago.month}, #{1.year.ago.day}, #{Date.today.year}, #{Date.today.month}, #{Date.today.day});
+      set_date_selector_click("last_year", #{2.years.ago.year}, #{2.years.ago.month}, #{2.years.ago.day}, #{1.year.ago.year}, #{1.year.ago.month}, #{1.year.ago.day});
+      set_date_selector_click("lifetime", #{90.days.ago.year}, #{90.days.ago.month}, #{90.days.ago.day}, #{Date.today.year}, #{Date.today.month}, #{Date.today.day});
+    });
+  
