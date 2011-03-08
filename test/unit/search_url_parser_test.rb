@@ -45,6 +45,15 @@ class SearchUrlParserTest < ActiveSupport::TestCase
         assert_equal nil, SearchUrlParser.get_keywords(search_url, :google)
       end
       
+      should "get the right engine for google mobile searches" do
+        search_url = "http://www.google.com/m?hl=en&gl=us&client=ms-android-verizon&source=android-unknown&action=devloc&q=awesome%20sauce"
+        assert_equal :google, SearchUrlParser.get_search_engine(search_url)
+      end
+      
+      should "properly parse google mobile searches" do
+        search_url = "http://www.google.com/m?hl=en&gl=us&client=ms-android-verizon&source=android-unknown&action=devloc&q=awesome%20sauce"
+        assert_equal "awesome sauce", SearchUrlParser.get_keywords(search_url, :google)
+      end
     end
     
   end
