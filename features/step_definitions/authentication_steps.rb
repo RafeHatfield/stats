@@ -14,7 +14,7 @@ end
 
 Then /^Homer sees his dashboard$/ do
   within("h1") do
-    assert_equal true, page.has_content?("My Suite101")
+    assert_equal true, page.has_content?("My stats")
   end
 end
 

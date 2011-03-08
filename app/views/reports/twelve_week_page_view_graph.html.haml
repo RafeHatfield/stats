@@ -1,5 +1,7 @@
-- plot_height = params[:size]=='small' ? 200 : 500
-- legend_enabled = params[:size]=='small' ? false : true
+= javascript_include_tag 'jquery', 'highcharts'
+
+- plot_height = params[:size]=='small' ? 175 : 500
+- xlabel = params[:size]=='small' ? "" : "%e %b, %Y"
 
 :javascript
   $(function(){
@@ -11,18 +13,19 @@
         renderTo: 'page_view_plot',
         defaultSeriesType: 'line',
         height: "#{plot_height}",
-        marginLeft: 30
+        marginLeft: 30,
+        marginRight: 10
       },
       title: false,
       legend: {
-        enabled: #{legend_enabled}
+        enabled: false
       },
       xAxis: {
         type: 'datetime',
         tickInterval: #{2.weeks * 1000},
         labels: {
           formatter: function() {
-            return Highcharts.dateFormat("", this.value);
+            return Highcharts.dateFormat("#{xlabel}", this.value);
           },
           rotation: -45,
           align: 'right'
@@ -50,4 +53,4 @@
   });
   
 
-#page_view_plot{:width => "1000px", :height => "1000px"}
+#page_view_plot
