@@ -21,7 +21,8 @@ gem 'fastercsv'
 gem 'resque-cleaner'
 gem 'memcache'
 gem 'resque-multi-job-forks'
-
+gem 'capistrano'
+gem 'eycap'
 
 group :development do
 	gem "autotest"
