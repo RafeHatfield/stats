@@ -21,7 +21,7 @@ class ReportsController < ApplicationController
   def weekly_page_view_graph
     # We subtract 1 day to use Sunday as the beginning of the week. 
     @this_start_date = Date.today.at_beginning_of_week - 1.day
-    @this_end_date = Date.today
+    @this_end_date = Date.today.at_end_of_week - 1.day
     
     @last_start_date = @this_start_date - 1.week
     @last_end_date = @this_start_date - 1.day
@@ -40,8 +40,17 @@ class ReportsController < ApplicationController
     @last_end_date = 1.month.ago.at_end_of_month.to_date
 
     @view_counts_this_month = DailyPageView.view_counts_for_writer_between(@user[:id], @this_start_date, @this_end_date)
-    @view_counts_last_month = DailyPageView.view_counts_for_writer_between(@user[:id], @last_start_date, @last_end_date)    
+    @view_counts_last_month = DailyPageView.view_counts_for_writer_between(@user[:id], @last_start_date, @last_end_date)
     
+    # Nil pad the arrays so that they contain the same number of days
+    while @view_counts_this_month.count < 31
+      @view_counts_this_month << nil
+    end
+    
+    while @view_counts_last_month.count < 31
+      @view_counts_last_month << nil
+    end
+
     render :layout => false
   end
   

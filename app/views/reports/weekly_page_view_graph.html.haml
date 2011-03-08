@@ -4,8 +4,7 @@
 - legend_enabled = params[:size]=='small' ? false : true
 
 :javascript
-  $(function(){
-    
+  $(function(){  
     // Make the 'page_view_plot' div a highchart showing the total view counts.
     var chart;
     chart = new Highcharts.Chart({
@@ -20,7 +19,17 @@
       legend: {
         enabled: #{legend_enabled}
       },
-      xAxis: {
+      xAxis: [{
+        type: 'datetime',
+        tickInterval: #{1.day * 1000},
+        tickPosition: "inside",
+        labels: {
+          formatter: function() {
+            return Highcharts.dateFormat("", this.value);
+          }
+        }
+      },
+      {
         type: 'datetime',
         tickInterval: #{1.day * 1000},
         tickPosition: "inside",
@@ -29,7 +38,7 @@
             return Highcharts.dateFormat("%a", this.value);
           }
         }
-      },
+      }],
       yAxis: {
         title: false,
         min: 0
@@ -43,16 +52,19 @@
         name: 'This Week',
         pointInterval: #{1.day * 1000},
         pointStart: #{@this_start_date.at_midnight.to_i * 1000},
-        data: #{@view_counts_this_week.inspect}        
+        data: #{@view_counts_this_week.inspect},
+        xAxis: 0        
       },
       {
         name: 'Last week',
         pointInterval: #{1.day * 1000},
-        pointStart: #{@this_start_date.at_midnight.to_i * 1000},
-        data: #{@view_counts_last_week.inspect}
-      }]
-      
+        pointStart: #{@last_start_date.at_midnight.to_i * 1000},
+        data: #{@view_counts_last_week.inspect},
+        xAxis: 1
+      }] 
     });
-  });
+      
+  });  
+  
 
 #page_view_plot
