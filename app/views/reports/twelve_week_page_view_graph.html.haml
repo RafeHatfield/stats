@@ -1,3 +1,6 @@
+- plot_height = params[:size]=='small' ? 200 : 500
+- legend_enabled = params[:size]=='small' ? false : true
+
 :javascript
   $(function(){
     
@@ -7,19 +10,19 @@
       chart: {
         renderTo: 'page_view_plot',
         defaultSeriesType: 'line',
-        marginRight: 130,
-        marginBottom: 85
+        height: "#{plot_height}",
+        marginLeft: 30
       },
       title: false,
       legend: {
-        enabled: false
+        enabled: #{legend_enabled}
       },
       xAxis: {
         type: 'datetime',
         tickInterval: #{2.weeks * 1000},
         labels: {
           formatter: function() {
-            return Highcharts.dateFormat("%e %b, %Y", this.value);
+            return Highcharts.dateFormat("", this.value);
           },
           rotation: -45,
           align: 'right'
@@ -47,6 +50,4 @@
   });
   
 
-#page_view_plot
-Twelve weeks
-= @view_counts_by_week.inspect
+#page_view_plot{:width => "1000px", :height => "1000px"}

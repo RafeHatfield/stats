@@ -1,8 +1,11 @@
 task :page_view_fill => :environment do
-  writer_id = 888
+  writer_id = 655428
   RawPageView.where(:writer_id => writer_id).delete_all
   DailyPageView.where(:writer_id => writer_id).delete_all
   DailyKeyphraseView.where(:writer_id => writer_id).delete_all
+  Article.where(:suite101_article_id => 1111).delete_all
+  Article.where(:suite101_article_id => 2222).delete_all
+  Article.where(:suite101_article_id => 3333).delete_all
 
   pv_template = {
     :writer_id => writer_id,
