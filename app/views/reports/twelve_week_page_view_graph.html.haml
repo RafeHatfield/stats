@@ -2,6 +2,7 @@
 
 - plot_height = params[:size]=='small' ? 175 : 500
 - xlabel = params[:size]=='small' ? "" : "%e %b, %Y"
+- right_margin = params[:size]=='small' ? 5 : 25
 
 :javascript
   $(function(){
@@ -14,7 +15,7 @@
         defaultSeriesType: 'line',
         height: "#{plot_height}",
         marginLeft: 30,
-        marginRight: 10
+        marginRight: #{right_margin}
       },
       title: false,
       legend: {
