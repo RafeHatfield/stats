@@ -1,3 +1,9 @@
+= javascript_include_tag 'jquery', 'highcharts'
+
+- plot_height = params[:size]=='small' ? 175 : 500
+- legend_enabled = params[:size]=='small' ? false : true
+- xlabel = params[:size]=='small' ? "" : "%e"
+
 :javascript
   $(function(){
     
@@ -7,12 +13,13 @@
       chart: {
         renderTo: 'page_view_plot',
         defaultSeriesType: 'column',
-        marginRight: 130,
-        marginBottom: 85
+        height: "#{plot_height}",
+        marginLeft: 30,
+        marginRight: 10
       },
       title: false,
       legend: {
-        enabled: true
+        enabled: #{legend_enabled}
       },
       xAxis: {
         type: 'datetime',
@@ -20,7 +27,7 @@
         tickPosition: "inside",
         labels: {
           formatter: function() {
-            return Highcharts.dateFormat("%e", this.value);
+            return Highcharts.dateFormat("#{xlabel}", this.value);
           }
         }
       },

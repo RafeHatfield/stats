@@ -27,8 +27,9 @@ class ReportsController < ApplicationController
     @last_end_date = @this_start_date - 1.day
 
     @view_counts_this_week = DailyPageView.view_counts_for_writer_between(@user[:id], @this_start_date, @this_end_date)
-    @view_counts_last_week = DailyPageView.view_counts_for_writer_between(@user[:id], @last_start_date, @last_end_date)    
+    @view_counts_last_week = DailyPageView.view_counts_for_writer_between(@user[:id], @last_start_date, @last_end_date) 
     
+    render :layout => false   
   end
   
   def monthly_page_view_graph
@@ -41,15 +42,12 @@ class ReportsController < ApplicationController
     @view_counts_this_month = DailyPageView.view_counts_for_writer_between(@user[:id], @this_start_date, @this_end_date)
     @view_counts_last_month = DailyPageView.view_counts_for_writer_between(@user[:id], @last_start_date, @last_end_date)    
     
+    render :layout => false
   end
   
   def twelve_week_page_view_graph
     @start_date = Date.today.at_beginning_of_week - 11.weeks
     @end_date = Date.today
-    
-    
-    # @start_date = 12.weeks.ago.to_date
-    # @end_date = Date.today
 
     view_counts = DailyPageView.view_counts_for_writer_between(@user[:id], @start_date, @end_date)
     
@@ -58,7 +56,7 @@ class ReportsController < ApplicationController
       @view_counts_by_week << week_counts.sum
     end
     
-        
+    render :layout => false       
   end
   
   
