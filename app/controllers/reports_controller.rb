@@ -1,5 +1,4 @@
 class ReportsController < ApplicationController
-  
 
   before_filter :verify_key, :except => [:test_index]
   
@@ -18,15 +17,10 @@ class ReportsController < ApplicationController
     @start_date = get_selected_date(params[:start_date], 7.days.ago.to_date)
     @end_date = get_selected_date(params[:end_date], Date.today)
 
-    @view_counts = DailyPageView.view_counts_for_writer_between(@user[:id], @start_date, @end_date)
+    @view_counts = DailyPageView.counts_for_writer_between(@user[:id], @start_date, @end_date)
     @total_view_count = @view_counts.sum
-
-    # Get a list of [titles, count] for this range for the writer, sorted by view count descending
-    article_counts = Article.total_title_counts_for_writer_between(@user[:id], @start_date, @end_date)
-    @article_counts = article_counts.sort_by {|i| i[1]*-1}
-    
-    keyphrase_counts = DailyKeyphraseView.total_keyphrase_counts_for_writer_between(@user[:id], @start_date, @end_date)
-    @keyphrase_counts = keyphrase_counts.sort_by {|i| i[1]*-1}
+    @article_counts = Article.titles_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date)
+    @keyphrase_counts = DailyKeyphraseView.keyphrases_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date)
   end
   
   # Generate a key for the user and redirect to their dashbaord
@@ -123,7 +117,6 @@ class ReportsController < ApplicationController
               :disposition => "attachment; filename=article_counts.csv"
     
   end
-  
 
   private
   

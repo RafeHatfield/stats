@@ -19,13 +19,16 @@ class DailyKeyphraseView < ActiveRecord::Base
   validates_presence_of :date, :article_id, :writer_id, :count
   
   # Get the total number of views for each keyphrase for writer_id between start_date and end_date
-  def self.total_keyphrase_counts_for_writer_between(writer_id, start_date, end_date)
-    
-    start_date = start_date.to_date
-    end_date = end_date.to_date
-    
-    keyphrase_counts = DailyKeyphraseView.where(:writer_id => writer_id, :date => start_date...end_date + 1.day).group("keyphrase").select("keyphrase, sum(count) as count")
-    
-    keyphrase_counts.map {|k| [k.keyphrase, k.count]}
+  # Ordered by total count descending.
+  def self.keyphrases_with_total_counts_for_writer_between(writer_id, start_date, end_date)  
+    keyphrase_counts = DailyKeyphraseView.where(:writer_id => writer_id).between(start_date, end_date).group("keyphrase").select("keyphrase").order("sum_count desc").sum("count")
+    keyphrase_counts.to_a
+  end
+  
+  # Keyphrase Views on and between start_date and end_date
+  def self.between(start_date, end_date)
+    where(:date => start_date.to_date...(end_date.to_date + 1.day))
+    # Note: With "..." range rails generates a sql where clause with 
+    # date >= d1, date < d2 so we add an extra day to include today.
   end
 end
