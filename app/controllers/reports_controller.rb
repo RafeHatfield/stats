@@ -1,6 +1,6 @@
 class ReportsController < ApplicationController
   
-  before_filter :verify_key, :only => [:index, :article_views_csv, :weekly_page_view_graph, :monthly_page_view_graph, :twelve_week_page_view_graph]
+  before_filter :verify_key, :except => [:test_index]
   
   def index
     @start_date = get_selected_date(params[:start_date], 7.days.ago.to_date)
@@ -15,7 +15,35 @@ class ReportsController < ApplicationController
     
     keyphrase_counts = DailyKeyphraseView.total_keyphrase_counts_for_writer_between(@user[:id], @start_date, @end_date)
     @keyphrase_counts = keyphrase_counts.sort_by {|i| i[1]*-1}
+    
+  end
+  
+  def update_total_page_views
+    @start_date = 90.days.ago.to_date
+    @end_date = Date.today
+    view_counts = DailyPageView.view_counts_for_writer_between(@user[:id], @start_date, @end_date)
+    @total_view_counts = view_counts.sum
+    
+    render :js => "$(function(){$('#total_page_views').text(#{@total_view_counts});});"
+  end
+  
+  def page_view_sparkline
+    @start_date = Date.today.at_beginning_of_week - 11.weeks
+    @end_date = Date.today
 
+    view_counts = DailyPageView.view_counts_for_writer_between(@user[:id], @start_date, @end_date)
+    
+    view_counts_by_week = []
+    view_counts.in_groups_of(7, false) do |week_counts|
+      view_counts_by_week << week_counts.sum
+    end
+
+    total_view_counts = view_counts_by_week.sum    
+    sum = 0
+    cumulative_view_counts = view_counts_by_week.map {|count| sum += count}
+    cumulative_percentages = cumulative_view_counts.map {|count| (100 * count / total_view_counts).to_i}
+    data_string = cumulative_percentages.join(',')
+    redirect_to "http://chart.apis.google.com/chart?cht=lc&chs=50x16&chco=369E00&chd=t:#{data_string}&chf=bg,s,FFFFFF00&chls=2,1,0"
   end
   
   def weekly_page_view_graph
