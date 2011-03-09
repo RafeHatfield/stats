@@ -1,7 +1,7 @@
 = javascript_include_tag 'jquery', 'highcharts'
 
 - plot_height = params[:size]=='small' ? 175 : 500
-- xlabel = params[:size]=='small' ? "" : "%e %b, %Y"
+- xlabel = params[:size]=='small' ?  "%e %b" : "%e %b, %Y"
 - right_margin = params[:size]=='small' ? 5 : 25
 
 :javascript
@@ -23,11 +23,13 @@
       },
       xAxis: {
         type: 'datetime',
+        tickInterval: #{4.weeks * 1000},
         labels: {
           formatter: function() {
             return Highcharts.dateFormat("#{xlabel}", this.value);
-          }
+          },
         }
+        
       },
       yAxis: {
         title: false,
