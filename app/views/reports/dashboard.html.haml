@@ -24,7 +24,7 @@
 
 %h2= I18n.t('report.articles_header')
 %table
-  - @article_counts.each do |a|
+  - @title_counts.each do |a|
     %tr
       %td= a[0]
       %td= a[1]
@@ -38,7 +38,7 @@
 
 %h2 Traffic Sources in the Past 7 Days
 %table
-  - @article_counts.each do |a|
+  - @title_counts.each do |a|
     %tr
       %td= a[0]
       %td= a[1]

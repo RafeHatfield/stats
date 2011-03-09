@@ -113,12 +113,12 @@ class ArticleTest < ActiveSupport::TestCase
       6.times do
         article.increment_page_view_on(Date.today)
       end
-      assert_equal 9, article.view_count_between(Date.yesterday, Date.today)
+      assert_equal 9, article.count_between(Date.yesterday, Date.today)
     end
   end
   
-  context "getting titles and counts" do
-    should "get all the titles and counts for those articles" do
+  context "getting titles and counts for a writer" do
+    should "get all the titles and counts for those articles ordered by count descending" do
       writer_id = 345    
       1.upto(3) do |i|
         article = FactoryGirl.create(:article, :suite101_article_id => i, :writer_id => writer_id, :title => "Article #{i}")
@@ -126,9 +126,8 @@ class ArticleTest < ActiveSupport::TestCase
           article.increment_page_view_on(Date.today)
         end
       end
-
-      title_counts_out = Article.total_title_counts_for_writer_between(writer_id, Date.today, Date.today)      
-      assert_equal [["Article 1",1], ["Article 2",2], ["Article 3",3]], title_counts_out
+      title_counts_out = Article.titles_with_total_counts_for_writer_between(writer_id, Date.today, Date.today)      
+      assert_equal [["Article 3",3], ["Article 2",2], ["Article 1",1]], title_counts_out
     end
   end
 
