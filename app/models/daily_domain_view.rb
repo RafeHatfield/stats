@@ -34,34 +34,11 @@ class DailyDomainView < ActiveRecord::Base
     # date >= d1, date < d2 so we add an extra day to include today.
   end
   
-  private 
+  private
   
   def self.source_from_domain(domain)
-    engine_regex = [
-      /google/,
-      /yahoo/,
-      /bing/,
-      /msn/,
-      /aol/,
-      /ask/,
-      /yandex/,
-      /www\.search\.com/
-    ]
-    
-    suite101_regex = /suite101/
-    
-    engine_regex.each do |regex|
-      if regex.match(domain)
-        return :organic
-      end
-    end
-
-    if suite101_regex.match(domain)
-      return :internal
-    else
-      return :direct
-    end
+    url = domain.blank? ? "" : "http://#{domain}"
+    ReferrerUrl.new(url).source
   end
-  
   
 end

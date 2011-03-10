@@ -1,17 +1,17 @@
 class ReferrerUrl
   
-  # Match "engine_name" followed by a "." with a "?" after it.
+  # Match "engine_name" followed by a ".".
   # NOTE: Search.com matching must be last because other engines
   #       use "search." in their domain and we want to catch them first.
   @@ENGINE_REGEX = {
-    :google => /google\..*\?/,
-    :yahoo => /yahoo\..*\?/,
-    :bing => /bing\..*\?/,
-    :msn => /msn\..*\?/,
-    :aol => /aol\..*\?/,
-    :ask => /ask\..*\?/,
-    :yandex => /yandex\..*\?/,
-    :search => /www\.search\.com.*\?/
+    :google => /google\./,
+    :yahoo => /yahoo\./,
+    :bing => /bing\./,
+    :msn => /msn\./,
+    :aol => /aol\./,
+    :ask => /ask\./,
+    :yandex => /yandex\./,
+    :search => /www\.search\.com/
   }
   
   @@ENGINE_SEARCH_KEY = {
@@ -25,8 +25,10 @@ class ReferrerUrl
     :search => 'q='
   }
   
+  @@SUITE101_URL_REGEX = /suite101/
+  
   def initialize(url)
-    @url = url
+    @url = url || ""
   end
   
   def domain
@@ -58,6 +60,16 @@ class ReferrerUrl
       return CGI.unescape(raw_keyphrase)
     else
       return nil
+    end
+  end
+  
+  def source
+    if search_engine
+      :organic
+    elsif @@SUITE101_URL_REGEX.match(domain)
+      :internal
+    else
+      :direct
     end
   end
 end
