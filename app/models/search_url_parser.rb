@@ -46,7 +46,7 @@ class SearchUrlParser
       :search => 'q='
     }
     
-    if search_key.has_key?(engine)
+    if !search_key.has_key?(engine)
       return nil
     end
     

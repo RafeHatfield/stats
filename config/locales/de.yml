@@ -10,6 +10,7 @@ de:
     totals: 'Totals.to_german'
     articles_header: 'Which of My Articles People Are Reading?.to_german'
     keyword_header: 'How Are People Finding Me?.to_german'
+    domain_header: 'Where Are My Readers Coming From?.to_german'
     update: 'Update.to_german'
     start_date: 'Start Date.to_g'
     end_date: 'End Date.to_g'

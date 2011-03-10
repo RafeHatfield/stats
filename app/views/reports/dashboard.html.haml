@@ -35,6 +35,13 @@
     %tr
       %td= k[0]
       %td= k[1]
+      
+%h2= I18n.t('report.domain_header')
+%table
+  - @domain_counts.each do |k|
+    %tr
+      %td= k[0]
+      %td= k[1]
 
 
 %p

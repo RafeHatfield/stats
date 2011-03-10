@@ -79,8 +79,3 @@ namespace :dev_seeds do
     
   end
 end
-
-
-task :page_view_fill => [:environment] do
-  puts 'This rake task is obsolete. Use rake dev_seeds:fill_page_views instead. See dev_seeds.rake for detail.'
-end

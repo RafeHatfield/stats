@@ -21,6 +21,7 @@ class ReportsController < ApplicationController
     @total_view_count = @view_counts.sum
     @article_counts = Article.with_total_counts_for_writer_between(@user[:id], @start_date, @end_date)
     @keyphrase_counts = DailyKeyphraseView.keyphrases_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date)
+    @domain_counts = DailyDomainView.domains_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date)
   end
   
   # Generate a key for the user and redirect to their dashbaord

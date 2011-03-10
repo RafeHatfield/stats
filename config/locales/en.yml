@@ -5,6 +5,7 @@ en:
     totals: 'Totals'
     articles_header: 'Which of My Articles People Are Reading?'
     keyword_header: 'How Are People Finding Me?'
+    domain_header: 'Where Are My Readers Coming From?'
     update: 'Update'
     start_date: 'Start Date'
     end_date: 'End Date'
