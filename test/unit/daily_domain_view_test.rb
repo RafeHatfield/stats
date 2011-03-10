@@ -24,8 +24,8 @@ class DailyDomainViewTest < ActiveSupport::TestCase
     should "get the right domain counts ordered by count descending" do
       writer_id = 333
       article = FactoryGirl.create(:article, :writer_id => writer_id)
-      domain1 = "google.com"
-      domain2 = "yahoo.ca"
+      domain1 = "www.google.com"
+      domain2 = "www.yahoo.com"
       3.times do
         article.increment_domain_view_on(Date.yesterday, domain1)
       end
@@ -41,5 +41,22 @@ class DailyDomainViewTest < ActiveSupport::TestCase
     end
     
   end
+  
+  context "getting source counts between two dates" do
+    should "get the right source counts ordered" do
+      writer_id = 333
+      article = FactoryGirl.create(:article, :writer_id => writer_id)
+      domains = ["www.google.com", "www.google.ca", "", "www.suite101.com", "my.suite101.de", "www.happyplanet.com/my-article-linking-yours"]
+
+      domains.each do |domain|
+        article.increment_domain_view_on(Date.yesterday, domain)
+      end
+
+      expected_domain_counts = { :organic => 2, :direct => 2, :internal => 2}
+      assert_equal expected_domain_counts, DailyDomainView.sources_with_total_counts_for_writer_between(writer_id, Date.yesterday, Date.today)
+    end
+    
+  end
+  
 
 end

@@ -43,6 +43,12 @@
       %td= k[0]
       %td= k[1]
 
+%h2 Sources
+%table
+  - @source_counts.each do |source, count|
+    %tr
+      %td= source
+      %td= count
 
 %p
   =link_to I18n.t('report.download_data'), article_view_csv_path(@user[:id], @user[:key])  
