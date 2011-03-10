@@ -10,13 +10,23 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110303215305) do
+ActiveRecord::Schema.define(:version => 20110310013334) do
 
   create_table "articles", :force => true do |t|
     t.integer  "suite101_article_id"
     t.string   "title"
     t.integer  "writer_id"
     t.string   "permalink"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "daily_domain_views", :force => true do |t|
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -40,6 +40,11 @@ class ArticleTest < ActiveSupport::TestCase
       assert article.respond_to?(:daily_keyphrase_views)
     end
     
+    should "have many daily domain views" do
+      article = FactoryGirl.build(:article)
+      assert article.respond_to?(:daily_domain_views)
+    end
+    
   end
   
   context "incrementing daily page views" do
@@ -86,6 +91,33 @@ class ArticleTest < ActiveSupport::TestCase
       end
      
    end
+   
+   context "incrementing daily domain views" do
+
+      setup do
+        @domain = "google.com"
+        @article = FactoryGirl.create(:article)
+      end
+
+      should "give 1 domain view if there are none for today" do
+        @article.increment_domain_view_on(Date.today, @domain )
+        assert_equal 1, @article.daily_domain_views.where(:date => Date.today,:domain => @domain ).first.count
+      end
+
+      should "give 2 domain view if there is already 1 for today" do
+        @article.increment_domain_view_on(Date.today, @domain )
+        @article.increment_domain_view_on(Date.today, @domain )
+        assert_equal 2, @article.daily_domain_views.where(:date => Date.today,:domain => @domain ).first.count
+      end
+
+      should "should create new domain for today if domain is not found for today" do
+         @article.increment_domain_view_on(Date.today, "yahoo.ca" )
+         @article.increment_domain_view_on(Date.today, @domain )
+         assert_equal 1, @article.daily_domain_views.where(:date => Date.today,:domain => @domain ).first.count
+       end
+
+    end
+   
   
   context "find and update title or create" do
     
