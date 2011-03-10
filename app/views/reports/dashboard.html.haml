@@ -43,6 +43,8 @@
       %td= k[0]
       %td= k[1]
 
+#source_chart{:style => "width: 400px; height: 400px;"}
+- translated_source_counts = @source_counts.map{|source_sym, count| [I18n.t("report.#{source_sym.to_s}"), count]}
 
 %p
   =link_to I18n.t('report.download_data'), article_view_csv_path(@user[:id], @user[:key])  
@@ -71,7 +73,7 @@
       }
 
       // Make the 'page_view_plot' div a highchart showing the total view counts.
-      var chart;
+      var view_chart;
       chart = new Highcharts.Chart({
         chart: {
           renderTo: 'page_view_plot',
@@ -104,6 +106,45 @@
           data: #{@view_counts.inspect}
         }]
       });
+      
+      // Make the 'source_chart' div a highchart pie chart showing the source types.
+      var source_chart;
+      source_chart = new Highcharts.Chart({
+        chart: {
+           renderTo: 'source_chart',
+           plotBackgroundColor: null,
+           plotBorderWidth: null,
+           plotShadow: false
+        },
+        title: {
+           text: ''
+        },
+        tooltip: {
+           formatter: function() {
+              return '<b>'+ this.point.name +'</b>: '+ this.y;
+           }
+        },
+        plotOptions: {
+           pie: {
+              allowPointSelect: true,
+              cursor: 'pointer',
+              dataLabels: {
+                 enabled: true,
+                 color: '#000000',
+                 connectorColor: '#000000',
+                 formatter: function() {
+                    return '<b>'+ this.point.name +'</b>: '+ this.y;
+                 }
+              }
+           }
+        },
+         series: [{
+           type: 'pie',
+           data: #{translated_source_counts.to_json}
+        }]
+     });
+      
+      
 
       // Setup click handlers for the short cut date range selectors.
       set_date_selector_click("this_week", #{1.week.ago.year}, #{1.week.ago.month}, #{1.week.ago.day}, #{Date.today.year}, #{Date.today.month}, #{Date.today.day});
