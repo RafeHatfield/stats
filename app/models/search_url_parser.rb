@@ -30,32 +30,40 @@ class SearchUrlParser
 
   # Given a search url and a valid engine symbol return a keyword string.
   # If the engine symbol is not valid then return nil.
-  def self.get_keywords(url, search_engine)  
-    
+  def self.get_keywords(url, engine)  
     # Search url make-up:
-    # => [stuff][query_string]=[keyword_string]&[other_stuff]
-    # Keywords are separated by %20 or +, these are converted to " " when unescaped.
+    # => [junk]?[query]
+    # => [junk]?[junk][search_key][raw_keyphrase]&[junk]
 
-    engine_query_string = {
-      :google => 'q',
-      :bing => 'q',
-      :yahoo => 'p',
-      :msn => 'q',
-      :aol => 'query',
-      :ask => 'q',
-      :yandex => 'text',
-      :search => 'q'
+    search_key = {
+      :google => 'q=',
+      :bing => 'q=',
+      :yahoo => 'p=',
+      :msn => 'q=',
+      :aol => 'query=',
+      :ask => 'q=',
+      :yandex => 'text=',
+      :search => 'q='
     }
     
-    query_string = engine_query_string[search_engine] + "="
+    if search_key.has_key?(engine)
+      return nil
+    end
     
-    if url.include?(query_string)
-      post_query_string = url.split(query_string).second
-      keyword_string = post_query_string.split("&").first
-      return CGI.unescape(keyword_string)
+    query = URI.parse(url).query
+    
+    if url.include?(search_key[engine])
+      post_key = url.split(search_key[engine]).second
+      raw_keyphrase = post_key.split("&").first
+      # Keywords are separated by %20 or +, these are converted to " " when unescaped.
+      return CGI.unescape(raw_keyphrase)
     else
       return nil
     end
+  end
+  
+  def self.get_domain(url)
+    URI.parse(url).host
   end
   
 end

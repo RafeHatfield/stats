@@ -33,6 +33,10 @@ class ArticleTest < ActiveSupport::TestCase
       assert_equal 1, @article.daily_keyphrase_views.where(:date => "2011-03-02".to_date, :keyphrase => "awesome sauce").count
     end
     
+    should "add a daily domain view to the viewed article on the proper day" do
+      assert_equal 1, @article.daily_domain_views.where(:date => "2011-03-02".to_date, :domain => "www.google.ca").count
+    end
+    
   end
 
 end

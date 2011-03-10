@@ -38,6 +38,11 @@ private
     if keyphrase
       article.increment_keyphrase_view_on(raw_page_view.date.to_date, keyphrase)
     end
+    domain = SearchUrlParser.get_domain(raw_page_view.referrer_url)
+
+    if domain
+      article.increment_domain_view_on(raw_page_view.date.to_date, domain)
+    end
   end  
   
   

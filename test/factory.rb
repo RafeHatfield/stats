@@ -31,4 +31,12 @@ FactoryGirl.define do
     count 1
   end
 
+  factory :daily_domain_view do
+    date "2011-03-09"
+    article_id 1
+    domain "MyString"
+    count 1
+    writer_id 1
+  end
+
 end
