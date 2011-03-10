@@ -55,12 +55,12 @@ namespace :dev_seeds do
     writer_id = 655428
     
     domain_extension = [:com, :de, :fr, :net]
-    search_engines = ['http://www.google.ca', 'http://www.bing.com', 'http://yahoo.com', 'http://google.com']
             
     90.downto(0) do |i|
       domain = domain_extension[rand(3)]
       url = "http://www.suite101.#{domain}/content/chocolate-has-an-expiration-date-a347637"
-      ref_url = "#{search_engines[rand(3)]}/search?q=awesome+sauce&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a"
+      ref_url = "http://www.google.ca/search?q=awesome+sauce&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a"
+      
       raw_page_view_data = {
         :suite101_article_id => i,
         :permalink => url,
