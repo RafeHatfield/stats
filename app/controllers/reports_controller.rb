@@ -1,6 +1,6 @@
 class ReportsController < ApplicationController
 
-  before_filter :verify_key, :except => [:test_index]
+  before_filter :verify_key, :except => [:test_dashboard]
   
   # Ensure that the supplied id and key match our encoding.
   # Setup the @user object with authentication info.
@@ -19,7 +19,7 @@ class ReportsController < ApplicationController
 
     @view_counts = DailyPageView.counts_for_writer_between(@user[:id], @start_date, @end_date)
     @total_view_count = @view_counts.sum
-    @title_counts = Article.titles_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date)
+    @article_counts = Article.with_total_counts_for_writer_between(@user[:id], @start_date, @end_date)
     @keyphrase_counts = DailyKeyphraseView.keyphrases_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date)
   end
   
@@ -103,12 +103,12 @@ class ReportsController < ApplicationController
   
   def article_views_csv
     
-    @article_counts = Article.titles_with_total_counts_for_writer_between(@user[:id], Date.yesterday, Date.yesterday)
+    @article_counts = Article.with_total_counts_for_writer_between(@user[:id], Date.yesterday, Date.yesterday)
     
     csv_string = FasterCSV.generate do |csv|
       csv << ["Title", "Views Yesterday"]
       @article_counts.each do |article_count|
-        csv << [article_count[0], article_count[1]]
+        csv << [article_count[:title], article_count[:count]]
       end
     end
 

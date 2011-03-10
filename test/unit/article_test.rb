@@ -117,17 +117,22 @@ class ArticleTest < ActiveSupport::TestCase
     end
   end
   
-  context "getting titles and counts for a writer" do
-    should "get all the titles and counts for those articles ordered by count descending" do
+  context "getting titles, permalinks and counts for a writer" do
+    should "get all the titles, permalinks and counts for those articles ordered by count descending" do
       writer_id = 345    
       1.upto(3) do |i|
-        article = FactoryGirl.create(:article, :suite101_article_id => i, :writer_id => writer_id, :title => "Article #{i}")
+        article = FactoryGirl.create(:article, :suite101_article_id => i, :writer_id => writer_id, :title => "Article #{i}", :permalink => "http://www.google.com")
         i.times do
           article.increment_page_view_on(Date.today)
         end
       end
-      title_counts_out = Article.titles_with_total_counts_for_writer_between(writer_id, Date.today, Date.today)      
-      assert_equal [["Article 3",3], ["Article 2",2], ["Article 1",1]], title_counts_out
+      title_counts_out = Article.with_total_counts_for_writer_between(writer_id, Date.today, Date.today)
+      title_counts_in = [
+        {:title =>"Article 3",:permalink => "http://www.google.com", :count => 3},
+        {:title =>"Article 2",:permalink => "http://www.google.com", :count => 2},
+        {:title =>"Article 1",:permalink => "http://www.google.com", :count => 1}
+        ]      
+      assert_equal title_counts_in, title_counts_out
     end
   end
 
