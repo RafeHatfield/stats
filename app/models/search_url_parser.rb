@@ -34,8 +34,6 @@ class SearchUrlParser
     # Search url make-up:
     # => [junk]?[query]
     # => [junk]?[junk][search_key][raw_keyphrase]&[junk]
-    
-    query = URI.parse(url).query
 
     search_key = {
       :google => 'q=',
@@ -47,6 +45,12 @@ class SearchUrlParser
       :yandex => 'text=',
       :search => 'q='
     }
+    
+    if search_key.has_key?(engine)
+      return nil
+    end
+    
+    query = URI.parse(url).query
     
     if url.include?(search_key[engine])
       post_key = url.split(search_key[engine]).second
