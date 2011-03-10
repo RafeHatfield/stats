@@ -10,3 +10,6 @@ en:
     start_date: 'Start Date'
     end_date: 'End Date'
     download_data: "Download yesterday's data"
+    internal: internal
+    direct: direct
+    organic: organic

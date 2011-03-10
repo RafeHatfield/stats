@@ -29,20 +29,18 @@ private
       :permalink => raw_page_view.permalink
     })
 
-    # Increment the daily page view count for this article.
+    referrer_url = ReferrerUrl.new(raw_page_view.referrer_url)
+
     article.increment_page_view_on(raw_page_view.date.to_date)
 
-    # Increment the daily keyphrase view count for this article.
-    engine = SearchUrlParser.get_search_engine(raw_page_view.referrer_url)
-    keyphrase = SearchUrlParser.get_keywords(raw_page_view.referrer_url, engine)
-    if keyphrase
-      article.increment_keyphrase_view_on(raw_page_view.date.to_date, keyphrase)
+    if referrer_url.keyphrase
+      article.increment_keyphrase_view_on(raw_page_view.date, referrer_url.keyphrase)
     end
-    domain = SearchUrlParser.get_domain(raw_page_view.referrer_url)
 
-    if domain
-      article.increment_domain_view_on(raw_page_view.date.to_date, domain)
+    if referrer_url.domain
+      article.increment_domain_view_on(raw_page_view.date, referrer_url.domain)
     end
+
   end  
   
   

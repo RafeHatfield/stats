@@ -32,15 +32,22 @@ namespace :dev_seeds do
     referrer_urls = []
     referrer_urls << "http://www.google.ca/search?q=awesome+sauce&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a"
     referrer_urls << "http://www.google.ca/search?q=happy+dogs&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a"
-    referrer_urls << "http://www.google.ca/search?q=awesome&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a"
-    referrer_urls << "http://www.google.ca/search?q=awesome&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a"
+    referrer_urls << "http://www.bing.com/search?q=awesome+sauce&x=0&y=0&form=MSNH14&qs=n&sk="
+    referrer_urls << "http://www.google.com/search?q=awesome&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a"
+    referrer_urls << "http://www.google.com/search?q=awesome+sauce&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a"
+    referrer_urls << "http://www.bing.com/search?q=awesome&x=0&y=0&form=MSNH14&qs=n&sk="
+    referrer_urls << ""
+    referrer_urls << ""
+    referrer_urls << "http://www.happyplanet.net/ten-great-articles-you-should-read"
+    referrer_urls << "http://www.suite101.com/my_article_that_i_wrote"
+    referrer_urls << "http://my.suite101.de/my_article_that_i_wrote"
 
     pv_data.each do |data|
       90.downto(0) do |i|
         data[:date] = i.days.ago
         count = (6.*Math.sin(i*(360/6.28))).to_i + 6 + rand(4)
         count.times do
-          data[:referrer_url] = referrer_urls[rand(3)]
+          data[:referrer_url] = referrer_urls[rand(11)]
           RawPageViewJob.process_raw_page_view(RawPageView.create!(data))
         end
         puts "Registered #{count} views on article #{data[:suite101_article_id]} for member #{writer_id} on #{data[:date].to_date}."
