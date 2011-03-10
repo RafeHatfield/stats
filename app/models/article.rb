@@ -20,6 +20,11 @@ class Article < ActiveRecord::Base
   validates_presence_of :suite101_article_id, :title, :writer_id, :permalink
   validates_uniqueness_of :suite101_article_id
   
+  
+  
+  scope :with_daily_page_views_between, lambda {|start_date, end_date| joins(:daily_page_views) & DailyPageView.between(start_date,end_date)}
+  scope :for_writer, lambda {|writer_id| where(:writer_id => writer_id)}
+  
   def self.find_and_update_title_or_create(data)
     article = Article.where(:suite101_article_id => data[:suite101_article_id]).first
     
@@ -59,9 +64,9 @@ class Article < ActiveRecord::Base
     self.daily_page_views.between(start_date, end_date).sum("count")
   end
   
-  def self.titles_with_total_counts_for_writer_between(writer_id, start_date, end_date)
-    title_counts = Article.where(:writer_id => writer_id).map{ |a| [a.title, a.count_between(start_date, end_date)]}
-    title_counts.sort_by{|tc| -tc[1]}
+  def self.with_total_counts_for_writer_between(writer_id, start_date, end_date)
+    article_counts = Article.where(:writer_id => writer_id).map{ |a| {:title => a.title, :permalink => a.permalink, :count => a.count_between(start_date, end_date)}}
+    article_counts.sort_by{|tc| -tc[:count]}
   end
     
 end
