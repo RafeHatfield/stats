@@ -56,6 +56,26 @@ class SearchUrlParserTest < ActiveSupport::TestCase
       end
     end
     
+    context "getting domain" do
+      should "get the correct domain for urls" do
+        urls = [
+          "http://www.google.ca/search?q=awesome+sauce&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-aSearchUrlParser",
+          "http://ca.search.yahoo.com/search;_ylt=A0oGk24.bl1NlR0B2rfrFAx.;_ylc=X1MDMjExNDcyMTAwMwRfcgMyBGFvAzEEZnIDeWZwLXQtNzE1BGhvc3RwdmlkA2htNWRla29Ha3luelJmN0ZUUzlqb1FYRlJSLjZZazFkYmo0QUR3RDcEbl9ncHMDMARuX3ZwcwMwBG9yaWdpbgNzcnAEcXVlcnkDZGViYXRlIHRvcGljcyBzdWl0ZTEwMQRzYW8DMQR2dGVzdGlkAw--?p=awesome+sauce&fr2=sb-top&fr=yfp-t-715&rd=r1",
+          "http://www.bing.com/search?q=awesome+sauce&x=0&y=0&form=MSNH14&qs=n&sk=",
+          "http://www.msn.com/search?q=awesome+sauce&x=0&y=0&form=MSNH14&qs=n&sk=",
+          "http://www.search.com/search?q=awesome+sauce",
+          "http://search.aol.ca/aol/search?invocationType=&query=awesome+sauce",
+          "http://yandex.com/yandsearch?text=awesome+sauce&lr=21353",
+          "http://www.ask.com/web?q=awesome+sauce&search=&qsrc=0&o=0&l=dir"        
+        ]
+        domains = ["www.google.ca", "ca.search.yahoo.com", "www.bing.com", "www.msn.com", "www.search.com", "search.aol.ca", "yandex.com", "www.ask.com"]
+
+        urls.each_with_index do |url, i|
+          assert_equal domains[i], SearchUrlParser.get_domain(url)
+        end
+      end
+    end
+    
   end
   
 end
