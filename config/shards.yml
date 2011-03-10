@@ -12,9 +12,6 @@ octopus:
     - staging
   development:
     shards:
-      com:
-        database: stats_com_shard
-        <<: *postgres
       de:
         database: stats_de_shard
         <<: *postgres

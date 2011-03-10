@@ -18,12 +18,10 @@ private
   
   def self.select_shard(url)
     domain_extension = Addressable::URI.parse(url).host.split('.').last
-    
     Octopus.using(domain_extension.to_sym) { yield }
   end
   
-  def self.process_raw_page_view(raw_page_view)
-    
+  def self.process_raw_page_view(raw_page_view)    
     article = Article.find_and_update_title_or_create({
       :suite101_article_id => raw_page_view.suite101_article_id,
       :title => raw_page_view.title,
