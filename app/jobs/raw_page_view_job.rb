@@ -3,15 +3,27 @@ class RawPageViewJob
 
   def self.perform(raw_page_view_data)
     hash = ActiveSupport::JSON.decode(raw_page_view_data)
-    raw_page_view = RawPageView.new(hash)
+    
+    select_shard(hash['permalink']) do
+      raw_page_view = RawPageView.new(hash)
 
-    if raw_page_view.unique?
-      raw_page_view.save!
-      process_raw_page_view(raw_page_view)
-    end
+      if raw_page_view.unique?
+        raw_page_view.save!
+        process_raw_page_view(raw_page_view)
+      end
+    end    
+  end
+    
+private
+  
+  def self.select_shard(url)
+    domain_extension = Addressable::URI.parse(url).host.split('.').last
+    
+    Octopus.using(domain_extension.to_sym) { yield }
   end
   
   def self.process_raw_page_view(raw_page_view)
+    
     article = Article.find_and_update_title_or_create({
       :suite101_article_id => raw_page_view.suite101_article_id,
       :title => raw_page_view.title,
@@ -29,4 +41,6 @@ class RawPageViewJob
       article.increment_keyphrase_view_on(raw_page_view.date.to_date, keyphrase)
     end
   end  
+  
+  
 end

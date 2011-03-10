@@ -12,7 +12,9 @@ class TrackingController < ApplicationController
       :date => params[:date]
     }
     
-    Resque.enqueue(RawPageViewJob, raw_page_view_data.to_json)
+    if rand(3) == 1
+      Resque.enqueue(RawPageViewJob, raw_page_view_data.to_json)
+    end
     
     # Send a 1px image back to the requester.
     send_file 'public/images/page_view.gif'
