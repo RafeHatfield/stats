@@ -1,0 +1,37 @@
+postgres: &postgres
+  adapter: postgresql
+  username: postgres
+  password:
+  encoding: unicode
+  host: localhost
+  port: 5432
+  
+octopus:
+  octopus_enviroments:
+    - development
+    - staging
+  development:
+    shards:
+      de:
+        database: stats_de_shard
+        <<: *postgres
+      net:
+        database: stats_net_shard
+        <<: *postgres
+      fr:
+        database: stats_fr_shard
+        <<: *postgres
+  staging:
+    shards:
+      com:
+        database: suite101_com_staging
+        <<: *postgres
+      de:
+        database: suite101_de_staging
+        <<: *postgres
+      net:
+        database: suite101_net_staging
+        <<: *postgres
+      fr:
+        database: suite101_fr_staging
+        <<: *postgres

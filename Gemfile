@@ -23,6 +23,8 @@ gem 'memcache'
 gem 'resque-multi-job-forks'
 gem 'capistrano'
 gem 'eycap'
+gem 'ar-octopus', :require => "octopus"
+gem 'addressable', :require => 'addressable/uri'
 
 group :development do
 	gem "autotest"
