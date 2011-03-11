@@ -11,5 +11,5 @@ en:
     end_date: 'End Date'
     download_data: "Download yesterday's data"
     internal: internal
-    direct: direct
+    other: other
     organic: organic

@@ -20,6 +20,7 @@
 
 %h2= I18n.t('report.totals')
 %p== Page Views #{@total_view_count}
+#source_chart{:style => "width: 400px; height: 400px;"}
 
 %h2= I18n.t('report.articles_header')
 %table
@@ -40,11 +41,8 @@
 %table
   - @domain_counts.each do |k|
     %tr
-      %td= k[0]
+      %td= k[0].blank? ? "[direct]" : k[0]
       %td= k[1]
-
-#source_chart{:style => "width: 400px; height: 400px;"}
-- translated_source_counts = @source_counts.map{|source_sym, count| [I18n.t("report.#{source_sym.to_s}"), count]}
 
 %p
   =link_to I18n.t('report.download_data'), article_view_csv_path(@user[:id], @user[:key])  
@@ -114,7 +112,11 @@
            renderTo: 'source_chart',
            plotBackgroundColor: null,
            plotBorderWidth: null,
-           plotShadow: false
+           plotShadow: false,
+           marginLeft: 100,
+           marginRight: 100,
+           marginBottom: 50,
+           marginTop: 50
         },
         title: {
            text: ''
@@ -140,7 +142,7 @@
         },
          series: [{
            type: 'pie',
-           data: #{translated_source_counts.to_json}
+           data: #{@source_counts.map{|source_sym, count| [I18n.t("report.#{source_sym.to_s}"), count]}.to_json}
         }]
      });
       

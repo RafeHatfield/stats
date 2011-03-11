@@ -17,7 +17,7 @@ class DailyDomainView < ActiveRecord::Base
     
     source_counts = domain_counts.map {|domain,count| [source_from_domain(domain), count]}
     
-    total_source_counts = {:internal => 0, :direct => 0, :organic => 0}
+    total_source_counts = {:internal => 0, :other => 0, :organic => 0}
     
     source_counts.each do |source_count|
       total_source_counts[source_count[0]] += source_count[1]      
