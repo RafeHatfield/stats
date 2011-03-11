@@ -9,13 +9,13 @@ class TrackingController < ApplicationController
       :writer_id  => params[:writer_id],
       :referrer_url => params[:referrer_url] || "",
       :cookie_id => params[:cookie_id],
-      :date => Time.at(params[:utc_seconds]) 
+      :date => params[:utc_seconds] ? Time.at(params[:utc_seconds]) : Time.now
     }
     
     Resque.enqueue(RawPageViewJob, raw_page_view_data.to_json)
     
     # Send a 1px image back to the requester.
-    send_file 'public/images/page_view.gif'
+    redirect_to 'http://graphics.suite101.com/page_view.gif'
   end
 
 end
