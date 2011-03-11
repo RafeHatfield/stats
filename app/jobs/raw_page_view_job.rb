@@ -37,9 +37,7 @@ private
       article.increment_keyphrase_view_on(raw_page_view.date, referrer_url.keyphrase)
     end
 
-    if referrer_url.domain
-      article.increment_domain_view_on(raw_page_view.date, referrer_url.domain)
-    end
+    article.increment_domain_view_on(raw_page_view.date, referrer_url.domain)
 
   end  
   

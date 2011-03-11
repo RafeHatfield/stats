@@ -52,7 +52,7 @@ class DailyDomainViewTest < ActiveSupport::TestCase
         article.increment_domain_view_on(Date.yesterday, domain)
       end
 
-      expected_domain_counts = { :organic => 2, :direct => 2, :internal => 2}
+      expected_domain_counts = { :organic => 2, :other => 2, :internal => 2}
       assert_equal expected_domain_counts, DailyDomainView.sources_with_total_counts_for_writer_between(writer_id, Date.yesterday, Date.today)
     end
     

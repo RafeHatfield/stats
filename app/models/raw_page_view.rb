@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110303215305
+# Schema version: 20110311181219
 #
 # Table name: raw_page_views
 #
@@ -8,13 +8,20 @@
 #  permalink           :string(255)
 #  title               :string(255)
 #  writer_id           :integer
-#  referrer_url        :string(255)
+#  referrer_url        :string(1000)
 #  cookie_id           :string(255)
 #  date                :datetime
 #
+
 class RawPageView < ActiveRecord::Base
   validates_presence_of :title, :suite101_article_id, :permalink, :title, :writer_id, :cookie_id, :date
   validates_numericality_of :suite101_article_id, :writer_id, :only_integer => true
+  validate :require_reasonable_year
+  validate :require_referrer_url_to_be_a_parseable_url_or_empty
+  validates_length_of :permalink, :in => 3..250
+  validates_length_of :title, :in => 3..250
+  validates_length_of :cookie_id, :in => 3..250
+  validates_length_of :referrer_url, :maximum => 950
   
   # Return true if this view is considered unique.
   # Enter/update this view in the uniqueness Cache.
@@ -43,5 +50,29 @@ class RawPageView < ActiveRecord::Base
   def unique_identifier
     "#{self.suite101_article_id}#{self.referrer_url}#{self.cookie_id}".hash.to_s
   end
+  
+  def require_reasonable_year
+    begin
+      if self.date.year < 2000 || self.date.year > 2050
+        errors.add(:date, "must have a year between 2000 and 2050")
+      end
+    rescue
+      errors.add(:date, "cannot be parsed as a date.")
+    end
+  end
+  
+  def require_referrer_url_to_be_a_parseable_url_or_empty
+    if self.referrer_url != ""
+      begin
+        uri = URI.parse(self.referrer_url)
+        if uri.class != URI::HTTP
+          errors.add_to_base(:referrer_url, 'was not parseable.')
+        end
+      rescue URI::InvalidURIError
+        errors.add(:referrer_url, 'was not parseable.')
+      end
+    end
+  end
+
   
 end

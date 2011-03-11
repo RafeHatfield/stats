@@ -1,3 +1,18 @@
+# == Schema Information
+# Schema version: 20110311181219
+#
+# Table name: daily_domain_views
+#
+#  id         :integer         not null, primary key
+#  date       :date
+#  article_id :integer
+#  domain     :string(255)
+#  count      :integer
+#  writer_id  :integer
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class DailyDomainView < ActiveRecord::Base
   belongs_to :article
   
@@ -17,7 +32,7 @@ class DailyDomainView < ActiveRecord::Base
     
     source_counts = domain_counts.map {|domain,count| [source_from_domain(domain), count]}
     
-    total_source_counts = {:internal => 0, :direct => 0, :organic => 0}
+    total_source_counts = {:internal => 0, :other => 0, :organic => 0}
     
     source_counts.each do |source_count|
       total_source_counts[source_count[0]] += source_count[1]      
