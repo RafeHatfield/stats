@@ -1,12 +1,6 @@
 require 'test_helper'
 
 class RawPageViewTest < ActiveSupport::TestCase
-
-  setup do
-    # Clear the uniqueness cache for every test.
-    RawPageView.uniqueness_cache.flush_all
-  end
-
   context "validations" do
     should "require a title" do
       assert_equal false, FactoryGirl.build(:raw_page_view, :title => nil).valid?
@@ -32,11 +26,26 @@ class RawPageViewTest < ActiveSupport::TestCase
     should "require suite101_article_id to be an integer" do
       assert_equal false, FactoryGirl.build(:raw_page_view, :suite101_article_id => "notanint").valid?
     end
+    should "require date's year to be recent" do
+      assert_equal false, FactoryGirl.build(:raw_page_view, :date => Date.today - 100.years).valid?
+      assert_equal false, FactoryGirl.build(:raw_page_view, :date => Date.today + 100.years).valid?
+    end
+    should "require a valid date" do
+      assert_equal false, FactoryGirl.build(:raw_page_view, :date => 1234).valid?
+    end
+    should "require referrer_url to be a parseable url" do
+      assert_equal false, FactoryGirl.build(:raw_page_view, :referrer_url => "http://www.google.ca/?q=awesome sauce is good&happy=1").valid?
+    end
+    should "allow an empty string as a referrer url" do
+      assert_equal true, FactoryGirl.build(:raw_page_view, :referrer_url => "").valid?
+    end
   end
   
   context "uniqueness" do
-    
     setup do  
+      # Clear the uniqueness cache for every test.
+      RawPageView.uniqueness_cache.flush_all
+      
       first_view = FactoryGirl.create(:raw_page_view, :date => Time.now)
       first_view.insert_into_uniqueness_cache
     end
