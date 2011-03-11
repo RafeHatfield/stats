@@ -6,10 +6,10 @@ class TrackingController < ApplicationController
       :suite101_article_id => params[:suite101_article_id],
       :permalink => params[:permalink],
       :title => params[:title],
-      :writer_id  => params[:writer_id ],
+      :writer_id  => params[:writer_id],
       :referrer_url => params[:referrer_url],
       :cookie_id => params[:cookie_id],
-      :date => params[:date]
+      :date => Time.at(params[:utc_seconds]) 
     }
     
     Resque.enqueue(RawPageViewJob, raw_page_view_data.to_json)

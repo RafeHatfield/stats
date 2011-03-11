@@ -1,4 +1,19 @@
 # == Schema Information
+# Schema version: 20110311181219
+#
+# Table name: raw_page_views
+#
+#  id                  :integer         not null, primary key
+#  suite101_article_id :integer
+#  permalink           :string(255)
+#  title               :string(255)
+#  writer_id           :integer
+#  referrer_url        :string(1000)
+#  cookie_id           :string(255)
+#  date                :datetime
+#
+
+# == Schema Information
 # Schema version: 20110303215305
 #
 # Table name: raw_page_views

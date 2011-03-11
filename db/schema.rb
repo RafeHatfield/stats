@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110310013334) do
+ActiveRecord::Schema.define(:version => 20110311181219) do
 
   create_table "articles", :force => true do |t|
     t.integer  "suite101_article_id"
@@ -55,7 +55,7 @@ ActiveRecord::Schema.define(:version => 20110310013334) do
     t.string   "permalink"
     t.string   "title"
     t.integer  "writer_id"
-    t.string   "referrer_url"
+    t.string   "referrer_url",        :limit => 1000
     t.string   "cookie_id"
     t.datetime "date"
   end
