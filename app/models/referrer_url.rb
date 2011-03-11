@@ -1,5 +1,5 @@
 class ReferrerUrl
-  
+  extend ActiveSupport::Memoizable
   # Match "engine_name" followed by a ".".
   # NOTE: Search.com matching must be last because other engines
   #       use "search." in their domain and we want to catch them first.
@@ -32,7 +32,7 @@ class ReferrerUrl
   end
   
   def domain
-    URI.parse(@url).host
+    URI.parse(@url).host || ""
   end
   
   def search_engine
@@ -41,7 +41,8 @@ class ReferrerUrl
     end
     return nil
   end
-  
+  memoize :search_engine
+
   def keyphrase
     # Search url make-up:
     # => [junk]?[query]
@@ -62,6 +63,7 @@ class ReferrerUrl
       return nil
     end
   end
+  memoize :keyphrase
   
   def source
     if search_engine
@@ -69,7 +71,9 @@ class ReferrerUrl
     elsif @@SUITE101_URL_REGEX.match(domain)
       :internal
     else
-      :direct
+      :other
     end
   end
+  memoize :source
+  
 end

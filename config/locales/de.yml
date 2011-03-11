@@ -16,7 +16,7 @@ de:
     end_date: 'End Date.to_g'
     download_data: "Download yesterday's data.to_g"
     internal: nein
-    direct: nitch
+    other: nitch
     organic: struddle        
      
   date:
