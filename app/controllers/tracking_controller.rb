@@ -7,7 +7,7 @@ class TrackingController < ApplicationController
       :permalink => params[:permalink],
       :title => params[:title],
       :writer_id  => params[:writer_id],
-      :referrer_url => params[:referrer_url],
+      :referrer_url => params[:referrer_url] || "",
       :cookie_id => params[:cookie_id],
       :date => Time.at(params[:utc_seconds]) 
     }
