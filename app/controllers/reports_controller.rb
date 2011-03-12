@@ -14,8 +14,8 @@ class ReportsController < ApplicationController
   
   # Show the user's dashboard.
   def dashboard
-    @start_date = get_selected_date(params[:start_date], 7.days.ago.to_date)
-    @end_date = get_selected_date(params[:end_date], Date.today)
+    @start_date = params[:start_date] ? params[:start_date].to_date : 7.days.ago.to_date
+    @end_date = params[:end_date] ? params[:end_date].to_date : Date.today
 
     @view_counts = DailyPageView.counts_for_writer_between(@user[:id], @start_date, @end_date)
     @total_view_count = @view_counts.sum
@@ -23,6 +23,13 @@ class ReportsController < ApplicationController
     @keyphrase_counts = DailyKeyphraseView.keyphrases_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date)
     @domain_counts = DailyDomainView.domains_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date)
     @source_counts = DailyDomainView.sources_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date)
+    
+    @number_of_articles_with_views = 0
+    @article_counts.each do |a|
+      if a[:count] >= 1
+        @number_of_articles_with_views +=1
+      end
+    end
     
   end
   
