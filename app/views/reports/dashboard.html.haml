@@ -16,12 +16,13 @@
 #source_chart{:style => "width: 400px; height: 400px;"}
 
 %h2= I18n.t('report.articles_header')
-%table
+%table#article_counts
   - @article_counts.each do |ac|
     %tr
       %td
         %a{:href => "#{ac[:permalink]}"}=ac[:title]
       %td= ac[:count]
+%a#more_article_counts{:href => "#"}
 
 %h2= I18n.t('report.keyword_header')
 %table
@@ -44,8 +45,26 @@
   :javascript
     $(function(){
 
+      var ARTICLE_POSITION_TO_SHOW = 0;
+      var article_count_toggler = $("#more_article_counts");
 
+      function toggle_article_counts(){
+        $("tr:gt(" + ARTICLE_POSITION_TO_SHOW +")", "#article_counts").toggle();
+        var txt = $("tr:last", "#article_counts").is(':visible') ? 'Show most popular' : 'Show all';
+        article_count_toggler.text(txt);
+      };
+
+      article_count_toggler.click(function(){
+        toggle_article_counts();
+        return false;
+      });
       
+      if ($("#article_counts").children().children().length > ARTICLE_POSITION_TO_SHOW + 1){
+        toggle_article_counts();
+      } else {
+        article_count_toggler.hide();
+      }
+
       var dates = $( "#start_date, #end_date" ).datepicker({
         numberOfMonths: 1,
         minDate: new Date(2011, 1-1, 1),
