@@ -24,6 +24,13 @@ class ReportsController < ApplicationController
     @domain_counts = DailyDomainView.domains_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date)
     @source_counts = DailyDomainView.sources_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date)
     
+    @number_of_articles_with_views = 0
+    @article_counts.each do |a|
+      if a[:count] >= 1
+        @number_of_articles_with_views +=1
+      end
+    end
+    
   end
   
   # Generate a key for the user and redirect to their dashbaord

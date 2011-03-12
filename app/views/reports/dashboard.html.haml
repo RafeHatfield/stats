@@ -9,6 +9,8 @@
 %h2= I18n.t('report.page_view_graph_header')
 #page_view_plot{:style => "width: 700px; height: 400px;"}
 
+%h2== #{@number_of_articles_with_views} of your articles were viewed #{@total_view_count} times in total.
+
 %h2= I18n.t('report.totals')
 %p== Page Views #{@total_view_count}
 #source_chart{:style => "width: 400px; height: 400px;"}
