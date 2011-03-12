@@ -9,10 +9,9 @@ postgres: &postgres
 octopus:
   environments:
     - development
-    - test
   development:
     com:
-      database: stats_com_shard
+      database: master_shard
       <<: *postgres
     de:
       database: stats_de_shard

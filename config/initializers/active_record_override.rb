@@ -1,3 +1,3 @@
 class ActiveRecord::Migration
-  using(:com, :de, :fr, :net)
+  using(:master, :de, :fr, :net)
 end
