@@ -16,6 +16,7 @@ class Article < ActiveRecord::Base
 
   has_many :daily_page_views, :dependent => :destroy
   has_many :daily_keyphrase_views, :dependent => :destroy
+  has_many :daily_domain_views, :dependent => :destroy
 
   validates_presence_of :suite101_article_id, :title, :writer_id, :permalink
   validates_uniqueness_of :suite101_article_id
@@ -57,6 +58,18 @@ class Article < ActiveRecord::Base
       return daily_keyphrase_view
     else
       self.daily_keyphrase_views.create!(:date => date, :writer_id => self.writer_id, :keyphrase => keyphrase, :count => 1)
+    end
+  end
+  
+  def increment_domain_view_on(date, domain)
+    date = date.to_date
+    
+    daily_domain_view = self.daily_domain_views.where(:date => date, :domain => domain).first
+    if daily_domain_view
+      daily_domain_view.increment!(:count)
+      return daily_domain_view
+    else
+      self.daily_domain_views.create!(:date => date, :writer_id => self.writer_id, :domain => domain, :count => 1)
     end
   end
   

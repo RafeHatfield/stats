@@ -63,3 +63,11 @@ after "deploy:migrations" , "deploy:cleanup"
 after "deploy:update_code", "deploy:symlink_configs"
 # uncomment the following to have a database backup done before every migration
 # before "deploy:migrate", "db:dump"
+
+namespace :resque do
+  desc "After update_code you want to restart the workers"
+  task :restart, :roles => [:app], :only => {:resque => true} do
+    run "monit restart all -g resque_#{application}" 
+  end
+  after "deploy:symlink_configs","resque:restart" 
+end
