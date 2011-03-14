@@ -3,7 +3,6 @@ class RawPageViewJob
 
   def self.perform(raw_page_view_data)
     hash = ActiveSupport::JSON.decode(raw_page_view_data)
-    
     select_shard(hash['permalink']) do
       raw_page_view = RawPageView.new(hash)
 

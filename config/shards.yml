@@ -5,33 +5,47 @@ postgres: &postgres
   encoding: unicode
   host: localhost
   port: 5432
-  
+
 octopus:
-  octopus_enviroments:
+  environments:
     - development
-    - staging
+    - test
   development:
-    shards:
-      de:
-        database: stats_de_shard
-        <<: *postgres
-      net:
-        database: stats_net_shard
-        <<: *postgres
-      fr:
-        database: stats_fr_shard
-        <<: *postgres
+    com:
+      database: stats_com_dev
+      <<: *postgres
+    de:
+      database: stats_de_dev
+      <<: *postgres
+    net:
+      database: stats_net_dev
+      <<: *postgres
+    fr:
+      database: stats_fr_dev
+      <<: *postgres
+  test:
+    com:
+      database: stats_com_test
+      <<: *postgres
+    de:
+      database: stats_de_test
+      <<: *postgres
+    net:
+      database: stats_net_test
+      <<: *postgres
+    fr:
+      database: stats_fr_test
+      <<: *postgres
   staging:
-    shards:
-      com:
-        database: suite101_com_staging
-        <<: *postgres
-      de:
-        database: suite101_de_staging
-        <<: *postgres
-      net:
-        database: suite101_net_staging
-        <<: *postgres
-      fr:
-        database: suite101_fr_staging
-        <<: *postgres
+    com:
+      database: suite101_com_staging
+      <<: *postgres
+    de:
+      database: suite101_de_staging
+      <<: *postgres
+    net:
+      database: suite101_net_staging
+      <<: *postgres
+    fr:
+      database: suite101_fr_staging
+      <<: *postgres

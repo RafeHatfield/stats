@@ -24,6 +24,7 @@ gem 'resque-multi-job-forks'
 gem 'capistrano'
 gem 'eycap'
 gem 'ar-octopus', :require => "octopus"
+# gem 'ar-octopus', :git => 'git://github.com/tchandy/octopus.git', :require => "octopus"
 gem 'addressable', :require => 'addressable/uri'
 gem 'flutie'
 gem 'awesome_print'

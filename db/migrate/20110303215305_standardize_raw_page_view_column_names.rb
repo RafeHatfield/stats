@@ -1,4 +1,6 @@
 class StandardizeRawPageViewColumnNames < ActiveRecord::Migration
+  using(:com, :de, :fr, :net)
+  
   def self.up
     rename_column(:raw_page_views, :tracked_page_id, :suite101_article_id)
     rename_column(:raw_page_views, :page_url, :permalink)
