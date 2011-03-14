@@ -1,6 +1,6 @@
 class ReportsController < ApplicationController
 
-  before_filter :verify_key, :except => [:test_dashboard]
+  before_filter :verify_key, :except => [:test_dashboard, :test_article_dashboard]
   
   # Ensure that the supplied id and key match our encoding.
   # Setup the @user object with authentication info.
@@ -37,6 +37,28 @@ class ReportsController < ApplicationController
   def test_dashboard
     redirect_to dashboard_url(params[:id], Base64.encode64(params[:id]))    
   end
+  
+  # Dashboard for a specific article.
+  def article_dashboard
+    @suite101_article_id = params[:suite101_article_id]
+    
+    @start_date = params[:start_date] ? params[:start_date].to_date : 7.days.ago.to_date
+    @end_date = params[:end_date] ? params[:end_date].to_date : Date.today
+    
+    @view_counts = DailyPageView.counts_for_article_between(@suite101_article_id, @start_date, @end_date)
+    @total_view_count = @view_counts.sum
+    @keyphrase_counts = DailyKeyphraseView.keyphrases_with_total_counts_for_article_between(@suite101_article_id, @start_date, @end_date)
+    @domain_counts = DailyDomainView.domains_with_total_counts_for_article_between(@suite101_article_id, @start_date, @end_date)
+    @source_counts = DailyDomainView.sources_with_total_counts_for_article_between(@suite101_article_id, @start_date, @end_date)
+    
+  end
+  
+  # Generate a key for the user and redirect to their article dashbaord
+  def test_article_dashboard
+    redirect_to article_dashboard_url(params[:id], Base64.encode64(params[:id]), params[:suite101_article_id])    
+  end
+  
+
   
   # Render javascript which will update the #total_page_views element with the lifetime page views of this user.
   def update_total_page_views

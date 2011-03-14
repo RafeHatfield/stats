@@ -30,6 +30,18 @@ class DailyPageView < ActiveRecord::Base
     
     return view_counts
   end
+  
+  # Get the number of views for an article on each day between and including start_date and end_date.
+  def self.counts_for_article_between(suite101_article_id, start_date, end_date)
+    views = DailyPageView.between(start_date, end_date).joins(:article) & Article.where(:suite101_article_id => suite101_article_id)
+
+    view_counts = (start_date..end_date).map do |day| 
+      views_on_day = views.find_all{|v| v.date == day}
+      views_on_day.any? ? views_on_day.sum{|v| v.count} : 0
+    end
+    
+    return view_counts
+  end
     
   # Page Views on and between start_date and end_date
   def self.between(start_date, end_date)

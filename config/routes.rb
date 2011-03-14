@@ -6,6 +6,9 @@ Stats::Application.routes.draw do
   match '/report/:id/:key' => 'reports#dashboard', :as => :dashboard
   match '/test/:id' => 'reports#test_dashboard'
   
+  match '/article_report/:id/:key/:suite101_article_id' => 'reports#article_dashboard', :as => :article_dashboard
+  match '/article_test/:id/:suite101_article_id' => 'reports#test_article_dashboard'
+  
   match '/report/:id/:key/article_views.csv' => 'reports#article_views_csv', :as => :article_view_csv
   
   # My suite graphs and data.
