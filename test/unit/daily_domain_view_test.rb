@@ -20,7 +20,7 @@ class DailyDomainViewTest < ActiveSupport::TestCase
     end
   end
   
-  context "getting domain counts between two dates" do
+  context "getting domain counts for a writer between two dates" do
     should "get the right domain counts ordered by count descending" do
       writer_id = 333
       article = FactoryGirl.create(:article, :writer_id => writer_id)
@@ -42,7 +42,28 @@ class DailyDomainViewTest < ActiveSupport::TestCase
     
   end
   
-  context "getting source counts between two dates" do
+  context "getting domain counts for an article between two dates" do
+    should "get the right domain counts ordered by count descending" do
+      article = FactoryGirl.create(:article)
+      domain1 = "www.google.com"
+      domain2 = "www.yahoo.com"
+      3.times do
+        article.increment_domain_view_on(Date.yesterday, domain1)
+      end
+      2.times do
+        article.increment_domain_view_on(Date.yesterday, domain2)
+      end
+      6.times do
+        article.increment_domain_view_on(Date.today, domain1)
+      end
+
+      expected_domain_counts = [[domain1, 3+6], [domain2, 2]]
+      assert_equal expected_domain_counts, DailyDomainView.domains_with_total_counts_for_writer_between(article.suite101_article_id, Date.yesterday, Date.today)
+    end
+    
+  end
+  
+  context "getting source counts for a writer between two dates" do
     should "get the right source counts ordered" do
       writer_id = 333
       article = FactoryGirl.create(:article, :writer_id => writer_id)
@@ -54,6 +75,21 @@ class DailyDomainViewTest < ActiveSupport::TestCase
 
       expected_domain_counts = { :organic => 2, :other => 2, :internal => 2}
       assert_equal expected_domain_counts, DailyDomainView.sources_with_total_counts_for_writer_between(writer_id, Date.yesterday, Date.today)
+    end
+    
+  end
+  
+  context "getting source counts for an article between two dates" do
+    should "get the right source counts ordered" do
+      article = FactoryGirl.create(:article)
+      domains = ["www.google.com", "www.google.ca", "", "www.suite101.com", "my.suite101.de", "www.happyplanet.com/my-article-linking-yours"]
+
+      domains.each do |domain|
+        article.increment_domain_view_on(Date.yesterday, domain)
+      end
+
+      expected_domain_counts = { :organic => 2, :other => 2, :internal => 2}
+      assert_equal expected_domain_counts, DailyDomainView.sources_with_total_counts_for_writer_between(article.suite101_article_id, Date.yesterday, Date.today)
     end
     
   end
