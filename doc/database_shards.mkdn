@@ -1,0 +1,20 @@
+# Database Sharding with Octopus #
+
+This document outlines the process involved to get sharding working with Octopus gem. To find out more information about octopus, visit https://github.com/tchandy/octopus
+
+## Creating Database Shards ##
+
+To create database shards, run the following command
+    rake db:create_shards
+To drop database shards, run the following command
+    rake db:drop_shards
+To create shards for test environment, prefix the above commands with 'RAILS_ENV=test'
+To find out more about these rake tasks, check lib/tasks/db.rake.
+
+## Database Shards Migrating ##
+Octopus requires adding one line at the top of each migration.
+    using(:com, :de, :fr, :net)
+This tells octopus to migrate for all four databases. Note that I tried to monkey patch ActiveRecord::Migration with above line, and Octopus does not like it. So, we will have to stick with it for now.
+
+## Shard Configuration ##
+The configuration for database shards is located at db/shards.yml
