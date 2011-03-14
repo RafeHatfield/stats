@@ -38,6 +38,7 @@ GEM
     arel (2.0.8)
     autotest (4.4.6)
       ZenTest (>= 4.4.1)
+    awesome_print (0.3.2)
     builder (2.1.2)
     capistrano (2.5.19)
       highline
@@ -94,6 +95,7 @@ GEM
     fastercsv (1.5.4)
     ffi (0.6.3)
       rake (>= 0.8.7)
+    flutie (1.1.5)
     gherkin (2.3.3)
       json (~> 1.4.6)
     haml (3.0.25)
@@ -229,6 +231,7 @@ DEPENDENCIES
   annotate-models
   ar-octopus
   autotest
+  awesome_print
   capistrano
   capybara
   cucumber-rails
@@ -237,6 +240,7 @@ DEPENDENCIES
   eycap
   factory_girl_rails (= 1.1.beta1)
   fastercsv
+  flutie
   haml
   hoptoad_notifier
   jquery-rails (>= 0.2.6)

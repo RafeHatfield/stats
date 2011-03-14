@@ -25,6 +25,8 @@ gem 'capistrano'
 gem 'eycap'
 gem 'ar-octopus', :require => "octopus"
 gem 'addressable', :require => 'addressable/uri'
+gem 'flutie'
+gem 'awesome_print'
 
 group :development do
 	gem "autotest"
