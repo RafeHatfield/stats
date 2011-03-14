@@ -42,6 +42,8 @@ class ReportsController < ApplicationController
   def article_dashboard
     @suite101_article_id = params[:suite101_article_id]
     
+    @article_title = Article.where(:suite101_article_id => @suite101_article_id).first.title
+
     @start_date = params[:start_date] ? params[:start_date].to_date : 7.days.ago.to_date
     @end_date = params[:end_date] ? params[:end_date].to_date : Date.today
     

@@ -149,8 +149,8 @@ class ArticleTest < ActiveSupport::TestCase
     end
   end
   
-  context "getting titles, permalinks and counts for a writer" do
-    should "get all the titles, permalinks and counts for those articles ordered by count descending" do
+  context "getting suite101_article_id, titles, permalinks and counts for a writer" do
+    should "get all the suite101_article_id, titles, permalinks and counts for those articles ordered by count descending" do
       writer_id = 345    
       1.upto(3) do |i|
         article = FactoryGirl.create(:article, :suite101_article_id => i, :writer_id => writer_id, :title => "Article #{i}", :permalink => "http://www.google.com")
@@ -160,9 +160,9 @@ class ArticleTest < ActiveSupport::TestCase
       end
       title_counts_out = Article.with_total_counts_for_writer_between(writer_id, Date.today, Date.today)
       title_counts_in = [
-        {:title =>"Article 3",:permalink => "http://www.google.com", :count => 3},
-        {:title =>"Article 2",:permalink => "http://www.google.com", :count => 2},
-        {:title =>"Article 1",:permalink => "http://www.google.com", :count => 1}
+        {:suite101_article_id => 3, :title =>"Article 3",:permalink => "http://www.google.com", :count => 3},
+        {:suite101_article_id => 2, :title =>"Article 2",:permalink => "http://www.google.com", :count => 2},
+        {:suite101_article_id => 1, :title =>"Article 1",:permalink => "http://www.google.com", :count => 1}
         ]      
       assert_equal title_counts_in, title_counts_out
     end

@@ -21,4 +21,40 @@ class DailyPageViewTest < ActiveSupport::TestCase
     end
   end
   
+  
+  context "getting the views for a writer between two dates" do
+    should "get the right view counts" do
+      writer_id = 1
+      article1 = Factory.create(:article, :suite101_article_id => 1, :writer_id => writer_id)
+      article2 = Factory.create(:article, :suite101_article_id => 2, :writer_id => writer_id)
+            
+      article1.increment_page_view_on(1.day.ago)
+      article2.increment_page_view_on(Date.today)
+      
+      view_counts = DailyPageView.counts_for_writer_between(writer_id, 2.days.ago, Date.today)
+      
+      assert_equal [0,1,1], view_counts
+    end
+  end
+  
+  context "getting the views for an article between two dates" do
+    setup do
+      @suite101_article_id = 1
+      article = Factory.create(:article, :suite101_article_id => @suite101_article_id)
+      article.increment_page_view_on(1.day.ago)
+      article.increment_page_view_on(Date.today)
+    end
+    should "get the right view counts" do
+      view_counts = DailyPageView.counts_for_article_between(@suite101_article_id, 2.days.ago, Date.today)
+      assert_equal [0,1,1], view_counts
+    end
+    should "get the right view counts if there is more than one article" do
+      article = Factory.create(:article, :suite101_article_id => 2)
+      article.increment_page_view_on(1.day.ago)
+      article.increment_page_view_on(Date.today)
+      view_counts = DailyPageView.counts_for_article_between(@suite101_article_id, 2.days.ago, Date.today)
+      assert_equal [0,1,1], view_counts
+    end
+  end
+  
 end

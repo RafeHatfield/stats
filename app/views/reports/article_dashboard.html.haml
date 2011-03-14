@@ -1,4 +1,5 @@
 %h1= I18n.t('report.header')
+%br
 
 =form_tag article_dashboard_path(@user[:id], @user[:key], @suite101_article_id), :method => :get do
   == #{I18n.t('report.start_date')} #{text_field_tag(:start_date, I18n.l(@start_date), {:id => "start_date"})}
@@ -6,11 +7,14 @@
   = submit_tag I18n.t('report.update')
 %br
 
-%h2= I18n.t('report.page_view_graph_header')
+=link_to "<- Back to my dashboard", dashboard_path(@user[:id], @user[:key])
+%br
+%br
+
+%h2== Readers viewing #{@article_title}
 #page_view_plot{:style => "width: 700px; height: 400px;"}
 
-%h2= I18n.t('report.totals')
-%p== Page Views #{@total_view_count}
+%h2== This article was viewed #{@total_view_count} times.
 #source_chart{:style => "width: 400px; height: 400px;"}
 
 %h2= I18n.t('report.keyword_header')

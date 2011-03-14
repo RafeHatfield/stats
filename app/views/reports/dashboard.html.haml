@@ -1,5 +1,5 @@
 %h1= I18n.t('report.header')
-
+%br
 =form_tag dashboard_path(@user[:id], @user[:key]), :method => :get do
   == #{I18n.t('report.start_date')} #{text_field_tag(:start_date, I18n.l(@start_date), {:id => "start_date"})}
   == #{I18n.t('report.end_date')} #{text_field_tag(:end_date, I18n.l(@end_date), {:id => "end_date"})}
@@ -10,9 +10,6 @@
 #page_view_plot{:style => "width: 700px; height: 400px;"}
 
 %h2== #{@number_of_articles_with_views} of your articles were viewed #{@total_view_count} times in total.
-
-%h2= I18n.t('report.totals')
-%p== Page Views #{@total_view_count}
 #source_chart{:style => "width: 400px; height: 400px;"}
 
 %h2= I18n.t('report.articles_header')
@@ -21,6 +18,8 @@
     %tr
       %td
         %a{:href => "#{ac[:permalink]}"}=ac[:title]
+      %td
+        =link_to "Details", article_dashboard_url(@user[:id], @user[:key], ac[:suite101_article_id], :start_date => @start_date, :end_date => @end_date)
       %td= ac[:count]
 %a#more_article_counts{:href => "#"}
 
@@ -45,7 +44,7 @@
   :javascript
     $(function(){
 
-      var ARTICLE_POSITION_TO_SHOW = 0;
+      var ARTICLE_POSITION_TO_SHOW = 4;
       var article_count_toggler = $("#more_article_counts");
 
       function toggle_article_counts(){
