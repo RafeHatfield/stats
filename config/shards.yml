@@ -9,18 +9,32 @@ postgres: &postgres
 octopus:
   environments:
     - development
+    - test
   development:
     com:
-      database: master_shard
+      database: stats_com_dev
       <<: *postgres
     de:
-      database: stats_de_shard
+      database: stats_de_dev
       <<: *postgres
     net:
-      database: stats_net_shard
+      database: stats_net_dev
       <<: *postgres
     fr:
-      database: stats_fr_shard
+      database: stats_fr_dev
+      <<: *postgres
+  test:
+    com:
+      database: stats_com_test
+      <<: *postgres
+    de:
+      database: stats_de_test
+      <<: *postgres
+    net:
+      database: stats_net_test
+      <<: *postgres
+    fr:
+      database: stats_fr_test
       <<: *postgres
   staging:
     com:
