@@ -1,5 +1,4 @@
 class CreateDailyPageViews < ActiveRecord::Migration
-  using(:com, :de, :fr, :net)
   
   def self.up
     create_table :daily_page_views do |t|

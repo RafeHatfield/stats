@@ -1,5 +1,4 @@
 class CreateArticles < ActiveRecord::Migration
-  using(:com, :de, :fr, :net)
   
   def self.up
     create_table :articles do |t|
