@@ -1,4 +1,6 @@
 class CreateDailyDomainViews < ActiveRecord::Migration
+  using(:com, :de, :fr, :net)
+  
   def self.up
     create_table :daily_domain_views do |t|
       t.date :date

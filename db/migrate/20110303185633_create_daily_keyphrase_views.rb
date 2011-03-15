@@ -1,4 +1,6 @@
 class CreateDailyKeyphraseViews < ActiveRecord::Migration
+  using(:com, :de, :fr, :net)
+  
   def self.up
     create_table :daily_keyphrase_views do |t|
       t.date :date

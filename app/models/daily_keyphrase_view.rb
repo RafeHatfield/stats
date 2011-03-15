@@ -25,6 +25,14 @@ class DailyKeyphraseView < ActiveRecord::Base
     keyphrase_counts.to_a
   end
   
+  # Get the total number of views for each keyphrase for an article between start_date and end_date
+  # Ordered by total count descending.
+  def self.keyphrases_with_total_counts_for_article_between(suite101_article_id, start_date, end_date)  
+    keyphrases = DailyKeyphraseView.between(start_date, end_date).joins(:article) & Article.where(:suite101_article_id => suite101_article_id)
+    keyphrase_counts = keyphrases.group("keyphrase").select("keyphrase").order("sum_count desc").sum("count")
+    keyphrase_counts.to_a
+  end
+  
   # Keyphrase Views on and between start_date and end_date
   def self.between(start_date, end_date)
     where(:date => start_date.to_date...(end_date.to_date + 1.day))

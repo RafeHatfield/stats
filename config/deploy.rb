@@ -67,7 +67,7 @@ after "deploy:update_code", "deploy:symlink_configs"
 namespace :resque do
   desc "After update_code you want to restart the workers"
   task :restart, :roles => [:app], :only => {:resque => true} do
-    run "monit restart all -g resque_#{application}" 
+    run "sudo monit restart all -g resque_#{application}" 
   end
   after "deploy:symlink_configs","resque:restart" 
 end

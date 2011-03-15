@@ -1,0 +1,131 @@
+%h1= I18n.t('report.header')
+%br
+
+=form_tag article_dashboard_path(@user[:id], @user[:key], @suite101_article_id), :method => :get do
+  == #{I18n.t('report.start_date')} #{text_field_tag(:start_date, I18n.l(@start_date), {:id => "start_date"})}
+  == #{I18n.t('report.end_date')} #{text_field_tag(:end_date, I18n.l(@end_date), {:id => "end_date"})}
+  = submit_tag I18n.t('report.update')
+%br
+
+=link_to "<- Back to my dashboard", dashboard_path(@user[:id], @user[:key])
+%br
+%br
+
+%h2== Readers viewing #{@article_title}
+#page_view_plot{:style => "width: 700px; height: 400px;"}
+
+%h2== This article was viewed #{@total_view_count} times.
+#source_chart{:style => "width: 400px; height: 400px;"}
+
+%h2= I18n.t('report.keyword_header')
+%table
+  - @keyphrase_counts.each do |k|
+    %tr
+      %td= k[0]
+      %td= k[1]
+
+%h2= I18n.t('report.domain_header')
+%table
+  - @domain_counts.each do |k|
+    %tr
+      %td= k[0].blank? ? "[direct]" : k[0]
+      %td= k[1]
+
+- content_for :page_javascript do
+  :javascript
+    $(function(){
+
+
+      var dates = $( "#start_date, #end_date" ).datepicker({
+        numberOfMonths: 1,
+        minDate: new Date(2011, 1-1, 1),
+        onSelect: function( selectedDate ) {
+          var option = this.id == "start_date" ? "minDate" : "maxDate",
+          instance = $( this ).data( "datepicker" ),
+          date = $.datepicker.parseDate(
+          instance.settings.dateFormat ||
+          $.datepicker._defaults.dateFormat,
+          selectedDate, instance.settings );
+          dates.not( this ).datepicker( "option", option, date );
+        }
+      });
+    
+      $.datepicker.setDefaults($.datepicker.regional["#{I18n.locale.to_s}"]);
+
+        // Make the 'page_view_plot' div a highchart showing the total view counts.
+        var view_chart;
+        chart = new Highcharts.Chart({
+          chart: {
+            renderTo: 'page_view_plot',
+            defaultSeriesType: 'line',
+            marginRight: 130,
+            marginBottom: 85
+          },
+          title: false,
+          legend: {
+            enabled: false
+          },
+          xAxis: {
+            type: 'datetime',
+            min: #{@start_date.at_midnight.to_i * 1000},
+            startOnTick: true
+          },
+          yAxis: {
+            title: false,
+            min: 0
+          },
+          tooltip: {
+            formatter: function() {
+              return Highcharts.dateFormat("%B %e %Y", this.x) + ': ' + this.y;
+            }
+          },
+          series: [{
+            name: 'This week',
+            pointInterval: #{1.day * 1000},
+            pointStart: #{@start_date.at_midnight.to_i * 1000},
+            data: #{@view_counts.inspect}
+          }]
+        });
+        
+        // Make the 'source_chart' div a highchart pie chart showing the source types.
+        var source_chart;
+        source_chart = new Highcharts.Chart({
+          chart: {
+             renderTo: 'source_chart',
+             plotBackgroundColor: null,
+             plotBorderWidth: null,
+             plotShadow: false,
+             marginLeft: 100,
+             marginRight: 100,
+             marginBottom: 50,
+             marginTop: 50
+          },
+          title: {
+             text: ''
+          },
+          tooltip: {
+             formatter: function() {
+                return '<b>'+ this.point.name +'</b>: '+ this.y;
+             }
+          },
+          plotOptions: {
+             pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                   enabled: true,
+                   color: '#000000',
+                   connectorColor: '#000000',
+                   formatter: function() {
+                      return '<b>'+ this.point.name +'</b>: '+ this.y;
+                   }
+                }
+             }
+          },
+           series: [{
+             type: 'pie',
+             data: #{@source_counts.map{|source_sym, count| [I18n.t("report.#{source_sym.to_s}"), count]}.to_json}
+          }]
+       });
+
+    });

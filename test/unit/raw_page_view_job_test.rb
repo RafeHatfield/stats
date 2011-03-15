@@ -7,7 +7,7 @@ class RawPageViewJobTest < ActiveSupport::TestCase
       @valid_raw_data = {
         :permalink =>"http://www.animal.intranet.suite101.com/content/the-gmhp-shiitake-mushroom-growing-kit-a120501", 
         :title => "The GMHP Shiitake Mushroom Growing Kit", 
-        :cookie_id => "#{rand(10000)}", 
+        :cookie_id => "#{1000 + rand(10000)}", 
         :suite101_article_id => @article_id, 
         :referrer_url => "http://www.google.ca/search?q=awesome+sauce&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a", 
         :writer_id => "658084", 

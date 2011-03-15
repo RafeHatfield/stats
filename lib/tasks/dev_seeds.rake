@@ -1,5 +1,4 @@
-namespace :dev_seeds do
-  
+namespace :dev_seeds do  
   desc "Cleanup the development database"
   task :cleanup => :environment do
     puts "Cleaning up the test data..."
@@ -7,7 +6,7 @@ namespace :dev_seeds do
     Article.where(:suite101_article_id => [1111,222,3333]).destroy_all
     puts 'done.'
   end
-  
+    
   desc "Inject test data for development environment"
   task :fill_page_views => [:cleanup, :environment] do
     puts 'Hardcore populating action...'
