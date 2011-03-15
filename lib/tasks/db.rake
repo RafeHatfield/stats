@@ -3,7 +3,7 @@ namespace :db do
   task :create_shards => :environment do
     puts 'Creating database shards...'
     conn = PGconn.new('localhost', 5432, '', '', '', 'postgres', '')
-    config = YAML.load_file("#{Rails.root.to_s}/config/shards.yml")['octopus'][RAILS_ENV]
+    config = YAML.load_file("#{Rails.root.to_s}/config/shards.yml")['octopus'][Rails.env]
     shards = config.keys
     shards.each do |shard|
       database = config[shard]['database']
@@ -18,7 +18,7 @@ namespace :db do
   task :drop_shards => :environment do
     puts 'Dropping database shards...'
     conn = PGconn.new('localhost', 5432, '', '', '', 'postgres', '')
-    config = YAML.load_file("#{Rails.root.to_s}/config/shards.yml")['octopus'][RAILS_ENV]
+    config = YAML.load_file("#{Rails.root.to_s}/config/shards.yml")['octopus'][Rails.env]
     shards = config.keys
     shards.each do |shard|
       database = config[shard]['database']
