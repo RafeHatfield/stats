@@ -1,5 +1,4 @@
 class CreateRawPageViews < ActiveRecord::Migration
-  using(:com, :de, :fr, :net)
   
   def self.up
     create_table :raw_page_views do |t|

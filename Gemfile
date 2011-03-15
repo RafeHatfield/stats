@@ -4,8 +4,6 @@ gem 'rails', '3.0.4'
 
 gem 'pg'
 gem 'engineyard'
-gem 'ohm'
-gem 'ohm-contrib', :require => 'ohm/contrib'
 gem 'haml'
 gem 'andand'
 gem 'SystemTimer'
@@ -16,36 +14,27 @@ gem 'newrelic_rpm'
 gem 'jquery-rails', '>= 0.2.6'
 gem 'hoptoad_notifier'
 gem 'ruby-debug'
-gem 'sqlite3-ruby', :require => 'sqlite3'
 gem 'fastercsv'
 gem 'resque-cleaner'
 gem 'memcache'
 gem 'resque-multi-job-forks'
 gem 'capistrano'
 gem 'eycap'
-gem 'ar-octopus', :require => "octopus"
-# gem 'ar-octopus', :git => 'git://github.com/tchandy/octopus.git', :require => "octopus"
 gem 'addressable', :require => 'addressable/uri'
 gem 'flutie'
 gem 'awesome_print'
+gem 'annotate-models'
 
 group :development do
 	gem "autotest"
 	gem "rails3-generators"
 end
 
-group :staging, :production do
-end
-
 group :test do
 	gem 'cucumber-rails'
 	gem 'capybara'
-	gem 'database_cleaner'
 	gem 'rspec-rails'
-	gem 'mocha'
 	gem "shoulda"
 	gem 'shoulda-context'
-	gem 'annotate-models'
-	gem 'launchy'
 	gem 'factory_girl_rails', '1.1.beta1'
 end
