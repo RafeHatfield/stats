@@ -14,10 +14,7 @@ class RawPageViewJob
       end
     end
   end
-    
 
-    
-    
 private
 
   def self.select_shard(url)
