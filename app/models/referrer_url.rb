@@ -59,7 +59,7 @@ class ReferrerUrl
       if post_key
         raw_keyphrase = post_key.split("&").first
         # Keywords are separated by %20 or +, these are converted to " " when unescaped.
-        return CGI.unescape(raw_keyphrase)
+        return CGI.unescape(raw_keyphrase).truncate(254)
       else
         return nil
       end
