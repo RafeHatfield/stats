@@ -82,7 +82,7 @@ class Article < ActiveRecord::Base
   end
   
   def self.with_total_counts_for_writer_between(writer_id, start_date, end_date)
-    article_counts = Article.where(:writer_id => writer_id).map{ |a| {:suite101_article_id => a.suite101_article_id, :title => a.title, :permalink => a.permalink, :count => a.count_between(start_date, end_date)}}
+    article_counts = Article.where(:writer_id => writer_id).map{ |a| {:suite101_article_id => a.suite101_article_id, :title => a.display_title, :permalink => a.permalink, :count => a.count_between(start_date, end_date)}}
     article_counts.sort_by{|tc| -tc[:count]}
   end
     
