@@ -72,3 +72,11 @@ namespace :resque do
   end
   after "deploy:symlink_configs","resque:restart" 
 end
+
+namespace :nginx do
+  desc "Restarting Nginx"
+  task :restart, :roles => [:app] do
+    run 'sudo /etc/init.d/nginx restart'
+  end
+  after "deploy:symlink_configs","nginx:restart" 
+end
