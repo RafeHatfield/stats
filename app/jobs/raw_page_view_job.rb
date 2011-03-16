@@ -3,6 +3,9 @@ class RawPageViewJob
 
   def self.perform(raw_page_view_data)
     hash = ActiveSupport::JSON.decode(raw_page_view_data)
+    
+    hash[:referrer_url] = clean_url(hash[:referrer_url])
+    
     raw_page_view = RawPageView.new(hash)
 
     if raw_page_view.unique?
@@ -31,5 +34,10 @@ private
 
     article.increment_domain_view_on(raw_page_view.date, referrer_url.domain)
   end  
+  
+  def clean_url(url)
+    # Replace spaces (w/ may be between keywords) with pluses.
+    url.gsub(' ','+')
+  end
   
 end
