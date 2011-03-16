@@ -12,8 +12,7 @@
 
 ActiveRecord::Schema.define(:version => 20110311181219) do
 
-  create_table "articles", :id => false, :force => true do |t|
-    t.integer  "id",                  :null => false
+  create_table "articles", :force => true do |t|
     t.integer  "suite101_article_id"
     t.string   "title"
     t.integer  "writer_id"
@@ -22,8 +21,7 @@ ActiveRecord::Schema.define(:version => 20110311181219) do
     t.datetime "updated_at"
   end
 
-  create_table "daily_domain_views", :id => false, :force => true do |t|
-    t.integer  "id",         :null => false
+  create_table "daily_domain_views", :force => true do |t|
     t.date     "date"
     t.integer  "article_id"
     t.string   "domain"
@@ -33,8 +31,7 @@ ActiveRecord::Schema.define(:version => 20110311181219) do
     t.datetime "updated_at"
   end
 
-  create_table "daily_keyphrase_views", :id => false, :force => true do |t|
-    t.integer  "id",         :null => false
+  create_table "daily_keyphrase_views", :force => true do |t|
     t.date     "date"
     t.integer  "article_id"
     t.string   "keyphrase"
@@ -44,8 +41,7 @@ ActiveRecord::Schema.define(:version => 20110311181219) do
     t.datetime "updated_at"
   end
 
-  create_table "daily_page_views", :id => false, :force => true do |t|
-    t.integer  "id",         :null => false
+  create_table "daily_page_views", :force => true do |t|
     t.date     "date"
     t.integer  "article_id"
     t.integer  "count"
@@ -54,8 +50,7 @@ ActiveRecord::Schema.define(:version => 20110311181219) do
     t.datetime "updated_at"
   end
 
-  create_table "raw_page_views", :id => false, :force => true do |t|
-    t.integer  "id",                                  :null => false
+  create_table "raw_page_views", :force => true do |t|
     t.integer  "suite101_article_id"
     t.string   "permalink"
     t.string   "title"
