@@ -14,7 +14,7 @@ namespace :db do
       end
       puts "done."
     else
-      puts 'Sharding is only enabled for staging and production environment. Nothing is done.'
+      puts 'Sharding is only enabled. Check out SHARDING_ENABLED for your environment file.'
     end
   end
   
@@ -32,7 +32,7 @@ namespace :db do
       end
       puts "done."
     else
-      puts 'Sharding is only enabled for staging and production environment. Nothing is done.'
+      puts 'Sharding is only enabled. Check out SHARDING_ENABLED for your environment file.'
     end
   end
 end
