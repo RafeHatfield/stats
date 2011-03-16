@@ -13,7 +13,7 @@ class TrackingController < ApplicationController
       :date => Time.now
     }
     
-    Resque.enqueue(RawPageViewJob, raw_page_view_data.to_json) if rand(10) == 1
+    Resque.enqueue(RawPageViewJob, raw_page_view_data.to_json) if rand(3) == 1
     
     # Send a 1px image back to the requester.
     redirect_to 'http://graphics.suite101.com/page_view.gif'
