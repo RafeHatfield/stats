@@ -46,7 +46,7 @@ namespace :dev_seeds do
                 :referrer_url => referrer_url,
                 :title => article[:title],
                 :date => i_day.days.ago,
-                :cookie_id => "#{rand(1000000)}"
+                :cookie_id => "#{1000 + rand(1000000)}"
               }.to_json
             )
           end
