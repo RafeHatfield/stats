@@ -34,7 +34,7 @@ group :development do
 end
 
 group :staging do
-  gem 'ar-octopus', :require => "octopus"
+  #gem 'ar-octopus', :require => "octopus"
 end
 
 group :test do
