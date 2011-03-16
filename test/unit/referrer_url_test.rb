@@ -56,6 +56,10 @@ class ReferrerUrlTest < ActiveSupport::TestCase
     should "return nil for an empty keyphrase" do
       assert_equal nil, ReferrerUrl.new("http://www.google.com.sg/m/search?aq=").keyphrase
     end
+    should "return truncated keyphrase if it is greater than 254 characters" do
+      keyphrase_in = "a" * 255
+      assert_equal keyphrase_in.truncate(254), ReferrerUrl.new("http://www.google.com?q=#{keyphrase_in}").keyphrase
+    end
   end
   
   context "getting domain" do
