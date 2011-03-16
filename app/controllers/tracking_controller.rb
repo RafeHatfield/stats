@@ -10,7 +10,7 @@ class TrackingController < ApplicationController
       :referrer_url => params[:referrer_url] || "",
       :cookie_id => params[:cookie_id],
       #:date => params[:utc_seconds] ? Time.at(params[:utc_seconds].to_i) : Time.now
-      :date => Time.now
+      :date => Time.new.utc
     }
     
     Resque.enqueue(RawPageViewJob, raw_page_view_data.to_json) if rand(3) == 1
