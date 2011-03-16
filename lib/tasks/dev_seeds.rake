@@ -4,7 +4,7 @@ namespace :dev_seeds do
   ARTICLES = [
     {:id => 11111, :title => "Article 1", :writer_id => WRITER_ID},
     {:id => 22222, :title => "Article 2", :writer_id => WRITER_ID},
-    {:id => 22222, :title => "Article 3", :writer_id => WRITER_ID}
+    {:id => 33333, :title => "Article 3", :writer_id => WRITER_ID}
   ]
   REFERRER_URLS = [
     "http://www.google.ca/search?q=awesome+sauce&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a",
@@ -24,7 +24,7 @@ namespace :dev_seeds do
   task :cleanup => :environment do
     puts "Cleaning up the test data..."
     ARTICLES.each do |article|
-      Article.where(:suite101_article_id => article[:id]).destroy
+      Article.where(:suite101_article_id => article[:id]).destroy_all
     end
     puts 'done.'
   end
@@ -37,16 +37,18 @@ namespace :dev_seeds do
         90.downto(0) do |i_day|
           count = (6.*Math.sin(i_day*(360/6.28))).to_i + 6 + rand(4)
           count.times do
-            # RawPageViewJob.perform({
-            #               :writer_id => article[:writer_id],
-            #               :cookie_id => "arandomcookie",
-            #               :permalink => "http://www.suite101.com/content/chocolate-has-an-expiration-date-a347637",
-            #               :suite101_article_id => article[:id],
-            #               :referrer_url => referrer_url,
-            #               :title => article[:title],
-            #               :date => i_day.days.ago,
-            #               :cookie_id => "#{rand(1000000)}"
-            #               }.to_json)
+            RawPageViewJob.perform(
+              {
+                :writer_id => article[:writer_id],
+                :cookie_id => "arandomcookie",
+                :permalink => "http://www.suite101.com/content/chocolate-has-an-expiration-date-a347637",
+                :suite101_article_id => article[:id],
+                :referrer_url => referrer_url,
+                :title => article[:title],
+                :date => i_day.days.ago,
+                :cookie_id => "#{rand(1000000)}"
+              }.to_json
+            )
           end
           puts "Registered #{count} views on article #{article[:id]} for member #{article[:writer_id]} on #{i_day.days.ago.to_date}."
         end
