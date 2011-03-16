@@ -53,7 +53,9 @@ class ReferrerUrlTest < ActiveSupport::TestCase
     should "return nil for an empty url" do
       assert_equal nil, ReferrerUrl.new("").keyphrase
     end
-    
+    should "return nil for an empty keyphrase" do
+      assert_equal nil, ReferrerUrl.new("http://www.google.com.sg/m/search?aq=").keyphrase
+    end
   end
   
   context "getting domain" do

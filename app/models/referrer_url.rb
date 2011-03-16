@@ -56,9 +56,13 @@ class ReferrerUrl
     
     if @url.include?(@@ENGINE_SEARCH_KEY[search_engine])
       post_key = @url.split(@@ENGINE_SEARCH_KEY[search_engine]).second
-      raw_keyphrase = post_key.split("&").first
-      # Keywords are separated by %20 or +, these are converted to " " when unescaped.
-      return CGI.unescape(raw_keyphrase)
+      if post_key
+        raw_keyphrase = post_key.split("&").first
+        # Keywords are separated by %20 or +, these are converted to " " when unescaped.
+        return CGI.unescape(raw_keyphrase)
+      else
+        return nil
+      end
     else
       return nil
     end

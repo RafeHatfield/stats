@@ -1,4 +1,5 @@
 class StandardizeRawPageViewColumnNames < ActiveRecord::Migration
+  using(:com, :de, :fr, :net) if SHARDING_ENABLED
 
   def self.up
     rename_column(:raw_page_views, :tracked_page_id, :suite101_article_id)

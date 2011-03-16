@@ -3,13 +3,15 @@ class RawPageViewJob
 
   def self.perform(raw_page_view_data)
     hash = ActiveSupport::JSON.decode(raw_page_view_data)
-    hash["referrer_url"] = clean_url(hash["referrer_url"])
     
-    raw_page_view = RawPageView.new(hash)
+    select_shard(hash['permalink']) do
+      hash["referrer_url"] = clean_url(hash["referrer_url"])
+      raw_page_view = RawPageView.new(hash)
 
-    if raw_page_view.unique?
-      raw_page_view.save!
-      process_raw_page_view(raw_page_view)
+      if raw_page_view.unique?
+        raw_page_view.save!
+        process_raw_page_view(raw_page_view)
+      end
     end
   end
     
@@ -17,6 +19,15 @@ class RawPageViewJob
     
     
 private
+
+  def self.select_shard(url)
+    if SHARDING_ENABLED
+      domain_extension = Addressable::URI.parse(url).host.split('.').last
+      Octopus.using(domain_extension.to_sym) { yield }
+    else
+      yield
+    end
+  end
   
   def self.process_raw_page_view(raw_page_view)   
     article = Article.find_and_update_title_or_create({
