@@ -3,8 +3,7 @@ class RawPageViewJob
 
   def self.perform(raw_page_view_data)
     hash = ActiveSupport::JSON.decode(raw_page_view_data)
-    
-    hash[:referrer_url] = clean_url(hash[:referrer_url])
+    hash["referrer_url"] = clean_url(hash["referrer_url"])
     
     raw_page_view = RawPageView.new(hash)
 
@@ -14,9 +13,12 @@ class RawPageViewJob
     end
   end
     
+
+    
+    
 private
   
-  def self.process_raw_page_view(raw_page_view)    
+  def self.process_raw_page_view(raw_page_view)   
     article = Article.find_and_update_title_or_create({
       :suite101_article_id => raw_page_view.suite101_article_id,
       :title => raw_page_view.title,
@@ -35,9 +37,9 @@ private
     article.increment_domain_view_on(raw_page_view.date, referrer_url.domain)
   end  
   
-  def clean_url(url)
+  def self.clean_url(url)
     # Replace spaces (w/ may be between keywords) with pluses.
-    url.gsub(' ','+')
+    url.respond_to?(:gsub) ? url.gsub(' ', '+') : ""
   end
   
 end
