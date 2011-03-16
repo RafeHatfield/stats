@@ -31,6 +31,7 @@ end
 group :development do
 	gem "autotest"
 	gem "rails3-generators"
+	gem 'rails_best_practices'
 end
 
 group :staging do

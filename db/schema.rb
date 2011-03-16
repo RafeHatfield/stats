@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110311181219) do
+ActiveRecord::Schema.define(:version => 20110316205820) do
 
   create_table "articles", :force => true do |t|
     t.integer  "suite101_article_id"
@@ -20,6 +20,9 @@ ActiveRecord::Schema.define(:version => 20110311181219) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "articles", ["suite101_article_id"], :name => "index_articles_on_suite101_article_id"
+  add_index "articles", ["writer_id"], :name => "index_articles_on_writer_id"
 
   create_table "daily_domain_views", :force => true do |t|
     t.date     "date"
@@ -31,6 +34,9 @@ ActiveRecord::Schema.define(:version => 20110311181219) do
     t.datetime "updated_at"
   end
 
+  add_index "daily_domain_views", ["article_id"], :name => "index_daily_domain_views_on_article_id"
+  add_index "daily_domain_views", ["writer_id"], :name => "index_daily_domain_views_on_writer_id"
+
   create_table "daily_keyphrase_views", :force => true do |t|
     t.date     "date"
     t.integer  "article_id"
@@ -41,6 +47,9 @@ ActiveRecord::Schema.define(:version => 20110311181219) do
     t.datetime "updated_at"
   end
 
+  add_index "daily_keyphrase_views", ["article_id"], :name => "index_daily_keyphrase_views_on_article_id"
+  add_index "daily_keyphrase_views", ["writer_id"], :name => "index_daily_keyphrase_views_on_writer_id"
+
   create_table "daily_page_views", :force => true do |t|
     t.date     "date"
     t.integer  "article_id"
@@ -49,6 +58,9 @@ ActiveRecord::Schema.define(:version => 20110311181219) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "daily_page_views", ["article_id"], :name => "index_daily_page_views_on_article_id"
+  add_index "daily_page_views", ["writer_id"], :name => "index_daily_page_views_on_writer_id"
 
   create_table "raw_page_views", :force => true do |t|
     t.integer  "suite101_article_id"
@@ -59,5 +71,9 @@ ActiveRecord::Schema.define(:version => 20110311181219) do
     t.string   "cookie_id"
     t.datetime "date"
   end
+
+  add_index "raw_page_views", ["cookie_id"], :name => "index_raw_page_views_on_cookie_id"
+  add_index "raw_page_views", ["suite101_article_id"], :name => "index_raw_page_views_on_suite101_article_id"
+  add_index "raw_page_views", ["writer_id"], :name => "index_raw_page_views_on_writer_id"
 
 end

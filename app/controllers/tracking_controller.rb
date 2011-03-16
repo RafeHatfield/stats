@@ -2,8 +2,6 @@ class TrackingController < ApplicationController
 
   def add_page_view
     
-    logger.error("got a request.")
-    
     current_utc = Time.now.utc
     
     raw_page_view_data = {
