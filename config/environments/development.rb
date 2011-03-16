@@ -24,4 +24,4 @@ Stats::Application.configure do
   config.action_dispatch.best_standards_support = :builtin
 end
 
-SHARDING_ENABLED = true
+SHARDING_ENABLED = false
