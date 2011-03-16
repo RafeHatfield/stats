@@ -30,6 +30,10 @@ group :development do
 	gem "rails3-generators"
 end
 
+group :staging do
+  gem 'ar-octopus', :require => "octopus"
+end
+
 group :test do
 	gem 'cucumber-rails'
 	gem 'capybara'

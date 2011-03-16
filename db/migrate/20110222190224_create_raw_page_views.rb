@@ -1,4 +1,5 @@
 class CreateRawPageViews < ActiveRecord::Migration
+  using(:com, :de, :fr, :net) if SHARDING_ENABLED
   
   def self.up
     create_table :raw_page_views do |t|

@@ -1,4 +1,5 @@
 class CreateArticles < ActiveRecord::Migration
+  using(:com, :de, :fr, :net) if SHARDING_ENABLED
   
   def self.up
     create_table :articles do |t|
