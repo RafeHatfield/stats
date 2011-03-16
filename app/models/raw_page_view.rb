@@ -72,13 +72,16 @@ class RawPageView < ActiveRecord::Base
   
   def require_referrer_url_to_be_a_parseable_url_or_empty
     if self.referrer_url != ""
+      if self.referrer_url.nil?
+        errors.add(:referrer_url, "was nil.")
+      end
       begin
         uri = URI.parse(self.referrer_url)
         if uri.class != URI::HTTP
-          errors.add_to_base(:referrer_url, 'was not parseable.')
+          errors.add(:referrer_url, "was not an http url. It is: #{self.referrer_url}.")
         end
       rescue URI::InvalidURIError
-        errors.add(:referrer_url, 'was not parseable.')
+        errors.add(:referrer_url, "was not parseable. It is: #{self.referrer_url}.")
       end
     end
   end
