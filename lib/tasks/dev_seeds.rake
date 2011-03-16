@@ -33,25 +33,23 @@ namespace :dev_seeds do
   task :fill => [:cleanup, :environment] do
     puts 'Hardcore populating action...'
     ARTICLES.each do |article|
-      REFERRER_URLS.each do |referrer_url|
-        90.downto(0) do |i_day|
-          count = (6.*Math.sin(i_day*(360/6.28))).to_i + 6 + rand(4)
-          count.times do
-            RawPageViewJob.perform(
-              {
-                :writer_id => article[:writer_id],
-                :cookie_id => "arandomcookie",
-                :permalink => "http://www.suite101.com/content/chocolate-has-an-expiration-date-a347637",
-                :suite101_article_id => article[:id],
-                :referrer_url => referrer_url,
-                :title => article[:title],
-                :date => i_day.days.ago,
-                :cookie_id => "#{1000 + rand(1000000)}"
-              }.to_json
-            )
-          end
-          puts "Registered #{count} views on article #{article[:id]} for member #{article[:writer_id]} on #{i_day.days.ago.to_date}."
+      90.downto(0) do |i_day|
+        count = (6.*Math.sin(i_day*(360/6.28))).to_i + 6 + rand(4)
+        count.times do
+          RawPageViewJob.perform(
+            {
+              :writer_id => article[:writer_id],
+              :cookie_id => "arandomcookie",
+              :permalink => "http://www.suite101.com/content/chocolate-has-an-expiration-date-a347637",
+              :suite101_article_id => article[:id],
+              :referrer_url => REFERRER_URLS[rand(REFERRER_URLS.count)],
+              :title => article[:title],
+              :date => i_day.days.ago,
+              :cookie_id => "#{1000 + rand(1000000)}"
+            }.to_json
+          )
         end
+        puts "Registered #{count} views on article #{article[:id]} for member #{article[:writer_id]} on #{i_day.days.ago.to_date}."
       end
     end
     puts "Done..."
