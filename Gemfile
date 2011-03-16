@@ -12,8 +12,7 @@ gem 'resque'
 gem 'rpm_contrib'
 gem 'newrelic_rpm'
 gem 'jquery-rails', '>= 0.2.6'
-gem 'hoptoad_notifier'
-gem 'ruby-debug'
+# gem 'hoptoad_notifier'
 gem 'fastercsv'
 gem 'resque-cleaner'
 gem 'memcache'
@@ -21,9 +20,13 @@ gem 'resque-multi-job-forks'
 gem 'capistrano'
 gem 'eycap'
 gem 'addressable', :require => 'addressable/uri'
-gem 'flutie'
-gem 'awesome_print'
-gem 'annotate-models'
+
+group :development, :test do
+  gem 'flutie'
+  gem 'awesome_print'
+  gem 'annotate-models'
+  gem 'ruby-debug'
+end
 
 group :development do
 	gem "autotest"

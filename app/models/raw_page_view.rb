@@ -16,7 +16,7 @@
 class RawPageView < ActiveRecord::Base
   validates_presence_of :title, :suite101_article_id, :permalink, :title, :writer_id, :cookie_id, :date
   validates_numericality_of :suite101_article_id, :writer_id, :only_integer => true
-  validate :require_reasonable_year
+  validate :require_reasonable_date
   validate :require_referrer_url_to_be_a_parseable_url_or_empty
   validates_length_of :permalink, :in => 3..250
   validates_length_of :title, :in => 3..250
@@ -27,6 +27,15 @@ class RawPageView < ActiveRecord::Base
   # Enter/update this view in the uniqueness Cache.
   def unique?    
     # Get the last similar view from the uniqueness cache.
+    
+    if !self.valid?
+      # If the view isn't valid, catch it now so that we don't
+      # throw bad data into the uniqueness cache.
+      # We force throw an error by attempting to save an invalid 
+      # record.
+      self.save!
+    end
+    
     previous_date = RawPageView.uniqueness_cache.get(unique_identifier)
     
     # Put this view into the uniqueness cache.
@@ -51,7 +60,7 @@ class RawPageView < ActiveRecord::Base
     "#{self.suite101_article_id}#{self.referrer_url}#{self.cookie_id}".hash.to_s
   end
   
-  def require_reasonable_year
+  def require_reasonable_date
     begin
       if self.date.year < 2000 || self.date.year > 2050
         errors.add(:date, "must have a year between 2000 and 2050")
@@ -63,13 +72,16 @@ class RawPageView < ActiveRecord::Base
   
   def require_referrer_url_to_be_a_parseable_url_or_empty
     if self.referrer_url != ""
+      if self.referrer_url.nil?
+        errors.add(:referrer_url, "was nil.")
+      end
       begin
         uri = URI.parse(self.referrer_url)
         if uri.class != URI::HTTP
-          errors.add_to_base(:referrer_url, 'was not parseable.')
+          errors.add(:referrer_url, "was not an http url. It is: #{self.referrer_url}.")
         end
       rescue URI::InvalidURIError
-        errors.add(:referrer_url, 'was not parseable.')
+        errors.add(:referrer_url, "was not parseable. It is: #{self.referrer_url}.")
       end
     end
   end
