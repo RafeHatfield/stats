@@ -4,7 +4,11 @@ class ApplicationController < ActionController::Base
   before_filter :set_locale
   
   def domain_extension
-    request.domain.split('.').last.to_sym
+    if request.domain
+      request.domain.split('.').last.to_sym
+    else
+      :com
+    end
   end
 
   def domain_extension?(lang)
