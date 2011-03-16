@@ -40,6 +40,25 @@ class DailyDomainViewTest < ActiveSupport::TestCase
       assert_equal expected_domain_counts, DailyDomainView.domains_with_total_counts_for_writer_between(writer_id, Date.yesterday, Date.today)
     end
     
+    should "get limit the results if a limit option is set" do
+      writer_id = 333
+      article = FactoryGirl.create(:article, :writer_id => writer_id)
+      domain1 = "www.google.com"
+      domain2 = "www.yahoo.com"
+      3.times do
+        article.increment_domain_view_on(Date.yesterday, domain1)
+      end
+      2.times do
+        article.increment_domain_view_on(Date.yesterday, domain2)
+      end
+      6.times do
+        article.increment_domain_view_on(Date.today, domain1)
+      end
+
+      expected_domain_counts = [[domain1, 3+6]]
+      assert_equal expected_domain_counts, DailyDomainView.domains_with_total_counts_for_writer_between(writer_id, Date.yesterday, Date.today, :limit => 1)
+    end
+    
   end
   
   context "getting domain counts for an article between two dates" do

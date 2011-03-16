@@ -20,17 +20,21 @@ class DailyDomainView < ActiveRecord::Base
   
   # Get the total number of views for each domain for writer_id between start_date and end_date
   # Ordered by total count descending.
-  def self.domains_with_total_counts_for_writer_between(writer_id, start_date, end_date)  
-    domain_counts = DailyDomainView.where(:writer_id => writer_id).between(start_date, end_date).group("domain").select("domain").order("sum_count desc").sum("count")
-    domain_counts.to_a
+  def self.domains_with_total_counts_for_writer_between(writer_id, start_date, end_date, options={})  
+    domain_counts = DailyDomainView.where(:writer_id => writer_id).between(start_date, end_date).group("domain").select("domain").order("sum_count desc")
+    if options[:limit]
+      domain_counts = domain_counts.limit(options[:limit])
+    end
+  
+    domain_counts.sum("count").to_a
   end
   
   # Get the total number of views for each domain for an article between start_date and end_date
   # Ordered by total count descending.
   def self.domains_with_total_counts_for_article_between(suite101_article_id, start_date, end_date)  
     domains = DailyDomainView.between(start_date, end_date).joins(:article) & Article.where(:suite101_article_id => suite101_article_id)
-    domain_counts = domains.group("domain").select("domain").order("sum_count desc").sum("count")
-    domain_counts.to_a
+    domain_counts = domains.group("domain").select("domain").order("sum_count desc")
+    domain_counts.sum("count").to_a
   end
   
   # Get a hash with the total number of internal, organic, direct views for writer_id between
