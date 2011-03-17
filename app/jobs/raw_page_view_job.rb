@@ -5,7 +5,9 @@ class RawPageViewJob
     hash = ActiveSupport::JSON.decode(raw_page_view_data)
     
     select_shard(hash['permalink']) do
-      hash["referrer_url"] = clean_url(hash["referrer_url"])
+      hash["referrer_url"] = clean_url(hash["referrer_url"])      
+      hash["cookie_id"] ||= "#{1000 + rand(1000000)}"
+        
       raw_page_view = RawPageView.new(hash)
 
       if raw_page_view.unique?
