@@ -1,10 +1,10 @@
 postgres: &postgres
   adapter: postgresql
-  username: postgres
-  password: suite101
+  username: suite101_db
+  password: 632bVy6Le3h9f
   encoding: unicode
-  host: localhost
-  port: 5432
+  host: suite101-psql-staging-master
+#  port: 5432
 
 octopus:
   environments:
