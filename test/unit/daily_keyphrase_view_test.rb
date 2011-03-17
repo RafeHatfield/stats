@@ -26,17 +26,17 @@ class DailyKeyphraseViewTest < ActiveSupport::TestCase
       phrase1 = "awesome sauce"
       phrase2 = "awesome"
       3.times do
-        article.increment_keyphrase_view_on(Date.yesterday, phrase1)
+        article.increment_keyphrase_view_on(1.day.ago, phrase1)
       end
       2.times do
-        article.increment_keyphrase_view_on(Date.yesterday, phrase2)
+        article.increment_keyphrase_view_on(1.day.ago, phrase2)
       end
       6.times do
-        article.increment_keyphrase_view_on(Date.today, phrase1)
+        article.increment_keyphrase_view_on(0.days.ago, phrase1)
       end
 
       expected_keyphrase_counts = [[phrase1, 3+6], [phrase2, 2]]
-      assert_equal expected_keyphrase_counts, DailyKeyphraseView.keyphrases_with_total_counts_for_writer_between(writer_id, Date.yesterday, Date.today)
+      assert_equal expected_keyphrase_counts, DailyKeyphraseView.keyphrases_with_total_counts_for_writer_between(writer_id, 1.day.ago, 0.days.ago)
     end
     
     should "limit the keyphrases returned if we set the limit option" do
@@ -45,16 +45,16 @@ class DailyKeyphraseViewTest < ActiveSupport::TestCase
       phrase1 = "awesome sauce"
       phrase2 = "awesome"
       3.times do
-        article.increment_keyphrase_view_on(Date.yesterday, phrase1)
+        article.increment_keyphrase_view_on(1.day.ago, phrase1)
       end
       2.times do
-        article.increment_keyphrase_view_on(Date.yesterday, phrase2)
+        article.increment_keyphrase_view_on(1.day.ago, phrase2)
       end
       6.times do
-        article.increment_keyphrase_view_on(Date.today, phrase1)
+        article.increment_keyphrase_view_on(0.days.ago, phrase1)
       end
       expected_keyphrase_counts = [[phrase1, 3+6]]
-      assert_equal expected_keyphrase_counts, DailyKeyphraseView.keyphrases_with_total_counts_for_writer_between(writer_id, Date.yesterday, Date.today, :limit => 1)
+      assert_equal expected_keyphrase_counts, DailyKeyphraseView.keyphrases_with_total_counts_for_writer_between(writer_id, 1.day.ago, 0.days.ago, :limit => 1)
     end
     
   end
@@ -65,17 +65,17 @@ class DailyKeyphraseViewTest < ActiveSupport::TestCase
       phrase1 = "awesome sauce"
       phrase2 = "awesome"
       3.times do
-        article.increment_keyphrase_view_on(Date.yesterday, phrase1)
+        article.increment_keyphrase_view_on(1.day.ago, phrase1)
       end
       2.times do
-        article.increment_keyphrase_view_on(Date.yesterday, phrase2)
+        article.increment_keyphrase_view_on(1.day.ago, phrase2)
       end
       6.times do
-        article.increment_keyphrase_view_on(Date.today, phrase1)
+        article.increment_keyphrase_view_on(0.days.ago, phrase1)
       end
 
       expected_keyphrase_counts = [[phrase1, 3+6], [phrase2, 2]]
-      assert_equal expected_keyphrase_counts, DailyKeyphraseView.keyphrases_with_total_counts_for_article_between(article.suite101_article_id, Date.yesterday, Date.today)
+      assert_equal expected_keyphrase_counts, DailyKeyphraseView.keyphrases_with_total_counts_for_article_between(article.suite101_article_id, 1.day.ago, 0.days.ago)
     end
   end
   
