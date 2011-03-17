@@ -4,9 +4,11 @@ class RawPageViewJob
   def self.perform(raw_page_view_data)
     hash = ActiveSupport::JSON.decode(raw_page_view_data)
     select_shard(hash['permalink']) do      
-      raw_page_view = RawPageView.new(hash)
-      if raw_page_view.save!
-        process_raw_page_view(raw_page_view)
+      view = RawPageView.new(hash)
+      begin
+        process_raw_page_view(view) if view.save!
+      rescue ActiveRecord::RecordNotSaved
+        # Only throw validation errors.
       end
     end
   end
