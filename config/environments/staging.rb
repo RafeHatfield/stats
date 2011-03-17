@@ -48,4 +48,4 @@ Stats::Application.configure do
   config.active_support.deprecation = :notify
 end
 
-SHARDING_ENABLED = false
+SHARDING_ENABLED = true
