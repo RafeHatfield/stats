@@ -24,7 +24,11 @@ class RawPageView < ActiveRecord::Base
   validates_length_of :referrer_url, :maximum => 950
   
   before_validation do |v|  
-    # Clean the referrer_url
+    # Clean the data.
+    
+    # Make the referrer_url empty if it isn't valid.
+    v.referrer_url = "" if !valid_url(v.referrer_url)
+    
     # Replace spaces (w/ may be between keywords) with pluses.
     v.referrer_url = v.referrer_url.respond_to?(:gsub) ? v.referrer_url.gsub(' ', '+') : ""
     
@@ -73,19 +77,22 @@ class RawPageView < ActiveRecord::Base
   end
   
   def require_referrer_url_to_be_a_parseable_url_or_empty
-    if self.referrer_url != ""
-      if self.referrer_url.nil?
-        errors.add(:referrer_url, "was nil.")
-      end
-      begin
-        uri = URI.parse(self.referrer_url)
-        if uri.class != URI::HTTP
-          errors.add(:referrer_url, "was not an http url. It is: #{self.referrer_url}.")
-        end
-      rescue URI::InvalidURIError
-        errors.add(:referrer_url, "was not parseable. It is: #{self.referrer_url}.")
-      end
+    if self.referrer_url != "" && !valid_url?(self.referrer_url)
+      errors.add(:referrer_url, "was not parseable as a url. It is: #{self.referrer_url}.")
     end
+  end
+  
+  def valid_url?(url)
+    if self.referrer_url.nil?
+      return false
+    end
+    begin
+      uri = URI.parse(url)
+      return false if uri.class != URI::HTTP
+    rescue URI::InvalidURIError
+      return false
+    end
+    return true
   end
 
   
