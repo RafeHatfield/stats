@@ -34,9 +34,9 @@ class RawPageViewTest < ActiveSupport::TestCase
     should "require a valid date" do
       assert_equal false, FactoryGirl.build(:raw_page_view, :date => 1234).valid?
     end
-    should "require referrer_url to be a parseable url" do
-      assert_equal false, FactoryGirl.build(:raw_page_view, :referrer_url => "www.google.ca").valid?
-    end
+    # should "require referrer_url to be a parseable url" do
+    #   assert_equal false, FactoryGirl.build(:raw_page_view, :referrer_url => "www.google.ca").valid?
+    # end
     should "allow an empty string as a referrer url" do
       assert_equal true, FactoryGirl.build(:raw_page_view, :referrer_url => "").valid?
     end

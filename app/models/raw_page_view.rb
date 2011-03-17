@@ -26,11 +26,11 @@ class RawPageView < ActiveRecord::Base
   before_validation do |v|  
     # Clean the data.
     
-    # Make the referrer_url empty if it isn't valid.
-    v.referrer_url = "" if !valid_url(v.referrer_url)
-    
     # Replace spaces (w/ may be between keywords) with pluses.
     v.referrer_url = v.referrer_url.respond_to?(:gsub) ? v.referrer_url.gsub(' ', '+') : ""
+    
+    # Make the referrer_url empty if it still isn't valid.
+    v.referrer_url = "" if !valid_url?(v.referrer_url)
     
     # Make the cookie unique if it is nil.
     v.cookie_id ||= "#{1000 + rand(1000000)}"
