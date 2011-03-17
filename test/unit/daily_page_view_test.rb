@@ -29,9 +29,9 @@ class DailyPageViewTest < ActiveSupport::TestCase
       article2 = Factory.create(:article, :suite101_article_id => 2, :writer_id => writer_id)
             
       article1.increment_page_view_on(1.day.ago)
-      article2.increment_page_view_on(Date.today)
-      
-      view_counts = DailyPageView.counts_for_writer_between(writer_id, 2.days.ago, Date.today)
+      article2.increment_page_view_on(0.days.ago)
+
+      view_counts = DailyPageView.counts_for_writer_between(writer_id, 2.days.ago, 0.days.ago)
       
       assert_equal [0,1,1], view_counts
     end
@@ -42,17 +42,17 @@ class DailyPageViewTest < ActiveSupport::TestCase
       @suite101_article_id = 1
       article = Factory.create(:article, :suite101_article_id => @suite101_article_id)
       article.increment_page_view_on(1.day.ago)
-      article.increment_page_view_on(Date.today)
+      article.increment_page_view_on(0.days.ago)
     end
     should "get the right view counts" do
-      view_counts = DailyPageView.counts_for_article_between(@suite101_article_id, 2.days.ago, Date.today)
+      view_counts = DailyPageView.counts_for_article_between(@suite101_article_id, 2.days.ago, 0.days.ago)
       assert_equal [0,1,1], view_counts
     end
     should "get the right view counts if there is more than one article" do
       article = Factory.create(:article, :suite101_article_id => 2)
       article.increment_page_view_on(1.day.ago)
-      article.increment_page_view_on(Date.today)
-      view_counts = DailyPageView.counts_for_article_between(@suite101_article_id, 2.days.ago, Date.today)
+      article.increment_page_view_on(0.days.ago)
+      view_counts = DailyPageView.counts_for_article_between(@suite101_article_id, 2.days.ago, 0.days.ago)
       assert_equal [0,1,1], view_counts
     end
   end

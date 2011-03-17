@@ -87,6 +87,22 @@ class RawPageViewJobTest < ActiveSupport::TestCase
     
     end
     
+    context "perform with an null cookie_id" do
+      setup do
+        data = "{\"permalink\":\"http://www.suite101.com/content/letting-go-a12912\",\"title\":\"Letting%20Go%20Of%20Your%20Past%20%2D%20Moving%20On%20With%20Life\",\"suite101_article_id\":\"12912\",\"cookie_id\":null,\"date\":\"2011-03-16T21:18:31+00:00\",\"referrer_url\":\"\",\"writer_id\":\"587420\"}"
+        RawPageViewJob.perform(data)
+        @article = Article.where(:suite101_article_id => 12912).first
+      end
+    
+      should "create an article" do
+        assert @article
+      end
+      should "create a raw page view" do
+        assert_equal 1, RawPageView.where(:suite101_article_id => @article.suite101_article_id).count
+      end
+    
+    end
+    
   end
   
   # should "handle funny dates" do
