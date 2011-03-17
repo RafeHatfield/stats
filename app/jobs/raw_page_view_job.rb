@@ -18,7 +18,7 @@ class RawPageViewJob
 private
 
   def self.select_shard(url)
-    if SHARDING_ENABLED
+    if SHARDING_ENABLED && url.present?
       domain_extension = Addressable::URI.parse(url).host.split('.').last
       Octopus.using(domain_extension.to_sym) { yield }
     else
