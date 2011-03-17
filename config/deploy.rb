@@ -72,3 +72,9 @@ namespace :resque do
   end
   after "deploy:symlink_configs","resque:restart" 
 end
+
+namespace :deploy do 
+  task :start, :roles => :app do
+    run "touch #{current_release}/tmp/restart.txt"
+  end
+end

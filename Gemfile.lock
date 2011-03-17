@@ -33,6 +33,8 @@ GEM
     addressable (2.2.4)
     andand (1.3.1)
     annotate-models (1.0.4)
+    ar-octopus (0.3.4)
+      activerecord (>= 2.3)
     arel (2.0.8)
     autotest (4.4.6)
       ZenTest (>= 4.4.1)
@@ -222,6 +224,7 @@ DEPENDENCIES
   addressable
   andand
   annotate-models
+  ar-octopus
   autotest
   awesome_print
   capistrano
