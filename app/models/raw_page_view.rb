@@ -23,41 +23,43 @@ class RawPageView < ActiveRecord::Base
   validates_length_of :cookie_id, :in => 3..250
   validates_length_of :referrer_url, :maximum => 950
   
-  # Return true if this view is considered unique.
-  # Enter/update this view in the uniqueness Cache.
+  before_validation do |v|  
+    # Clean the referrer_url
+    # Replace spaces (w/ may be between keywords) with pluses.
+    v.referrer_url = v.referrer_url.respond_to?(:gsub) ? v.referrer_url.gsub(' ', '+') : ""
+    
+    # Make the cookie unique if it is nil.
+    v.cookie_id ||= "#{1000 + rand(1000000)}"
+  end
+  
+  before_save do |v|
+    # Determine if this view was unique.
+    is_unique = unique?
+    
+    # Enter/update this view in the uniqueness cache.
+    RawPageView.uniqueness_cache.set(unique_identifier, self.date)
+    
+    # Only save if this view was unique.
+    return is_unique
+  end
+
+  private
+  
   def unique?    
-    # Get the last similar view from the uniqueness cache.
-    
-    if !self.valid?
-      # If the view isn't valid, catch it now so that we don't
-      # throw bad data into the uniqueness cache.
-      # We force throw an error by attempting to save an invalid 
-      # record.
-      self.save!
-    end
-    
+    # Get the last similar view from the uniqueness cache.  
     previous_date = RawPageView.uniqueness_cache.get(unique_identifier)
-    
-    # Put this view into the uniqueness cache.
-    insert_into_uniqueness_cache
     
     # If there wasn't a previous entry, or the previous entry was more than 30 minutes ago
     # return true.
     return !previous_date || self.date - previous_date > 30.minutes
   end
+
+  def unique_identifier
+    @unique_identifier ||= "#{self.suite101_article_id}#{self.referrer_url}#{self.cookie_id}".hash.to_s
+  end
   
   def self.uniqueness_cache
     @@uniqueness_cache ||= MemCache.new ENV["MEMCACHED_CONNECTION_PATH"]
-  end
-  
-  def insert_into_uniqueness_cache
-    RawPageView.uniqueness_cache.set(unique_identifier, self.date)
-  end
-  
-  private
-  
-  def unique_identifier
-    "#{self.suite101_article_id}#{self.referrer_url}#{self.cookie_id}".hash.to_s
   end
   
   def require_reasonable_date

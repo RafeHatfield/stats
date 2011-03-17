@@ -98,7 +98,7 @@ class RawPageViewJobTest < ActiveSupport::TestCase
         assert @article
       end
       should "create a raw page view" do
-        assert_equal 1, RawPageView.where(:suite101_article_id => @article_id).count
+        assert_equal 1, RawPageView.where(:suite101_article_id => @article.suite101_article_id).count
       end
     
     end

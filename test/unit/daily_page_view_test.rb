@@ -33,7 +33,7 @@ class DailyPageViewTest < ActiveSupport::TestCase
 
       view_counts = DailyPageView.counts_for_writer_between(writer_id, 2.days.ago, 0.days.ago)
       
-      assert_equal [1,1,1], view_counts
+      assert_equal [0,1,1], view_counts
     end
   end
   
