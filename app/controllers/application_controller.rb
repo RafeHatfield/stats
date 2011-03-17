@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   
   before_filter :set_locale
+  around_filter :select_shard
   
   def domain_extension
     if request.domain
@@ -23,4 +24,13 @@ class ApplicationController < ActionController::Base
     }
     I18n.locale = extensions[domain_extension]    
   end
+  
+  def select_shard
+    if SHARDING_ENABLED
+      Octopus.using(domain_extension) { yield }
+    else
+      yield
+    end
+  end
+  
 end
