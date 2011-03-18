@@ -73,11 +73,9 @@
       });
       
       $("#article_counts_full").hide();
-      
-      if ($("#article_counts").children().children().length > ARTICLE_POSITION_TO_SHOW + 1){
-        toggle_article_counts();
-      } else {
-        article_count_toggler.hide();
+
+      if($("#article_counts").children().children().length < 5){
+           article_count_toggler.hide();
       }
 
       var dates = $( "#start_date, #end_date" ).datepicker({
