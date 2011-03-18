@@ -5,19 +5,25 @@
 
 de:
   report:
-    header: "Mein Stats (beta)"
-    page_view_graph_header: "Readers Viewing My Articles.to_german"
-    totals: 'Totals.to_german'
-    articles_header: 'Which of My Articles People Are Reading?.to_german'
-    keyword_header: 'How Are People Finding Me?.to_german'
-    domain_header: 'Where Are My Readers Coming From?.to_german'
-    update: 'Update.to_german'
-    start_date: 'Start Date.to_g'
-    end_date: 'End Date.to_g'
-    download_data: "Download yesterday's data.to_g"
-    internal: nein
-    other: nitch
-    organic: struddle        
+    header: report.header
+    start_date: report.start_date
+    end_date: report.end_date
+    update: report.update
+    page_view_graph_header: report.page_view_graph_header
+    article_views_line: report.article_views_list<articles_views><total_views>
+    internal: report.internal
+    other: report.other
+    organic: report.organic
+    articles_header: report.articles_header
+    details: report.details
+    keyword_header: report.keyword_header
+    domain_header: report.domain_header
+    download_data: report.download_date
+  article_report:
+    back_to_dashboard: article_report.back_to_dashboard
+    page_view_graph_header: article_report.page_view_graph_header <title>
+    page_views_line: article_report.article_views_line <total_views>
+
      
   date:
     formats:
