@@ -88,8 +88,8 @@ class ReportsController < ApplicationController
   # Render a chart showing the view counts for the writer in the last 12 weeks,
   # summed by week.
   def twelve_week_page_view_graph
-    view_counts = DailyPageView.counts_for_writer_between(@user[:id], Date.today.at_beginning_of_week - 11.weeks, Date.today)
-    
+    @start_date = Date.today.at_beginning_of_week - 11.weeks
+    view_counts = DailyPageView.counts_for_writer_between(@user[:id], @start_date, Date.today)
     @view_counts_by_week = []
     view_counts.in_groups_of(7, false) do |week_counts|
       @view_counts_by_week << week_counts.sum
