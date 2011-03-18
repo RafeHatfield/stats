@@ -13,14 +13,29 @@
 #source_chart{:style => "width: 400px; height: 400px;"}
 
 %h2= I18n.t('report.articles_header')
-%table#article_counts
-  - @article_counts.each do |ac|
+
+%table#article_counts_summary
+  - @article_counts[0..4].each do |ac|
+    - if ac[:count] == 0
+      - break
     %tr
       %td
         %a{:href => "#{ac[:permalink]}"}=ac[:title]
       %td
         =link_to "Details", article_dashboard_url(@user[:id], @user[:key], ac[:suite101_article_id], :start_date => @start_date, :end_date => @end_date)
       %td= ac[:count]
+
+%table#article_counts_full
+  - @article_counts.each do |ac|
+    - if ac[:count] == 0
+      - break
+    %tr
+      %td
+        %a{:href => "#{ac[:permalink]}"}=ac[:title]
+      %td
+        =link_to "Details", article_dashboard_url(@user[:id], @user[:key], ac[:suite101_article_id], :start_date => @start_date, :end_date => @end_date)
+      %td= ac[:count]
+
 %a#more_article_counts{:href => "#"}
 
 %h2= I18n.t('report.keyword_header')
@@ -43,13 +58,12 @@
 - content_for :page_javascript do
   :javascript
     $(function(){
-
-      var ARTICLE_POSITION_TO_SHOW = 4;
       var article_count_toggler = $("#more_article_counts");
 
       function toggle_article_counts(){
-        $("tr:gt(" + ARTICLE_POSITION_TO_SHOW +")", "#article_counts").toggle();
-        var txt = $("tr:last", "#article_counts").is(':visible') ? 'Show most popular' : 'Show all';
+        $("#article_counts_summary").toggle();
+        $("#article_counts_full").toggle();
+        var txt = $("#article_counts_full").is(':visible') ? 'Show most popular' : 'Show all';
         article_count_toggler.text(txt);
       };
 
@@ -58,10 +72,10 @@
         return false;
       });
       
-      if ($("#article_counts").children().children().length > ARTICLE_POSITION_TO_SHOW + 1){
-        toggle_article_counts();
-      } else {
-        article_count_toggler.hide();
+      $("#article_counts_full").hide();
+
+      if($("#article_counts").children().children().length < 5){
+           article_count_toggler.hide();
       }
 
       var dates = $( "#start_date, #end_date" ).datepicker({

@@ -27,17 +27,17 @@ class DailyDomainViewTest < ActiveSupport::TestCase
       domain1 = "www.google.com"
       domain2 = "www.yahoo.com"
       3.times do
-        article.increment_domain_view_on(Date.yesterday, domain1)
+        article.increment_domain_view_on(1.day.ago, domain1)
       end
       2.times do
-        article.increment_domain_view_on(Date.yesterday, domain2)
+        article.increment_domain_view_on(1.day.ago, domain2)
       end
       6.times do
-        article.increment_domain_view_on(Date.today, domain1)
+        article.increment_domain_view_on(0.days.ago, domain1)
       end
 
       expected_domain_counts = [[domain1, 3+6], [domain2, 2]]
-      assert_equal expected_domain_counts, DailyDomainView.domains_with_total_counts_for_writer_between(writer_id, Date.yesterday, Date.today)
+      assert_equal expected_domain_counts, DailyDomainView.domains_with_total_counts_for_writer_between(writer_id, 1.day.ago, 0.days.ago)
     end
     
     should "get limit the results if a limit option is set" do
@@ -46,17 +46,17 @@ class DailyDomainViewTest < ActiveSupport::TestCase
       domain1 = "www.google.com"
       domain2 = "www.yahoo.com"
       3.times do
-        article.increment_domain_view_on(Date.yesterday, domain1)
+        article.increment_domain_view_on(1.day.ago, domain1)
       end
       2.times do
-        article.increment_domain_view_on(Date.yesterday, domain2)
+        article.increment_domain_view_on(1.day.ago, domain2)
       end
       6.times do
-        article.increment_domain_view_on(Date.today, domain1)
+        article.increment_domain_view_on(0.days.ago, domain1)
       end
 
       expected_domain_counts = [[domain1, 3+6]]
-      assert_equal expected_domain_counts, DailyDomainView.domains_with_total_counts_for_writer_between(writer_id, Date.yesterday, Date.today, :limit => 1)
+      assert_equal expected_domain_counts, DailyDomainView.domains_with_total_counts_for_writer_between(writer_id, 1.day.ago, 0.days.ago, :limit => 1)
     end
     
   end
@@ -67,17 +67,17 @@ class DailyDomainViewTest < ActiveSupport::TestCase
       domain1 = "www.google.com"
       domain2 = "www.yahoo.com"
       3.times do
-        article.increment_domain_view_on(Date.yesterday, domain1)
+        article.increment_domain_view_on(1.day.ago, domain1)
       end
       2.times do
-        article.increment_domain_view_on(Date.yesterday, domain2)
+        article.increment_domain_view_on(1.day.ago, domain2)
       end
       6.times do
-        article.increment_domain_view_on(Date.today, domain1)
+        article.increment_domain_view_on(0.days.ago, domain1)
       end
 
       expected_domain_counts = [[domain1, 3+6], [domain2, 2]]
-      assert_equal expected_domain_counts, DailyDomainView.domains_with_total_counts_for_writer_between(article.suite101_article_id, Date.yesterday, Date.today)
+      assert_equal expected_domain_counts, DailyDomainView.domains_with_total_counts_for_writer_between(article.suite101_article_id, 1.day.ago, 0.days.ago)
     end
     
   end
@@ -89,11 +89,11 @@ class DailyDomainViewTest < ActiveSupport::TestCase
       domains = ["www.google.com", "www.google.ca", "", "www.suite101.com", "my.suite101.de", "www.happyplanet.com/my-article-linking-yours"]
 
       domains.each do |domain|
-        article.increment_domain_view_on(Date.yesterday, domain)
+        article.increment_domain_view_on(1.day.ago, domain)
       end
 
       expected_domain_counts = { :organic => 2, :other => 2, :internal => 2}
-      assert_equal expected_domain_counts, DailyDomainView.sources_with_total_counts_for_writer_between(writer_id, Date.yesterday, Date.today)
+      assert_equal expected_domain_counts, DailyDomainView.sources_with_total_counts_for_writer_between(writer_id, 1.day.ago, 0.days.ago)
     end
     
   end
@@ -104,11 +104,11 @@ class DailyDomainViewTest < ActiveSupport::TestCase
       domains = ["www.google.com", "www.google.ca", "", "www.suite101.com", "my.suite101.de", "www.happyplanet.com/my-article-linking-yours"]
 
       domains.each do |domain|
-        article.increment_domain_view_on(Date.yesterday, domain)
+        article.increment_domain_view_on(1.day.ago, domain)
       end
 
       expected_domain_counts = { :organic => 2, :other => 2, :internal => 2}
-      assert_equal expected_domain_counts, DailyDomainView.sources_with_total_counts_for_writer_between(article.suite101_article_id, Date.yesterday, Date.today)
+      assert_equal expected_domain_counts, DailyDomainView.sources_with_total_counts_for_writer_between(article.suite101_article_id, 1.day.ago, 0.days.ago)
     end
     
   end
