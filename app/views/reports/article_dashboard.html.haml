@@ -1,31 +1,42 @@
+== &laquo; #{link_to "#{I18n.t('article_report.back_to_dashboard')}", dashboard_path(@user[:id], @user[:key])}
 %h1= I18n.t('report.header')
+%date
+  =form_tag article_dashboard_path(@user[:id], @user[:key], @suite101_article_id), :method => :get do
+    == #{I18n.t('report.start_date')} #{text_field_tag(:start_date, I18n.l(@start_date), {:id => "start_date"})}
+    == #{I18n.t('report.end_date')} #{text_field_tag(:end_date, I18n.l(@end_date), {:id => "end_date"})}
+    = submit_tag I18n.t('report.update')
 %br
 
-=form_tag article_dashboard_path(@user[:id], @user[:key], @suite101_article_id), :method => :get do
-  == #{I18n.t('report.start_date')} #{text_field_tag(:start_date, I18n.l(@start_date), {:id => "start_date"})}
-  == #{I18n.t('report.end_date')} #{text_field_tag(:end_date, I18n.l(@end_date), {:id => "end_date"})}
-  = submit_tag I18n.t('report.update')
-%br
-
-=link_to "<- Back to my dashboard", dashboard_path(@user[:id], @user[:key])
-%br
-%br
-
-%h2== Readers viewing #{@article_title}
+%h2= I18n.t('article_report.page_view_graph_header').gsub("[title]","#{@article_title}")
 #page_view_plot{:style => "width: 700px; height: 400px;"}
 
-%h2== This article was viewed #{@total_view_count} times.
+%h2= I18n.t('article_report.page_views_line').gsub('[total_views]',"#{@total_view_count}")
 #source_chart{:style => "width: 400px; height: 400px;"}
 
 %h2= I18n.t('report.keyword_header')
-%table
-  - @keyphrase_counts.each do |k|
+%table.rounded-corner
+  %thead
     %tr
-      %td= k[0]
-      %td= k[1]
+      %th.rounded-left Keyphrases
+      %th.rounded-tab2-right ...
+  %tfoot
+    %tr
+      %td.rounded-foot{:colspan => 2, :height => 15}
+  %tbody
+    - @keyphrase_counts.each do |k|
+      %tr
+        %td= k[0]
+        %td= k[1]
 
 %h2= I18n.t('report.domain_header')
-%table
+%table.rounded-corner
+  %thead
+    %tr
+      %th.rounded-left Domains
+      %th.rounded-tab2-right ...
+  %tfoot
+    %tr
+      %td.rounded-foot{:colspan => 2, :height => 15}
   - @domain_counts.each do |k|
     %tr
       %td= k[0].blank? ? "[direct]" : k[0]

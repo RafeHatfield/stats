@@ -1,15 +1,20 @@
 en:
   report:
     header: "My stats (beta)"
-    page_view_graph_header: "Readers Viewing My Articles"
-    totals: 'Totals'
-    articles_header: 'Which of My Articles People Are Reading?'
-    keyword_header: 'How Are People Finding Me?'
-    domain_header: 'Where Are My Readers Coming From?'
+    start_date: 'From'
+    end_date: 'to'
     update: 'Update'
-    start_date: 'Start Date'
-    end_date: 'End Date'
-    download_data: "Download yesterday's data"
+    page_view_graph_header: "Readers Viewing My Articles"
+    article_views_line: "[articles_views] of your articles were viewed [total_views] times in total."
     internal: internal
     other: other
     organic: organic
+    articles_header: 'Which of My Articles People Are Reading?'
+    details: "Details"
+    keyword_header: 'How Are People Finding Me?'
+    domain_header: 'Where Are My Readers Coming From?'
+    download_data: "Download yesterday's data"
+  article_report:
+    back_to_dashboard: "Back to my dashboard"
+    page_view_graph_header: Readers Viewing [title]
+    page_views_line: "This article was viewed [total_views] times."
