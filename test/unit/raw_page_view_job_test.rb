@@ -103,6 +103,58 @@ class RawPageViewJobTest < ActiveSupport::TestCase
     
     end
     
+    
+    context 'setting timezone given an url' do
+      setup do
+        @url = 'http://www.suite101.net'
+      end
+      
+      should 'return the correct timezone' do
+        RawPageViewJob.set_timezone(@url) == ActiveSupport::TimeZone['Madrid']
+      end
+      
+    end
+    
+    context "on aggregating page views for an article" do 
+      setup do
+        @valid_raw_data = {
+          :title => "Random Article", 
+          :cookie_id => "#{1000 + rand(10000)}", 
+          :suite101_article_id => 45678, 
+          :referrer_url => "", 
+          :writer_id => "658084", 
+          :date => Time.utc(2011,"mar",17,3,0,0)
+        }
+        
+      end
+      
+      should 'generate the right dailypage view date on .com' do
+        RawPageViewJob.perform(ActiveSupport::JSON.encode(@valid_raw_data.merge!(:permalink => "http://www.suite101.com/content/random-article")))
+        assert_equal 1, DailyPageView.where(:date => 'March 16, 2011'.to_date).count
+        assert_equal 0, DailyPageView.where(:date => 'March 17, 2011'.to_date).count
+      end
+      
+      should 'generate the right dailypage view date on .net' do
+        RawPageViewJob.perform(ActiveSupport::JSON.encode(@valid_raw_data.merge!(:permalink => "http://www.suite101.net/content/random-article")))
+        assert_equal 0, DailyPageView.where(:date => 'March 16, 2011'.to_date).count
+        assert_equal 1, DailyPageView.where(:date => 'March 17, 2011'.to_date).count
+      end    
+      
+      should 'generate the right dailypage view date on .de' do
+        RawPageViewJob.perform(ActiveSupport::JSON.encode(@valid_raw_data.merge!(:permalink => "http://www.suite101.de/content/random-article")))
+        assert_equal 0, DailyPageView.where(:date => 'March 16, 2011'.to_date).count
+        assert_equal 1, DailyPageView.where(:date => 'March 17, 2011'.to_date).count
+      end
+      
+      should 'generate the right dailypage view date on .fr' do
+        RawPageViewJob.perform(ActiveSupport::JSON.encode(@valid_raw_data.merge!(:permalink => "http://www.suite101.de/content/random-article")))
+        assert_equal 0, DailyPageView.where(:date => 'March 16, 2011'.to_date).count
+        assert_equal 1, DailyPageView.where(:date => 'March 17, 2011'.to_date).count
+      end
+      
+    end
+
+    
   end
   
   # should "handle funny dates" do
