@@ -10,10 +10,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110316205820) do
+ActiveRecord::Schema.define(:version => 20110318214213) do
 
-  create_table "articles", :force => true do |t|
-    t.integer  "suite101_article_id"
+  create_table "articles", :id => false, :force => true do |t|
+    t.integer  "id"
     t.string   "title"
     t.integer  "writer_id"
     t.string   "permalink"
@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(:version => 20110316205820) do
     t.datetime "updated_at"
   end
 
-  add_index "articles", ["suite101_article_id"], :name => "index_articles_on_suite101_article_id"
+  add_index "articles", ["id"], :name => "uniq_article_check", :unique => true
   add_index "articles", ["writer_id"], :name => "index_articles_on_writer_id"
 
   create_table "daily_domain_views", :force => true do |t|

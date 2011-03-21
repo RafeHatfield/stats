@@ -3,8 +3,8 @@ require 'test_helper'
 class ArticleTest < ActiveSupport::TestCase
   
   context "validations" do
-    should "require a suite101_article_id" do
-      assert_equal false, FactoryGirl.build(:article, :suite101_article_id => nil).valid?
+    should "require an id" do
+      assert_equal false, FactoryGirl.build(:article, :id => nil).valid?
     end
     should "require a title" do
       assert_equal false, FactoryGirl.build(:article, :title => nil).valid?
@@ -22,11 +22,11 @@ class ArticleTest < ActiveSupport::TestCase
       assert_equal false, FactoryGirl.build(:article, :permalink => "").valid?
     end
     
-    should "require suite101_article_id to be unique" do
-      suite101_article_id = 999
-      article1 = FactoryGirl.build(:article, :suite101_article_id => suite101_article_id)
+    should "require id to be unique" do
+      id = 999
+      article1 = FactoryGirl.build(:article, :id => id)
       article1.save!
-      article2 = FactoryGirl.build(:article, :suite101_article_id => suite101_article_id)
+      article2 = FactoryGirl.build(:article, :id => id)
       assert_equal false, article2.valid?
     end
     
@@ -123,8 +123,9 @@ class ArticleTest < ActiveSupport::TestCase
     
     should "create an article if it doesn't exist" do
       article_id = 111
-      Article.find_and_update_title_or_create(FactoryGirl.attributes_for(:article, :suite101_article_id => article_id))
-      assert Article.exists?(:suite101_article_id => article_id)
+      attributes = FactoryGirl.attributes_for(:article, :id => article_id)
+      Article.find_and_update_title_or_create(attributes)
+      assert Article.exists?(:id => article_id)
     end
     
     should "update the title of an article that exists" do
@@ -149,20 +150,20 @@ class ArticleTest < ActiveSupport::TestCase
     end
   end
   
-  context "getting suite101_article_id, titles, permalinks and counts for a writer" do
+  context "getting id, titles, permalinks and counts for a writer" do
     should "get all the suite101_article_id, titles, permalinks and counts for those articles ordered by count descending" do
       writer_id = 345    
       1.upto(3) do |i|
-        article = FactoryGirl.create(:article, :suite101_article_id => i, :writer_id => writer_id, :title => "Article #{i}", :permalink => "http://www.google.com")
+        article = FactoryGirl.create(:article, :id => i, :writer_id => writer_id, :title => "Article #{i}", :permalink => "http://www.google.com")
         i.times do
           article.increment_page_view_on(Date.today)
         end
       end
       title_counts_out = Article.with_total_counts_for_writer_between(writer_id, Date.today, Date.today)
       title_counts_in = [
-        {:suite101_article_id => 3, :title =>"Article 3",:permalink => "http://www.google.com", :count => 3},
-        {:suite101_article_id => 2, :title =>"Article 2",:permalink => "http://www.google.com", :count => 2},
-        {:suite101_article_id => 1, :title =>"Article 1",:permalink => "http://www.google.com", :count => 1}
+        {:id => 3, :title =>"Article 3",:permalink => "http://www.google.com", :count => 3},
+        {:id => 2, :title =>"Article 2",:permalink => "http://www.google.com", :count => 2},
+        {:id => 1, :title =>"Article 1",:permalink => "http://www.google.com", :count => 1}
         ]      
       assert_equal title_counts_in, title_counts_out
     end

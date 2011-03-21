@@ -77,7 +77,7 @@ class DailyDomainViewTest < ActiveSupport::TestCase
       end
 
       expected_domain_counts = [[domain1, 3+6], [domain2, 2]]
-      assert_equal expected_domain_counts, DailyDomainView.domains_with_total_counts_for_writer_between(article.suite101_article_id, 1.day.ago, 0.days.ago)
+      assert_equal expected_domain_counts, DailyDomainView.domains_with_total_counts_for_writer_between(article.id, 1.day.ago, 0.days.ago)
     end
     
   end
@@ -108,7 +108,7 @@ class DailyDomainViewTest < ActiveSupport::TestCase
       end
 
       expected_domain_counts = { :organic => 2, :other => 2, :internal => 2}
-      assert_equal expected_domain_counts, DailyDomainView.sources_with_total_counts_for_writer_between(article.suite101_article_id, 1.day.ago, 0.days.ago)
+      assert_equal expected_domain_counts, DailyDomainView.sources_with_total_counts_for_writer_between(article.id, 1.day.ago, 0.days.ago)
     end
     
   end

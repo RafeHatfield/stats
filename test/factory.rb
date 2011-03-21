@@ -11,7 +11,7 @@ FactoryGirl.define do
   end
   
   factory :article do
-    suite101_article_id 1
+    id 1
     title "MyString"
     writer_id 1
     permalink "MyString"

@@ -75,7 +75,7 @@ class DailyKeyphraseViewTest < ActiveSupport::TestCase
       end
 
       expected_keyphrase_counts = [[phrase1, 3+6], [phrase2, 2]]
-      assert_equal expected_keyphrase_counts, DailyKeyphraseView.keyphrases_with_total_counts_for_article_between(article.suite101_article_id, 1.day.ago, 0.days.ago)
+      assert_equal expected_keyphrase_counts, DailyKeyphraseView.keyphrases_with_total_counts_for_article_between(article.id, 1.day.ago, 0.days.ago)
     end
   end
   

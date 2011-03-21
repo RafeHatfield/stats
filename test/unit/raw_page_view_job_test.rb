@@ -17,8 +17,9 @@ class RawPageViewJobTest < ActiveSupport::TestCase
   
     context "perform with valid data" do
       setup do
-        RawPageViewJob.perform(ActiveSupport::JSON.encode(@valid_raw_data))
-        @article = Article.where(:suite101_article_id => @article_id).first
+        json = ActiveSupport::JSON.encode(@valid_raw_data)
+        RawPageViewJob.perform(json)
+        @article = Article.find(@article_id)
       end
   
       should "create an article" do
@@ -42,7 +43,7 @@ class RawPageViewJobTest < ActiveSupport::TestCase
     context "perform with a blank referrer url" do
       setup do
         RawPageViewJob.perform(ActiveSupport::JSON.encode(@valid_raw_data.merge!(:referrer_url => "")))
-        @article = Article.where(:suite101_article_id => @article_id).first
+        @article = Article.find(@article_id)
       end
     
       should "create an article" do
@@ -66,7 +67,7 @@ class RawPageViewJobTest < ActiveSupport::TestCase
     context "perform with a referrer url with spaces in keywords" do
       setup do
         RawPageViewJob.perform(ActiveSupport::JSON.encode(@valid_raw_data.merge!(:referrer_url => "http://www.google.ca/search?q=awesome sauce&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a")))
-        @article = Article.where(:suite101_article_id => @article_id).first
+        @article = Article.find(@article_id)
       end
     
       should "create an article" do
@@ -91,14 +92,14 @@ class RawPageViewJobTest < ActiveSupport::TestCase
       setup do
         data = "{\"permalink\":\"http://www.suite101.com/content/letting-go-a12912\",\"title\":\"Letting%20Go%20Of%20Your%20Past%20%2D%20Moving%20On%20With%20Life\",\"suite101_article_id\":\"12912\",\"cookie_id\":null,\"date\":\"2011-03-16T21:18:31+00:00\",\"referrer_url\":\"\",\"writer_id\":\"587420\"}"
         RawPageViewJob.perform(data)
-        @article = Article.where(:suite101_article_id => 12912).first
+        @article = Article.find(12912)
       end
     
       should "create an article" do
         assert @article
       end
       should "create a raw page view" do
-        assert_equal 1, RawPageView.where(:suite101_article_id => @article.suite101_article_id).count
+        assert_equal 1, RawPageView.where(:suite101_article_id => @article.id).count
       end
     
     end
