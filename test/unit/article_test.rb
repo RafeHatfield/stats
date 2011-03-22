@@ -151,7 +151,7 @@ class ArticleTest < ActiveSupport::TestCase
   end
   
   context "getting id, titles, permalinks and counts for a writer" do
-    should "get all the suite101_article_id, titles, permalinks and counts for those articles ordered by count descending" do
+    should "get all the article_id, titles, permalinks and counts for those articles ordered by count descending" do
       writer_id = 345    
       1.upto(3) do |i|
         article = FactoryGirl.create(:article, :id => i, :writer_id => writer_id, :title => "Article #{i}", :permalink => "http://www.google.com")

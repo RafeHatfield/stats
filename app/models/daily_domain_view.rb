@@ -31,8 +31,8 @@ class DailyDomainView < ActiveRecord::Base
   
   # Get the total number of views for each domain for an article between start_date and end_date
   # Ordered by total count descending.
-  def self.domains_with_total_counts_for_article_between(suite101_article_id, start_date, end_date)  
-    domains = DailyDomainView.between(start_date, end_date).joins(:article) & Article.find(suite101_article_id)
+  def self.domains_with_total_counts_for_article_between(article_id, start_date, end_date)  
+    domains = DailyDomainView.between(start_date, end_date).joins(:article) & Article.find(article_id)
     domain_counts = domains.group("domain").select("domain").order("sum_count desc")
     domain_counts.sum("count").to_a
   end
@@ -56,8 +56,8 @@ class DailyDomainView < ActiveRecord::Base
   
   # Get a hash with the total number of internal, organic, direct views for an article between
   # start_date and end_date
-  def self.sources_with_total_counts_for_article_between(suite101_article_id, start_date, end_date)
-    domains = DailyDomainView.between(start_date, end_date).joins(:article) & Article.find(suite101_article_id)
+  def self.sources_with_total_counts_for_article_between(article_id, start_date, end_date)
+    domains = DailyDomainView.between(start_date, end_date).joins(:article) & Article.find(article_id)
     domain_counts = domains.group("domain").select("domain").order("sum_count desc").sum("count")
     
     source_counts = domain_counts.map {|domain,count| [source_from_domain(domain), count]}

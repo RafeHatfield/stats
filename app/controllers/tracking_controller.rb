@@ -5,7 +5,7 @@ class TrackingController < ApplicationController
     current_utc = Time.now.utc
     
     raw_page_view_data = {
-      :suite101_article_id => params[:suite101_article_id],
+      :article_id => params[:suite101_article_id],
       :permalink => params[:permalink],
       :title => params[:title],
       :writer_id  => params[:writer_id],

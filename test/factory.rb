@@ -1,7 +1,7 @@
 FactoryGirl.define do
 
   factory :raw_page_view do
-    suite101_article_id 123456
+    article_id 123456
     writer_id 65432
     cookie_id "arandomcookie"
     title "Chocolate has an Expiration Date"

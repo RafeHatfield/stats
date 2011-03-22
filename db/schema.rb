@@ -63,17 +63,17 @@ ActiveRecord::Schema.define(:version => 20110318214213) do
   add_index "daily_page_views", ["writer_id"], :name => "index_daily_page_views_on_writer_id"
 
   create_table "raw_page_views", :force => true do |t|
-    t.integer  "suite101_article_id"
+    t.integer  "article_id"
     t.string   "permalink"
     t.string   "title"
     t.integer  "writer_id"
-    t.string   "referrer_url",        :limit => 1000
+    t.string   "referrer_url", :limit => 1000
     t.string   "cookie_id"
     t.datetime "date"
   end
 
+  add_index "raw_page_views", ["article_id"], :name => "index_raw_page_views_on_article_id"
   add_index "raw_page_views", ["cookie_id"], :name => "index_raw_page_views_on_cookie_id"
-  add_index "raw_page_views", ["suite101_article_id"], :name => "index_raw_page_views_on_suite101_article_id"
   add_index "raw_page_views", ["writer_id"], :name => "index_raw_page_views_on_writer_id"
 
 end

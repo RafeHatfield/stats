@@ -41,7 +41,7 @@ namespace :dev_seeds do
               :writer_id => article[:writer_id],
               :cookie_id => "arandomcookie",
               :permalink => "http://www.suite101.com/content/chocolate-has-an-expiration-date-a347637",
-              :suite101_article_id => article[:id],
+              :article_id => article[:id],
               :referrer_url => REFERRER_URLS[rand(REFERRER_URLS.count)],
               :title => article[:title],
               :date => i_day.days.ago,
@@ -69,7 +69,7 @@ namespace :dev_seeds do
         ref_url = "http://www.google.ca/search?q=awesome+sauce&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a"
         
         raw_page_view_data = {
-          :suite101_article_id => i,
+          :article_id => i,
           :permalink => url,
           :title => "Article #{i}",
           :writer_id  => writer_id,
