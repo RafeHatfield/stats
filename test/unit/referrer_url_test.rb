@@ -60,6 +60,11 @@ class ReferrerUrlTest < ActiveSupport::TestCase
       keyphrase_in = "a" * 255
       assert_equal keyphrase_in.truncate(254), ReferrerUrl.new("http://www.google.com?q=#{keyphrase_in}").keyphrase
     end
+    should "work for a url with many strings that look like the query string" do
+      assert_equal "calfile california tax return", ReferrerUrl.new("http://search.yahoo.com/search;_ylt=AgGaOf.pKBB4r4CrKlfRoLCbvZx4?fr=yfp-t-701-1-s&toggle=1&cop=mss&ei=UTF8&p=calfile%20california%20tax%20return").keyphrase
+      assert_equal "free ca tax filing", ReferrerUrl.new("http://www.google.com/search?sourceid=navclient&aq=0&oq=free+ca+tax&ie=UTF-8&rlz=1T4ADRA_enUS408US408&q=free+ca+tax+filing").keyphrase
+      assert_equal "free 940 Ca State tax filing", ReferrerUrl.new("http://www.google.com/search?hl=en&q=free+940+Ca+State+tax+filing&btnG=Search&aq=f&aqi=&aql=&oq=").keyphrase
+    end
   end
   
   context "getting domain" do
