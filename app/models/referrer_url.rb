@@ -14,15 +14,15 @@ class ReferrerUrl
     :search => /www\.search\.com/
   }
   
-  @@ENGINE_SEARCH_KEY = {
-    :google => 'q=',
-    :bing => 'q=',
-    :yahoo => 'p=',
-    :msn => 'q=',
-    :aol => 'query=',
-    :ask => 'q=',
-    :yandex => 'text=',
-    :search => 'q='
+  @@ENGINE_SEARCH_KEY_REGEX = {
+    :google => /[?&]q=/,
+    :bing => /[?&]q=/,
+    :yahoo => /[?&]p=/,
+    :msn => /[?&]q=/,
+    :aol => /[?&]query=/,
+    :ask => /[?&]q=/,
+    :yandex => /[?&]text=/,
+    :search => /[?&]q=/
   }
   
   @@SUITE101_URL_REGEX = /suite101/
@@ -48,14 +48,14 @@ class ReferrerUrl
     # => [junk]?[query]
     # => [junk]?[junk][search_key][raw_keyphrase]&[junk]
     
-    if !@@ENGINE_SEARCH_KEY.has_key?(search_engine)
+    if !@@ENGINE_SEARCH_KEY_REGEX.has_key?(search_engine)
       return nil
-    end
+    end    
     
     query = URI.parse(@url).query
     
-    if @url.include?(@@ENGINE_SEARCH_KEY[search_engine])
-      post_key = @url.split(@@ENGINE_SEARCH_KEY[search_engine]).second
+    if @@ENGINE_SEARCH_KEY_REGEX[search_engine].match(@url)
+      post_key = @url.split(@@ENGINE_SEARCH_KEY_REGEX[search_engine]).second
       if post_key
         raw_keyphrase = post_key.split("&").first
         # Keywords are separated by %20 or +, these are converted to " " when unescaped.
