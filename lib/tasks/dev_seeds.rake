@@ -24,7 +24,7 @@ namespace :dev_seeds do
   task :cleanup => :environment do
     puts "Cleaning up the test data..."
     ARTICLES.each do |article|
-      Article.where(:suite101_article_id => article[:id]).destroy_all
+      Article.where(:id => article[:id]).destroy_all
     end
     puts 'done.'
   end
