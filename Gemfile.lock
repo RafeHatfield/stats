@@ -250,5 +250,6 @@ DEPENDENCIES
   rpm_contrib
   rspec-rails
   ruby-debug
+  ruby-progressbar
   shoulda
   shoulda-context

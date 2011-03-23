@@ -20,6 +20,7 @@ gem 'resque-multi-job-forks'
 gem 'capistrano'
 gem 'eycap'
 gem 'addressable', :require => 'addressable/uri'
+gem 'ruby-progressbar'
 
 group :development, :test do
   gem 'flutie'
