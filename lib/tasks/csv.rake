@@ -21,7 +21,7 @@ namespace :csv do
       
       pbar = ProgressBar.new("Importing...", 100)
       begin
-        FasterCSV.foreach(csv_file, {:headers => true, :encoding => 'u', :quote_char => "|"}) do |row|
+        FasterCSV.foreach(csv_file, {:headers => true, :encoding => 'u', :quote_char => "|", :col_sep => "|"}) do |row|
           headers = row.headers
           values = row.fields
         

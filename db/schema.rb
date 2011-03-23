@@ -10,10 +10,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110318214213) do
+ActiveRecord::Schema.define(:version => 20110323221507) do
 
   create_table "articles", :id => false, :force => true do |t|
-    t.integer  "id"
+    t.integer  "id",         :null => false
     t.string   "title"
     t.integer  "writer_id"
     t.string   "permalink"
