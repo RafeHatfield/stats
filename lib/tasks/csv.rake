@@ -1,4 +1,6 @@
+require 'rubygems'
 require "benchmark"
+require 'progressbar'
 
 namespace :csv do
   class Hash
@@ -57,9 +59,9 @@ namespace :csv do
     puts "done. #{error_count} errors. Time elapsed #{time} seconds"
   end
   
-  desc "Create database shards"
+  desc "Import CSV files into database"
   task :import => :environment do
-    file_names = %w(Daily_Keyphrase_Views) #%w(Articles Daily_Domain_Views Daily_Keyphrase_Views Daily_page_Views Raw_page_Views)
+    file_names = %w(Articles Daily_Domain_Views Daily_Keyphrase_Views Daily_page_Views Raw_page_Views)
     file_names.each do |f|
       import_csv(f)
     end
