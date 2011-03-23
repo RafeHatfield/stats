@@ -13,7 +13,11 @@ namespace :csv do
   def import_csv(file)
     error_count = 0
     time = Benchmark.realtime do
-      csv_file = "/Users/jerrytian/suite101/Export/#{file}.csv"
+      if Rails.env == 'staging'
+        csv_file = "/home/suite101/pvs_2011-01-20/#{file}.csv"
+      else
+        csv_file = "/Users/jerrytian/suite101/Export/#{file}.csv"
+      end
       
       n_lines = (%x[wc -l #{csv_file}]).split(' ')[0].to_f
       count = 0.0
