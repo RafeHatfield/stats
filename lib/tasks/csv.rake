@@ -68,7 +68,7 @@ namespace :csv do
   
   desc "Import CSV files into database"
   task :import => :environment do
-    file_names = %w(Articles) # %w(Articles Daily_Domain_Views Daily_Keyphrase_Views Daily_page_Views Raw_page_Views)
+    file_names = %w(Articles Daily_Domain_Views Daily_Keyphrase_Views Daily_page_Views Raw_page_Views)
     file_names.each do |f|
       import_csv(f)
     end
