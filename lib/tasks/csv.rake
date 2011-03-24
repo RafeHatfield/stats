@@ -1,6 +1,8 @@
 require 'rubygems'
 require "benchmark"
 require 'progressbar'
+$KCODE = 'u'
+require 'jcode'
 
 namespace :csv do
   class Hash
@@ -29,12 +31,11 @@ namespace :csv do
       begin
         FasterCSV.foreach(csv_file, {:headers => true, :encoding => 'u', :quote_char => "|", :col_sep => "|"}) do |row|
           headers = row.headers
-          values = row.fields
-        
+          values = cleanup(row.fields)
+          
           hash = Hash.zip(headers, values)
           # hack for Daily_Page_Views table
           hash.delete('article_id2') if hash.keys.include?('article_id2')
-
           begin
             if file == 'Articles'
               # manually setting the primary key for articles
@@ -43,6 +44,7 @@ namespace :csv do
             else
               file.singularize.camelize.constantize.create!(hash)
             end
+
           rescue => e
             error_count += 1
             puts "Failed to import around line #{count}:\n#{hash.to_yaml}\n#{e.message}"
@@ -59,9 +61,14 @@ namespace :csv do
     puts "done. #{error_count} errors. Time elapsed #{time} seconds"
   end
   
+  def cleanup(array)
+    array.map!{|e| Iconv.conv('UTF-8//IGNORE', 'UTF-8', e)}
+    array
+  end
+  
   desc "Import CSV files into database"
   task :import => :environment do
-    file_names = %w(Articles Daily_Domain_Views Daily_Keyphrase_Views Daily_page_Views Raw_page_Views)
+    file_names = %w(Articles) # %w(Articles Daily_Domain_Views Daily_Keyphrase_Views Daily_page_Views Raw_page_Views)
     file_names.each do |f|
       import_csv(f)
     end
