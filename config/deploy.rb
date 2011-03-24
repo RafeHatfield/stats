@@ -60,7 +60,7 @@ end
 # Do not change below unless you know what you are doing!
 after "deploy", "deploy:cleanup"
 after "deploy:migrations" , "deploy:cleanup"
-after "deploy:update_code", "deploy:symlink_configs"
+after "deploy:update_code", "deploy:symlink_configs", "deploy:start"
 # uncomment the following to have a database backup done before every migration
 # before "deploy:migrate", "db:dump"
 
