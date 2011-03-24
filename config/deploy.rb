@@ -60,7 +60,7 @@ end
 # Do not change below unless you know what you are doing!
 after "deploy", "deploy:cleanup"
 after "deploy:migrations" , "deploy:cleanup"
-after "deploy:update_code", "deploy:symlink_configs", "deploy:start"
+after "deploy:update_code", "deploy:symlink_configs", "deploy:restart_passenger"
 # uncomment the following to have a database backup done before every migration
 # before "deploy:migrate", "db:dump"
 
@@ -74,7 +74,7 @@ namespace :resque do
 end
 
 namespace :deploy do 
-  task :start, :roles => :app do
+  task :restart_passenger, :roles => :app do
     run "touch #{current_release}/tmp/restart.txt"
   end
 end
