@@ -16,17 +16,19 @@ class ReportsController < ApplicationController
   def dashboard
     @start_date = params[:start_date] ? params[:start_date].to_date : 7.days.ago.to_date
     @end_date = params[:end_date] ? params[:end_date].to_date : Date.today
-
+    
     @view_counts = DailyPageView.counts_for_writer_between(@user[:id], @start_date, @end_date)
     @total_view_count = @view_counts.sum
+    
     @article_counts = Article.with_total_counts_for_writer_between(@user[:id], @start_date, @end_date)
     @keyphrase_counts = DailyKeyphraseView.keyphrases_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date, :limit => 5)
+    
     @domain_counts = DailyDomainView.domains_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date, :limit => 5)
     @source_counts = DailyDomainView.sources_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date)
     
     @number_of_articles_with_views = 0
     @article_counts.each do |a|
-      if a[:count] >= 1
+      if a.page_views_count.to_i >= 1
         @number_of_articles_with_views +=1
       end
     end
@@ -42,7 +44,7 @@ class ReportsController < ApplicationController
   def article_dashboard
     @article_id = params[:suite101_article_id]
     
-    @article_title = Article.where(:article_id => @article_id).first.display_title
+    @article_title = Article.find(@article_id).display_title
 
     @start_date = params[:start_date] ? params[:start_date].to_date : 7.days.ago.to_date
     @end_date = params[:end_date] ? params[:end_date].to_date : Date.today

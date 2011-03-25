@@ -18,9 +18,9 @@ namespace :csv do
     error_count = 0
     time = Benchmark.realtime do
       if Rails.env == 'staging'
-        csv_file = "/home/suite101/pvs_2011-01-20/#{file}.csv"
+        csv_file = "/home/suite101/pvs-2011-01-20/#{file}.csv"
       else
-        csv_file = "/Users/jerrytian/suite101/Export/#{file}.csv"
+        csv_file = "/Users/jerrytian/suite101/Export/Export_Jan20/#{file}.csv"
       end
       
       n_lines = (%x[wc -l #{csv_file}]).split(' ')[0].to_f

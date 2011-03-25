@@ -151,6 +151,7 @@ class ArticleTest < ActiveSupport::TestCase
   end
   
   context "getting id, titles, permalinks and counts for a writer" do
+        
     should "get all the article_id, titles, permalinks and counts for those articles ordered by count descending" do
       writer_id = 345    
       1.upto(3) do |i|
@@ -160,13 +161,18 @@ class ArticleTest < ActiveSupport::TestCase
         end
       end
       title_counts_out = Article.with_total_counts_for_writer_between(writer_id, Date.today, Date.today)
+      article_counts = []
+      title_counts_out.each do |a|
+        article_counts << {:id => a.article_id, :title => a.title, :permalink => a.permalink, :page_views_count => a.page_views_count.to_i}
       title_counts_in = [
-        {:id => 3, :title =>"Article 3",:permalink => "http://www.google.com", :count => 3},
-        {:id => 2, :title =>"Article 2",:permalink => "http://www.google.com", :count => 2},
-        {:id => 1, :title =>"Article 1",:permalink => "http://www.google.com", :count => 1}
+        {:id => 3, :title =>"Article 3",:permalink => "http://www.google.com", :page_views_count => 3},
+        {:id => 2, :title =>"Article 2",:permalink => "http://www.google.com", :page_views_count => 2},
+        {:id => 1, :title =>"Article 1",:permalink => "http://www.google.com", :page_views_count => 1}
         ]      
-      assert_equal title_counts_in, title_counts_out
+      end
+      assert_equal title_counts_in, article_counts
     end
+    
   end
 
 end

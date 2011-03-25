@@ -35,7 +35,7 @@
         %td
           %a{:href => "#{ac[:permalink]}"}=ac[:title]
         %td
-          =link_to I18n.t('report.details'), article_dashboard_url(@user[:id], @user[:key], ac[:id], :start_date => @start_date, :end_date => @end_date)
+          =link_to I18n.t('report.details'), article_dashboard_url(@user[:id], @user[:key], ac.article_id, :start_date => @start_date, :end_date => @end_date)
         %td= ac[:count]
 
 
@@ -57,7 +57,7 @@
         %td
           %a{:href => "#{ac[:permalink]}"}=ac[:title]
         %td
-          =link_to I18n.t('report.details'), article_dashboard_url(@user[:id], @user[:key], ac[:id], :start_date => @start_date, :end_date => @end_date)
+          =link_to I18n.t('report.details'), article_dashboard_url(@user[:id], @user[:key], ac.article_id, :start_date => @start_date, :end_date => @end_date)
         %td= ac[:count]
 
 %h2= I18n.t('report.keyword_header')

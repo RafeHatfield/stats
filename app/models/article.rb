@@ -6,7 +6,7 @@ class Article < ActiveRecord::Base
 
   validates_presence_of :id, :title, :writer_id, :permalink
   validates_uniqueness_of :id
-  
+    
   def self.find_and_update_title_or_create(data)
     id = data[:id]
 
@@ -63,9 +63,20 @@ class Article < ActiveRecord::Base
     URI.decode(self.title)
   end
   
+  # def self.with_total_counts_for_writer_between(writer_id, start_date, end_date)
+  #   article_counts = Article.where(:writer_id => writer_id).map{ |a| {:id => a.id, :title => a.display_title, :permalink => a.permalink, :count => a.count_between(start_date, end_date)}}
+  #   article_counts.sort_by{|tc| -tc[:count]}
+  # end
+  
   def self.with_total_counts_for_writer_between(writer_id, start_date, end_date)
-    article_counts = Article.where(:writer_id => writer_id).map{ |a| {:id => a.id, :title => a.display_title, :permalink => a.permalink, :count => a.count_between(start_date, end_date)}}
-    article_counts.sort_by{|tc| -tc[:count]}
+    DailyPageView.
+      select("article_id, title, permalink, SUM(count) as page_views_count").
+      where(:writer_id => writer_id).
+      between(start_date, end_date).
+      joins(:article).
+      group("article_id, title, permalink").
+      order("page_views_count DESC")
   end
+  
     
 end
