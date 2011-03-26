@@ -161,14 +161,14 @@ class ArticleTest < ActiveSupport::TestCase
         end
       end
       title_counts_out = Article.with_total_counts_for_writer_between(writer_id, Date.today, Date.today)
-      article_counts = []
-      title_counts_out.each do |a|
-        article_counts << {:id => a.article_id, :title => a.title, :permalink => a.permalink, :page_views_count => a.page_views_count.to_i}
       title_counts_in = [
         {:id => 3, :title =>"Article 3",:permalink => "http://www.google.com", :page_views_count => 3},
         {:id => 2, :title =>"Article 2",:permalink => "http://www.google.com", :page_views_count => 2},
         {:id => 1, :title =>"Article 1",:permalink => "http://www.google.com", :page_views_count => 1}
         ]      
+      article_counts = []
+      title_counts_out.each do |a|
+        article_counts << {:id => a.article_id, :title => a.title, :permalink => a.permalink, :page_views_count => a.page_views_count.to_i}
       end
       assert_equal title_counts_in, article_counts
     end
