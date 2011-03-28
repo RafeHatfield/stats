@@ -29,14 +29,14 @@
         %a#more_article_counts{:href => "#"} Show all
   %tbody
     - @article_counts[0..4].each do |ac|
-      - if ac[:count] == 0
+      - if ac.page_views_count == 0
         - break
       %tr
         %td
           %a{:href => "#{ac[:permalink]}"}=ac[:title]
         %td
           =link_to I18n.t('report.details'), article_dashboard_url(@user[:id], @user[:key], ac.article_id, :start_date => @start_date, :end_date => @end_date)
-        %td= ac[:count]
+        %td= ac.page_views_count
 
 
 %table#article_counts_full.rounded-corner
@@ -51,14 +51,14 @@
         %a#less_article_counts{:href => "#"} Show most popular
   %tbody
     - @article_counts.each do |ac|
-      - if ac[:count] == 0
+      - if ac.page_views_count == 0
         - break
       %tr
         %td
           %a{:href => "#{ac[:permalink]}"}=ac[:title]
         %td
           =link_to I18n.t('report.details'), article_dashboard_url(@user[:id], @user[:key], ac.article_id, :start_date => @start_date, :end_date => @end_date)
-        %td= ac[:count]
+        %td= ac.page_views_count
 
 %h2= I18n.t('report.keyword_header')
 %table.rounded-corner
