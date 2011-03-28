@@ -1,0 +1,8 @@
+- if ac.page_views_count == 0
+  - break
+%tr.ac_summary
+  %td
+    = link_to ac[:title], ac[:permalink]
+  %td
+    =link_to I18n.t('report.details'), article_dashboard_url(@user[:id], @user[:key], ac.article_id, :start_date => @start_date, :end_date => @end_date)
+  %td= ac.page_views_count

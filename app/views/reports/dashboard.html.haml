@@ -17,48 +17,7 @@
 
 %h2= I18n.t('report.articles_header')
 
-%table#article_counts_summary.rounded-corner
-  %thead
-    %tr
-      %th.rounded-left Article
-      %th.rounded-bg ...
-      %th.rounded-right ...
-  %tfoot
-    %tr
-      %td.rounded-foot{:colspan => 3}
-        %a#more_article_counts{:href => "#"} Show all
-  %tbody
-    - @article_counts[0..4].each do |ac|
-      - if ac.page_views_count == 0
-        - break
-      %tr
-        %td
-          %a{:href => "#{ac[:permalink]}"}=ac[:title]
-        %td
-          =link_to I18n.t('report.details'), article_dashboard_url(@user[:id], @user[:key], ac.article_id, :start_date => @start_date, :end_date => @end_date)
-        %td= ac.page_views_count
-
-
-%table#article_counts_full.rounded-corner
-  %thead
-    %tr
-      %th.rounded-left Article
-      %th.rounded-bg ...
-      %th.rounded-right ...
-  %tfoot
-    %tr
-      %td.rounded-foot{:colspan => 3, :height => 15}
-        %a#less_article_counts{:href => "#"} Show most popular
-  %tbody
-    - @article_counts.each do |ac|
-      - if ac.page_views_count == 0
-        - break
-      %tr
-        %td
-          %a{:href => "#{ac[:permalink]}"}=ac[:title]
-        %td
-          =link_to I18n.t('report.details'), article_dashboard_url(@user[:id], @user[:key], ac.article_id, :start_date => @start_date, :end_date => @end_date)
-        %td= ac.page_views_count
+= render 'articles_stats', :articles_stats => @article_counts
 
 %h2= I18n.t('report.keyword_header')
 %table.rounded-corner
@@ -93,21 +52,6 @@
 - content_for :page_javascript do
   :javascript
     $(function(){
-      function toggle_article_counts(){
-        $("#article_counts_summary").toggle();
-        $("#article_counts_full").toggle();
-      };
-
-      $("#more_article_counts, #less_article_counts").click(function(){
-        toggle_article_counts();
-        return false;
-      });
-      
-      $("#article_counts_full").hide();
-
-      if($("tbody","#article_counts_full").children().length < 5){
-           $("#more_article_counts").hide();
-      }
 
       var dates = $( "#start_date, #end_date" ).datepicker({
         numberOfMonths: 1,

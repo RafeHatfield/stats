@@ -1,0 +1,34 @@
+%table#article_counts_full.rounded-corner
+  %thead
+    %tr
+      %th.rounded-left Article
+      %th.rounded-bg ...
+      %th.rounded-right ...
+  %tfoot
+    %tr
+      %td.rounded-foot{:colspan => 3}
+        = link_to 'Show all', '#', :id => 'more_article_counts'
+        
+  %tbody#articles_summary
+    = render :partial => 'article_summary', :collection => articles_stats, :as => :ac
+
+- content_for :page_javascript do
+  :javascript
+    $(function(){
+      show_top();
+        
+      function show_top(){
+        $('#more_article_counts').text('Show all');
+        $('#articles_summary tr.ac_summary').slice(5).hide();
+        return false;
+      }
+      
+      function show_all(){
+        $('#more_article_counts').text('Show most popular');
+        $('#articles_summary tr.ac_summary').show();
+        return false;
+      }
+      
+      $('#more_article_counts').toggle(show_all,show_top);
+      
+    });
