@@ -1,6 +1,7 @@
 class ReportsController < ApplicationController
 
   before_filter :verify_key, :except => [:test_dashboard, :test_article_dashboard]
+  before_filter :set_start_and_end_date, :only => [:dashboard, :article_dashboard]
   
   # Ensure that the supplied id and key match our encoding.
   # Setup the @user object with authentication info.
@@ -14,8 +15,6 @@ class ReportsController < ApplicationController
   
   # Show the user's dashboard.
   def dashboard
-    @start_date = params[:start_date] ? params[:start_date].to_date : 7.days.ago.to_date
-    @end_date = params[:end_date] ? params[:end_date].to_date : Date.today
     
     @view_counts = DailyPageView.counts_for_writer_between(@user[:id], @start_date, @end_date)
     @total_view_count = @view_counts.sum
@@ -45,9 +44,6 @@ class ReportsController < ApplicationController
     @article_id = params[:suite101_article_id]
     
     @article_title = Article.find(@article_id).display_title
-
-    @start_date = params[:start_date] ? params[:start_date].to_date : 7.days.ago.to_date
-    @end_date = params[:end_date] ? params[:end_date].to_date : Date.today
     
     @view_counts = DailyPageView.counts_for_article_between(@article_id, @start_date, @end_date)
     @total_view_count = @view_counts.sum
@@ -162,6 +158,26 @@ class ReportsController < ApplicationController
       Date.civil(date_hash["year"].to_i, date_hash["month"].to_i, date_hash["day"].to_i)
     else
       default
+    end
+  end
+  
+  def set_start_and_end_date
+    if params[:start_date].present?
+      @start_date = params[:start_date].to_date
+      session[:start_date] = @start_date
+    elsif session[:start_date].present?
+      @start_date = session[:start_date]
+    else
+      @start_date = 7.days.ago.to_date
+    end
+    
+    if params[:end_date].present?
+      @end_date = params[:end_date].to_date
+      session[:end_date] = @start_date
+    elsif session[:end_date].present?
+      @end_date = session[:end_date]
+    else
+      @end_date = Date.today
     end
   end
   
