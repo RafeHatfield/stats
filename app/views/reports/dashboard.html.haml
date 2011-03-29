@@ -17,7 +17,8 @@
 
 %h2= I18n.t('report.articles_header')
 
-= render 'articles_stats', :articles_stats => @article_counts
+%table#article_counts_full.rounded-corner
+  = render 'articles_stats/articles_stats', :articles_stats => @article_counts
 
 %h2= I18n.t('report.keyword_header')
 %table.rounded-corner
@@ -52,7 +53,13 @@
 - content_for :page_javascript do
   :javascript
     $(function(){
-
+      $("#pagination a").live("click", function() {
+          $.get(this.href, function(data) {
+            $('#article_counts_full').html(data);
+          });
+          return false;
+      });
+      
       var dates = $( "#start_date, #end_date" ).datepicker({
         numberOfMonths: 1,
         minDate: new Date(2011, 1-1, 1),

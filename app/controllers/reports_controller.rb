@@ -1,25 +1,26 @@
 class ReportsController < ApplicationController
 
-  before_filter :verify_key, :except => [:test_dashboard, :test_article_dashboard]
+  before_filter :get_user, :except => [:test_dashboard, :test_article_dashboard]
   before_filter :set_start_and_end_date, :only => [:dashboard, :article_dashboard]
-  
-  # Ensure that the supplied id and key match our encoding.
-  # Setup the @user object with authentication info.
-  def verify_key
-    @user = {:id => params[:id], :key => params[:key]}
-    if @user[:id] != Base64.decode64(@user[:key])
-      render :file => "/public/404.html", :status => 404
-      return false
-    end
-  end
-  
+    
   # Show the user's dashboard.
   def dashboard
-    
     @view_counts = DailyPageView.counts_for_writer_between(@user[:id], @start_date, @end_date)
     @total_view_count = @view_counts.sum
     
-    @article_counts = Article.with_total_counts_for_writer_between(@user[:id], @start_date, @end_date)
+    @article_counts = Article.with_total_counts_for_writer_between(@user[:id], @start_date, @end_date).page(params[:page]).all
+    @article_counts.instance_eval <<-EVAL
+      def current_page
+        #{params[:page] || 1}
+      end
+      def num_pages
+        count
+      end
+      def limit_value                                                                               
+        20
+      end
+    EVAL
+    
     @keyphrase_counts = DailyKeyphraseView.keyphrases_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date, :limit => 5)
     
     @domain_counts = DailyDomainView.domains_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date, :limit => 5)
@@ -160,25 +161,5 @@ class ReportsController < ApplicationController
       default
     end
   end
-  
-  def set_start_and_end_date
-    if params[:start_date].present?
-      @start_date = params[:start_date].to_date
-      session[:start_date] = @start_date
-    elsif session[:start_date].present?
-      @start_date = session[:start_date]
-    else
-      @start_date = 7.days.ago.to_date
-    end
     
-    if params[:end_date].present?
-      @end_date = params[:end_date].to_date
-      session[:end_date] = @start_date
-    elsif session[:end_date].present?
-      @end_date = session[:end_date]
-    else
-      @end_date = Date.today
-    end
-  end
-  
 end

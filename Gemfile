@@ -21,6 +21,7 @@ gem 'capistrano'
 gem 'eycap'
 gem 'addressable', :require => 'addressable/uri'
 gem 'ruby-progressbar'
+gem 'kaminari'
 
 group :development, :test do
   gem 'flutie'

@@ -3,6 +3,7 @@ Stats::Application.routes.draw do
   
   match '/admin' => 'admin#index'
   
+  match '/article_stats/:id/:key' => 'article_stats#index', :as => :article_stats
   match '/report/:id/:key' => 'reports#dashboard', :as => :dashboard
   match '/test/:id' => 'reports#test_dashboard'
   
