@@ -1,5 +1,5 @@
 div.ui-datepicker{
-  font-size:11px;
+	font-size:11px;
 }
 body {
 	margin: 1em;
@@ -13,8 +13,8 @@ h1 {
 	width: 900px;
 }
 date {
-  color:#999;
-  font-size:12px;
+	color:#999;
+	font-size:12px;
 }
 h2 {
 	background: url("http://graphics.suite101.com/line-separator.png") no-repeat scroll 0 bottom transparent;
@@ -38,8 +38,8 @@ h2 {
 	text-align:center;
 }
 /* ------------------
- styling for the tables 
-   ------------------   */
+styling for the tables 
+------------------   */
 
 .rounded-corner {
 	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
@@ -54,7 +54,7 @@ h2 {
 }
 .rounded-corner thead th.rounded-left {
 	background: #174140 url('../images/table-images/top_left.png') left -1px no-repeat;
-	
+
 }
 .rounded-corner thead th.rounded-right {
 	background: #174140 url('../images/table-images/top_right.png') right -1px no-repeat;
@@ -94,29 +94,39 @@ p.csv a:link {
 	background: url('../images/table-images/download.png') right bottom no-repeat;
 	padding-right:32px;
 	line-height:30px;
-	}
+}
 p.csv a:active {
 	background: url('../images/table-images/download.png') right bottom no-repeat;
 	padding-right:32px;
-	}
-	
-	/* Text fields */
-	input[type="color"],
-	input[type="date"],
-	input[type="datetime"],
-	input[type="datetime-local"],
-	input[type="email"],
-	input[type="month"],
-	input[type="number"],
-	input[type="password"],
-	input[type="range"],
-	input[type="search"],
-	input[type="tel"],
-	input[type="text"],
-	input[type="time"],
-	input[type="url"],
-	input[type="week"] {
-	  font-size: inherit;
-	  padding: 3px 2px;
-	  width: 100px;
-	  border:#cbcbcb solid 1px;}
+}
+
+/* Text fields */
+input[type="color"],
+input[type="date"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="email"],
+input[type="month"],
+input[type="number"],
+input[type="password"],
+input[type="range"],
+input[type="search"],
+input[type="tel"],
+input[type="text"],
+input[type="time"],
+input[type="url"],
+input[type="week"] {
+	font-size: inherit;
+	padding: 3px 2px;
+	width: 100px;
+	border:#cbcbcb solid 1px;}
+
+#page_view_plot{
+	width: 700px; 
+	height: 400px;
+}
+
+#source_chart{
+	width: 400px; 
+	height: 400px;
+}

@@ -8,10 +8,10 @@
 %br
 
 %h2= I18n.t('article_report.page_view_graph_header').gsub("[title]","#{@article_title}")
-#page_view_plot{:style => "width: 700px; height: 400px;"}
+#page_view_plot
 
 %h2= I18n.t('article_report.page_views_line').gsub('[total_views]',"#{@total_view_count}")
-#source_chart{:style => "width: 400px; height: 400px;"}
+#source_chart
 
 %h2= I18n.t('report.keyword_header')
 %table.rounded-corner

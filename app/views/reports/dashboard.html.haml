@@ -10,10 +10,10 @@
 %br
 
 %h2= I18n.t('report.page_view_graph_header')
-#page_view_plot{:style => "width: 700px; height: 400px;"}
+#page_view_plot
 
 %h2.summary= I18n.t('report.article_views_line').gsub('[articles_views]', "#{@number_of_articles_with_views}").gsub('[total_views]', "#{@total_view_count}")
-#source_chart{:style => "width: 400px; height: 400px;"}
+#source_chart
 
 %h2= I18n.t('report.articles_header')
 
@@ -53,6 +53,7 @@
 - content_for :page_javascript do
   :javascript
     $(function(){
+      
       $("#pagination a").live("click", function() {
           $.get(this.href, function(data) {
             $('#article_counts_full').html(data);
@@ -91,7 +92,7 @@
         },
         xAxis: {
           type: 'datetime',
-          min: #{@start_date.at_midnight.to_i * 1000},
+          min: #{(@start_date.at_midnight-2.hours).to_i * 1000},
           startOnTick: true
         },
         yAxis: {
@@ -102,6 +103,9 @@
           formatter: function() {
             return Highcharts.dateFormat("%B %e %Y", this.x) + ': ' + this.y;
           }
+        },
+        credits: {
+          enabled: false
         },
         series: [{
           name: 'This week',
@@ -132,6 +136,9 @@
               return '<b>'+ this.point.name +'</b>: '+ this.y;
            }
         },
+        credits: {
+          enabled: false
+        },
         plotOptions: {
            pie: {
               allowPointSelect: true,
@@ -151,6 +158,6 @@
            data: #{@source_counts.map{|source_sym, count| [I18n.t("report.#{source_sym.to_s}"), count]}.to_json}
         }]
      });
-      
+    
     });
   
