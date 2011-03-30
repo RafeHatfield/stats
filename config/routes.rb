@@ -4,6 +4,7 @@ Stats::Application.routes.draw do
   match '/admin' => 'admin#index'
   
   match '/article_stats/:id/:key' => 'article_stats#index', :as => :article_stats
+  
   match '/report/:id/:key' => 'reports#dashboard', :as => :dashboard
   match '/test/:id' => 'reports#test_dashboard'
   
@@ -19,4 +20,5 @@ Stats::Application.routes.draw do
   match '/report/:id/:key/page_view_sparkline.gif' => 'reports#page_view_sparkline'
   match '/report/:id/:key/update_total_page_views.js' => 'reports#update_total_page_views'
   
+  match ':controller(/:action(/:id(.:format)))'
 end

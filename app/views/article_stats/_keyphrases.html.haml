@@ -1,0 +1,13 @@
+%thead
+  %tr
+    %th.rounded-left Keyphrases
+    %th.rounded-tab2-right ...
+%tbody
+  - keyphrase_counts.each do |k|
+    %tr
+      %td= k[0]
+      %td= k[1]
+%tfoot
+  %tr
+    %td.rounded-foot{:colspan => 3}
+      #pagination= paginate keyphrase_counts, :params => {:controller => 'keyphrases', :action => 'index'}      

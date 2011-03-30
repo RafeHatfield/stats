@@ -13,21 +13,9 @@
 %h2= I18n.t('article_report.page_views_line').gsub('[total_views]',"#{@total_view_count}")
 #source_chart
 
-
 %h2= I18n.t('report.keyword_header')
-%table.rounded-corner
-  %thead
-    %tr
-      %th.rounded-left Keyphrases
-      %th.rounded-tab2-right ...
-  %tfoot
-    %tr
-      %td.rounded-foot{:colspan => 2, :height => 15}
-  %tbody
-    - @keyphrase_counts.each do |k|
-      %tr
-        %td= k[0]
-        %td= k[1]
+%table.rounded-corner#keyphrases
+  = render 'article_stats/keyphrases', :keyphrase_counts => @keyphrase_counts
 
 %h2= I18n.t('report.domain_header')
 %table.rounded-corner
@@ -48,6 +36,13 @@
   
   :javascript
     $(function(){
+      $("#pagination a").live("click", function() {
+          $.get(this.href, function(data) {
+            $('#keyphrases').html(data);
+          });
+          return false;
+      });
+      
       var dates = $( "#start_date, #end_date" ).datepicker({
         numberOfMonths: 1,
         minDate: new Date(2011, 1-1, 1),

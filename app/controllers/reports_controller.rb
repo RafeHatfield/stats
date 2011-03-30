@@ -37,7 +37,23 @@ class ReportsController < ApplicationController
     
     @view_counts = DailyPageView.counts_for_article_between(@article_id, @start_date, @end_date)
     @total_view_count = @view_counts.sum
+    
+    page = params[:page] || 1
+    per_page = 20
     @keyphrase_counts = DailyKeyphraseView.keyphrases_with_total_counts_for_article_between(@article_id, @start_date, @end_date)
+    @keyphrase_counts = @keyphrase_counts[((page - 1) * per_page)...(page * per_page)]
+    @keyphrase_counts.instance_eval <<-EVAL
+      def current_page
+        #{page || 1}
+      end
+      def num_pages
+        count
+      end
+      def limit_value                                                                               
+        20
+      end
+    EVAL
+    
     @domain_counts = DailyDomainView.domains_with_total_counts_for_article_between(@article_id, @start_date, @end_date)
     @source_counts = DailyDomainView.sources_with_total_counts_for_article_between(@article_id, @start_date, @end_date)
     
