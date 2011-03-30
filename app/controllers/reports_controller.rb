@@ -8,18 +8,7 @@ class ReportsController < ApplicationController
     @view_counts = DailyPageView.counts_for_writer_between(@user[:id], @start_date, @end_date)
     @total_view_count = @view_counts.sum
     
-    @article_counts = Article.with_total_counts_for_writer_between(@user[:id], @start_date, @end_date).page(params[:page]).all
-    @article_counts.instance_eval <<-EVAL
-      def current_page
-        #{params[:page] || 1}
-      end
-      def num_pages
-        count
-      end
-      def limit_value                                                                               
-        20
-      end
-    EVAL
+    @article_counts = Article.paginated_pageviews_for_writer_between(@user[:id], @start_date, @end_date, params[:page])
     
     @keyphrase_counts = DailyKeyphraseView.keyphrases_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date, :limit => 5)
     

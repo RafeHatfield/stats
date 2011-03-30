@@ -78,5 +78,21 @@ class Article < ActiveRecord::Base
       order("page_views_count DESC")
   end
   
+  def self.paginated_pageviews_for_writer_between(writer_id, start_date, end_date, page)
+    article_counts = Article.with_total_counts_for_writer_between(writer_id, start_date, end_date).page(page).all
+    article_counts.instance_eval <<-EVAL
+      def current_page
+        #{page || 1}
+      end
+      def num_pages
+        count
+      end
+      def limit_value                                                                               
+        20
+      end
+    EVAL
+    article_counts
+  end
+  
     
 end
