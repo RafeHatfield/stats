@@ -48,8 +48,6 @@
       %td= k[0].blank? ? "[direct]" : k[0]
       %td= k[1]
 
-
-
 - content_for :page_javascript do
   :javascript
     $(function(){
@@ -82,7 +80,7 @@
       chart = new Highcharts.Chart({
         chart: {
           renderTo: 'page_view_plot',
-          defaultSeriesType: 'line',
+          defaultSeriesType: 'spline',
           marginRight: 130,
           marginBottom: 85
         },
@@ -91,9 +89,7 @@
           enabled: false
         },
         xAxis: {
-          type: 'datetime',
-          min: #{(@start_date.at_midnight-2.hours).to_i * 1000},
-          startOnTick: true
+          type: 'datetime'
         },
         yAxis: {
           title: false,
@@ -111,7 +107,7 @@
           name: 'This week',
           pointInterval: #{1.day * 1000},
           pointStart: #{@start_date.at_midnight.to_i * 1000},
-          data: #{@view_counts.inspect}
+          data: #{prepare_data(@view_counts, @start_date, @end_date)}
         }]
       });
       
