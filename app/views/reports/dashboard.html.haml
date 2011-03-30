@@ -49,6 +49,7 @@
       %td= k[1]
 
 - content_for :page_javascript do
+  = javascript_include_tag 'jquery.highcharts.page-view-plot'
   :javascript
     $(function(){
       
@@ -76,41 +77,14 @@
       $.datepicker.setDefaults($.datepicker.regional["#{I18n.locale.to_s}"]);
   		
       // Make the 'page_view_plot' div a highchart showing the total view counts.
-      var view_chart;
-      chart = new Highcharts.Chart({
-        chart: {
-          renderTo: 'page_view_plot',
-          defaultSeriesType: 'spline',
-          marginRight: 130,
-          marginBottom: 85
-        },
-        title: false,
-        legend: {
-          enabled: false
-        },
-        xAxis: {
-          type: 'datetime'
-        },
-        yAxis: {
-          title: false,
-          min: 0
-        },
-        tooltip: {
-          formatter: function() {
-            return Highcharts.dateFormat("%B %e %Y", this.x) + ': ' + this.y;
-          }
-        },
-        credits: {
-          enabled: false
-        },
+      $('#page_view_plot').page_view_plot({
         series: [{
           name: 'This week',
           pointInterval: #{1.day * 1000},
           pointStart: #{@start_date.at_midnight.to_i * 1000},
           data: #{prepare_data(@view_counts, @start_date, @end_date)}
         }]
-      });
-      
+      })      
       // Make the 'source_chart' div a highchart pie chart showing the source types.
       var source_chart;
       source_chart = new Highcharts.Chart({
