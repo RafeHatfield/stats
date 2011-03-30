@@ -28,8 +28,8 @@
       %td.rounded-foot{:colspan => 2, :height => 15}
   - @domain_counts.each do |k|
     %tr
-      %td= k[0].blank? ? "[direct]" : k[0]
-      %td= k[1]
+      %td= k.domain.blank? ? "[direct]" : k.domain
+      %td= k.domain_views_count
 
 - content_for :page_javascript do
   = javascript_include_tag 'jquery.highcharts.page-view-plot'
