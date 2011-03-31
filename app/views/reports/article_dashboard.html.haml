@@ -33,6 +33,7 @@
 
 - content_for :page_javascript do
   = javascript_include_tag 'jquery.highcharts.page-view-plot'
+  = javascript_include_tag 'jquery.highcharts.source-chart'
   
   :javascript
     $(function(){
@@ -66,49 +67,12 @@
           pointStart: #{@start_date.at_midnight.to_i * 1000},
           data: #{prepare_data(@view_counts, @start_date, @end_date)}
         }]
-      })      
-        // Make the 'source_chart' div a highchart pie chart showing the source types.
-        var source_chart;
-        source_chart = new Highcharts.Chart({
-          chart: {
-             renderTo: 'source_chart',
-             plotBackgroundColor: null,
-             plotBorderWidth: null,
-             plotShadow: false,
-             marginLeft: 100,
-             marginRight: 100,
-             marginBottom: 50,
-             marginTop: 50
-          },
-          title: {
-             text: ''
-          },
-          tooltip: {
-             formatter: function() {
-                return '<b>'+ this.point.name +'</b>: '+ this.y;
-             }
-          },
-          credits: {
-            enabled: false
-          },
-          plotOptions: {
-             pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                dataLabels: {
-                   enabled: true,
-                   color: '#000000',
-                   connectorColor: '#000000',
-                   formatter: function() {
-                      return '<b>'+ this.point.name +'</b>: '+ this.y;
-                   }
-                }
-             }
-          },
-           series: [{
-             type: 'pie',
-             data: #{@source_counts.map{|source_sym, count| [I18n.t("report.#{source_sym.to_s}"), count]}.to_json}
-          }]
-       });
-
+      })
+      
+      $('#source_chart').source_chart({
+         series: [{
+           type: 'pie',
+           data: #{@source_counts.map{|source_sym, count| [I18n.t("report.#{source_sym.to_s}"), count]}.to_json}
+        }]
+      })
     });

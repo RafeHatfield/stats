@@ -4,9 +4,9 @@ $.fn.page_view_plot = function(options) {
 
   if (!this.length) { return this; }
 
-  var opts = $.extend(true, {}, $.fn.page_view_plot.defaults, options);
-	var chart = new Highcharts.Chart(opts);
-  return chart;
+  var page_view_opts = $.extend(true, {}, $.fn.page_view_plot.defaults, options);
+	var page_view_plot = new Highcharts.Chart(page_view_opts);
+  return page_view_plot;
 };
 
 // default options
