@@ -1,8 +1,23 @@
 (function($) {
 // What does the page_view_plot plugin do?
 $.fn.source_chart = function(options) {
-
+	
   if (!this.length) { return this; }
+	
+	var id = this.attr('id');
+	var chart = {
+		chart: {
+     renderTo: id,
+     plotBackgroundColor: null,
+     plotBorderWidth: null,
+     plotShadow: false,
+     marginLeft: 100,
+     marginRight: 100,
+     marginBottom: 50,
+     marginTop: 50
+  	}
+	};
+	$.extend(true, options, chart);
 	
   var source_chart_opts = $.extend(true, {}, $.fn.source_chart.defaults, options);
 	var source_chart = new Highcharts.Chart(source_chart_opts);
@@ -11,16 +26,6 @@ $.fn.source_chart = function(options) {
 
 // default options
 $.fn.source_chart.defaults = {
-  chart: {
-     renderTo: 'source_chart',
-     plotBackgroundColor: null,
-     plotBorderWidth: null,
-     plotShadow: false,
-     marginLeft: 100,
-     marginRight: 100,
-     marginBottom: 50,
-     marginTop: 50
-  },
   title: {
      text: ''
   },

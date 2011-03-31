@@ -3,7 +3,18 @@
 $.fn.page_view_plot = function(options) {
 
   if (!this.length) { return this; }
-
+	
+	var id = this.attr('id');
+	var chart = {
+		chart: {
+	    renderTo: id,
+	    defaultSeriesType: 'spline',
+	    marginRight: 130,
+	    marginBottom: 85
+	  }
+	};
+	$.extend(true, options, chart);
+	
   var page_view_opts = $.extend(true, {}, $.fn.page_view_plot.defaults, options);
 	var page_view_plot = new Highcharts.Chart(page_view_opts);
   return page_view_plot;
@@ -11,12 +22,6 @@ $.fn.page_view_plot = function(options) {
 
 // default options
 $.fn.page_view_plot.defaults = {
-	chart: {
-    renderTo: 'page_view_plot',
-    defaultSeriesType: 'spline',
-    marginRight: 130,
-    marginBottom: 85
-  },
   title: false,
   legend: {
     enabled: false
