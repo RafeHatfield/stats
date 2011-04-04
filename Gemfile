@@ -38,7 +38,7 @@ group :development do
 	gem 'rails_best_practices'
 end
 
-group :staging do
+group :staging, :production do
   gem 'ar-octopus', :require => "octopus"
 end
 
