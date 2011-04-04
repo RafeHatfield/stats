@@ -10,6 +10,7 @@ octopus:
   environments:
     - development
     - staging
+    - production
   development:
     com:
       database: stats_com_dev
