@@ -6,8 +6,9 @@ class ReportsController < ApplicationController
   def dashboard
     @view_counts = DailyPageView.counts_for_writer_between(@user[:id], @start_date, @end_date)
     @total_view_count = @view_counts.sum
-        
-    @article_counts = Article.paginated_pageviews_for_writer_between(@user[:id], @start_date, @end_date, params[:page])
+    
+    page = params[:page] || 1     
+    @article_counts = Article.paginated_pageviews_for_writer_between(@user[:id], @start_date, @end_date, page)
 
     @keyphrase_counts = DailyKeyphraseView.keyphrases_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date, :limit => 5)
         
