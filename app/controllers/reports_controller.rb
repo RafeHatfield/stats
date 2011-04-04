@@ -1,6 +1,6 @@
 class ReportsController < ApplicationController
   before_filter :get_user, :except => [:test_dashboard, :test_article_dashboard]
-  before_filter :set_start_and_end_date, :only => [:dashboard, :article_dashboard]
+  before_filter :set_start_and_end_date, :only => [:dashboard, :article_dashboard, :article_views_csv]
   
   # Show the writer's dashboard.
   def dashboard
@@ -114,8 +114,7 @@ class ReportsController < ApplicationController
   end
   
   def article_views_csv
-    
-    @article_counts = Article.with_total_counts_for_writer_between(@user[:id], Date.yesterday, Date.yesterday)
+    @article_counts = Article.with_total_counts_for_writer_between(@user[:id], @start_date, @end_date)
     
     csv_string = FasterCSV.generate do |csv|
       csv << ["Title", "Views Yesterday"]
@@ -126,8 +125,7 @@ class ReportsController < ApplicationController
 
     send_data csv_string,
               :type => 'text/csv; charset=iso-8859-1; header=present',
-              :disposition => "attachment; filename=article_counts.csv"
-    
+              :disposition => "attachment; filename=article_counts.csv"    
   end
   
   

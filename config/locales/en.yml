@@ -13,7 +13,7 @@ en:
     details: "Details"
     keyword_header: 'How Are People Finding Me?'
     domain_header: 'Where Are My Readers Coming From?'
-    download_data: "Download yesterday's data"
+    download_data: "Download CSV"
   article_report:
     back_to_dashboard: "Back to my dashboard"
     page_view_graph_header: Readers Viewing [title]

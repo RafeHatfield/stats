@@ -8,7 +8,7 @@
     == #{I18n.t('report.end_date')} #{text_field_tag(:end_date, I18n.l(@end_date), {:id => "end_date"})}
     = submit_tag I18n.t('report.update')
 %br
-%p.csv=link_to I18n.t('report.download_data'), article_view_csv_path(@user[:id], @user[:key])  
+%p.csv=link_to I18n.t('report.download_data'), article_view_csv_path(@user[:key])  
 
 %h2= I18n.t('report.page_view_graph_header')
 #page_view_plot
