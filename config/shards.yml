@@ -36,3 +36,16 @@ octopus:
     fr:
       database: suite101_fr_staging
       <<: *postgres
+  production:
+    com:
+      database: stats_com_production
+      <<: *postgres
+    de:
+      database: stats_de_production
+      <<: *postgres
+    net:
+      database: stats_net_production
+      <<: *postgres
+    fr:
+      database: stats_fr_production
+      <<: *postgres
