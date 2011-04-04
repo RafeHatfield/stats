@@ -1,4 +1,4 @@
-== &laquo; #{link_to "#{I18n.t('article_report.back_to_dashboard')}", dashboard_path(@user[:id], @user[:key])}
+== &laquo; #{link_to "#{I18n.t('article_report.back_to_dashboard')}", dashboard_path(@user[:key])}
 %h1= I18n.t('report.header')
 %date
   =form_tag article_dashboard_path(@user[:id], @user[:key], @article_id), :method => :get do

@@ -1,17 +1,16 @@
 class ReportsController < ApplicationController
-
   before_filter :get_user, :except => [:test_dashboard, :test_article_dashboard]
   before_filter :set_start_and_end_date, :only => [:dashboard, :article_dashboard]
-    
-  # Show the user's dashboard.
+  
+  # Show the writer's dashboard.
   def dashboard
     @view_counts = DailyPageView.counts_for_writer_between(@user[:id], @start_date, @end_date)
     @total_view_count = @view_counts.sum
-    
+        
     @article_counts = Article.paginated_pageviews_for_writer_between(@user[:id], @start_date, @end_date, params[:page])
-    
+
     @keyphrase_counts = DailyKeyphraseView.keyphrases_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date, :limit => 5)
-    
+        
     @domain_counts = DailyDomainView.domains_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date, :limit => 5)
     @source_counts = DailyDomainView.sources_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date)
     
@@ -23,15 +22,10 @@ class ReportsController < ApplicationController
     end
     
   end
-  
-  # Generate a key for the user and redirect to their dashbaord
-  def test_dashboard
-    redirect_to dashboard_url(params[:id], Base64.encode64(params[:id]))    
-  end
-  
+    
   # Dashboard for a specific article.
   def article_dashboard
-    @article_id = params[:suite101_article_id]
+    @article_id = params[:article_id]
     
     @article_title = Article.find(@article_id).display_title
     
@@ -40,32 +34,12 @@ class ReportsController < ApplicationController
     
     page = params[:page] || 1
     per_page = 20
-    @keyphrase_counts = DailyKeyphraseView.keyphrases_with_total_counts_for_article_between(@article_id, @start_date, @end_date)
-    @keyphrase_counts = @keyphrase_counts[((page - 1) * per_page)...(page * per_page)]
-    @keyphrase_counts.instance_eval <<-EVAL
-      def current_page
-        #{page || 1}
-      end
-      def num_pages
-        count
-      end
-      def limit_value                                                                               
-        20
-      end
-    EVAL
+    @keyphrase_counts = DailyKeyphraseView.paginated_keyphrases_with_total_counts_for_article_between(@article_id, @start_date, @end_date, page)
     
     @domain_counts = DailyDomainView.domains_with_total_counts_for_article_between(@article_id, @start_date, @end_date)
     @source_counts = DailyDomainView.sources_with_total_counts_for_article_between(@article_id, @start_date, @end_date)
+  end
     
-  end
-  
-  # Generate a key for the user and redirect to their article dashbaord
-  def test_article_dashboard
-    redirect_to article_dashboard_url(params[:id], Base64.encode64(params[:id]), params[:suite101_article_id])    
-  end
-  
-
-  
   # Render javascript which will update the #total_page_views element with the lifetime page views of this user.
   def update_total_page_views
     total_page_views = DailyPageView.counts_for_writer_between(@user[:id], 90.days.ago.to_date, Date.today).sum
@@ -155,7 +129,21 @@ class ReportsController < ApplicationController
               :disposition => "attachment; filename=article_counts.csv"
     
   end
-
+  
+  
+  ##  test routes
+  
+  # Generate a key for the user and redirect to their dashbaord
+  def test_dashboard
+    redirect_to dashboard_url(params[:writer_id].to_i.alphadecimal)    
+  end
+  
+  # Generate a key for the user and redirect to their article dashbaord
+  def test_article_dashboard
+    key = params[:writer_id].to_i.alphadecimal
+    redirect_to article_dashboard_url(key, params[:article_id])
+  end
+  
   private
   
   # Parse the date from a rails select_date tag.

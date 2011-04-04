@@ -22,6 +22,8 @@ gem 'eycap'
 gem 'addressable', :require => 'addressable/uri'
 gem 'ruby-progressbar'
 gem 'kaminari'
+gem 'redis-objects'
+gem 'alphadecimal'
 
 group :development, :test do
   gem 'flutie'

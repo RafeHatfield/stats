@@ -3,15 +3,17 @@ Stats::Application.routes.draw do
   
   match '/admin' => 'admin#index'
   
-  match '/article_stats/:id/:key' => 'article_stats#index', :as => :article_stats
+  # article dashboard
+  match '/article_test/:writer_id/:article_id' => 'reports#test_article_dashboard'
   
-  match '/report/:id/:key' => 'reports#dashboard', :as => :dashboard
-  match '/test/:id' => 'reports#test_dashboard'
-  
-  match '/article_report/:id/:key/:suite101_article_id' => 'reports#article_dashboard', :as => :article_dashboard
-  match '/article_test/:id/:suite101_article_id' => 'reports#test_article_dashboard'
-  
+  match '/article_report/:key/:article_id' => 'reports#article_dashboard', :as => :article_dashboard
   match '/report/:id/:key/article_views.csv' => 'reports#article_views_csv', :as => :article_view_csv
+  match '/article_stats/:id/:key' => 'article_stats#index', :as => :article_stats
+    
+  # dashboard
+  match '/test/:writer_id' => 'reports#test_dashboard'
+  
+  match '/report/:key' => 'reports#dashboard', :as => :dashboard
   
   # My suite graphs and data.
   match '/report/:id/:key/weekly_page_view_graph/' => 'reports#weekly_page_view_graph'
