@@ -1,4 +1,6 @@
 class AddIndices < ActiveRecord::Migration
+  using(:com, :de, :fr, :net) if SHARDING_ENABLED
+  
   def self.up
     add_index :daily_keyphrase_views, :article_id
     add_index :daily_keyphrase_views, :writer_id
