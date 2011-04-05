@@ -3,11 +3,7 @@ class ApplicationController < ActionController::Base
   
   before_filter :set_locale
   around_filter :select_shard
-  
-  include Firewool
-  acts_as_firewalled
-  before_filter :ip_filter
-  
+    
   def domain_extension
     if request.domain
       request.domain.split('.').last.to_sym

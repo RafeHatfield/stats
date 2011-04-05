@@ -1,5 +1,8 @@
 class TrackingController < ApplicationController
-
+  include Firewool
+  acts_as_firewalled
+  before_filter :ip_filter
+  
   def add_page_view
     
     current_utc = Time.now.utc
