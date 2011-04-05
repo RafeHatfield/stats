@@ -41,16 +41,16 @@ octopus:
       <<: *postgres_development
   staging:
     com:
-      database: suite101_com_staging
+      database: stats_com_staging
       <<: *postgres_staging
     de:
-      database: suite101_de_staging
+      database: stats_de_staging
       <<: *postgres_staging
     net:
-      database: suite101_net_staging
+      database: stats_net_staging
       <<: *postgres_staging
     fr:
-      database: suite101_fr_staging
+      database: stats_fr_staging
       <<: *postgres_staging
   production:
     com:
