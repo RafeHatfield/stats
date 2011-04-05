@@ -24,7 +24,8 @@ set :real_revision,       lambda { source.query_revision(revision) { |cmd| captu
 set :production_database, "stats_com_production"
 set :production_dbhost,   "suite101-psql-production-master"
 set :staging_database,    "stats_com_staging"
-set :staging_dbhost,      "suite101-psql-staging-master"
+#set :staging_dbhost,      "suite101-psql-staging-master"
+set :staging_dbhost,      "localhost"
 set :dbuser,              "suite101_db"
 set :dbpass,              "632bVy6Le3h9f"
 
