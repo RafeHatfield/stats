@@ -95,6 +95,8 @@ GEM
     fastercsv (1.5.4)
     ffi (0.6.3)
       rake (>= 0.8.7)
+    firewool (0.1.2)
+      ipaddress (>= 0.7.0)
     flutie (1.1.5)
     gherkin (2.3.3)
       json (~> 1.4.6)
@@ -106,6 +108,7 @@ GEM
       activesupport
       builder
     i18n (0.5.0)
+    ipaddress (0.7.0)
     jquery-rails (0.2.7)
       rails (~> 3.0)
       thor (~> 0.14.4)
@@ -243,6 +246,7 @@ DEPENDENCIES
   eycap
   factory_girl_rails (= 1.1.beta1)
   fastercsv
+  firewool
   flutie
   haml
   hoptoad_notifier

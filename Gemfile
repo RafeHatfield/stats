@@ -23,6 +23,7 @@ gem 'ruby-progressbar'
 gem 'kaminari'
 gem 'redis-objects'
 gem 'alphadecimal'
+gem 'firewool'
 
 group :development, :test do
   gem 'flutie'
