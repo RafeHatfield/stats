@@ -47,6 +47,8 @@ private
     
     set_timezone(raw_page_view.permalink)
     
+    Writer.instance.writer_ids << raw_page_view.writer_id
+    
     article = Article.find_and_update_title_or_create({
       :id => raw_page_view.article_id,
       :title => raw_page_view.title,
