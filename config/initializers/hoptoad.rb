@@ -1,3 +1,6 @@
-HoptoadNotifier.configure do |config|
-  config.api_key = '4852aea247fe2ad565386d9e806563cd'
+if ['staging', 'production'].include?(Rails.env)
+  @hoptoad_config = YAML::load(File.open("#{Rails.root}/config/hoptoad.yml"))[Rails.env]
+  HoptoadNotifier.configure do |config|
+    config.api_key = @hoptoad_config['api_key']
+  end
 end

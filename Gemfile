@@ -12,7 +12,6 @@ gem 'resque'
 gem 'rpm_contrib'
 gem 'newrelic_rpm'
 gem 'jquery-rails', '>= 0.2.6'
-gem 'hoptoad_notifier'
 gem 'fastercsv'
 gem 'resque-cleaner'
 gem 'memcache'
@@ -40,6 +39,7 @@ end
 
 group :staging, :production do
   gem 'ar-octopus', :require => "octopus"
+  gem 'hoptoad_notifier'
 end
 
 group :test do
