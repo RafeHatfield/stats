@@ -94,7 +94,7 @@ class Article < ActiveRecord::Base
         20
       end
     EVAL
-    article_counts
+    [article_counts, count]
   end
       
 end

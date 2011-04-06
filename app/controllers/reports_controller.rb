@@ -8,20 +8,13 @@ class ReportsController < ApplicationController
     @total_view_count = @view_counts.sum
     
     page = params[:page] || 1     
-    @article_counts = Article.paginated_pageviews_for_writer_between(@user[:id], @start_date, @end_date, page)
+
+    @article_counts, @number_of_articles_with_views = Article.paginated_pageviews_for_writer_between(@user[:id], @start_date, @end_date, page)
 
     @keyphrase_counts = DailyKeyphraseView.keyphrases_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date, :limit => 5)
         
     @domain_counts = DailyDomainView.domains_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date, :limit => 5)
     @source_counts = DailyDomainView.sources_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date)
-    
-    @number_of_articles_with_views = 0
-    @article_counts.each do |a|
-      if a.page_views_count.to_i >= 1
-        @number_of_articles_with_views +=1
-      end
-    end
-    
   end
     
   # Dashboard for a specific article.
