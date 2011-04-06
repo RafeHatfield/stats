@@ -47,7 +47,7 @@ protected
     
     if params[:end_date].present?
       @end_date = params[:end_date].to_date
-      session[:end_date] = @start_date
+      session[:end_date] = @end_date
     elsif session[:end_date].present?
       @end_date = session[:end_date]
     else
