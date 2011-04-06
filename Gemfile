@@ -24,6 +24,7 @@ gem 'kaminari'
 gem 'redis-objects'
 gem 'alphadecimal'
 gem 'firewool'
+gem 'redis-namespace'
 
 group :development, :test do
   gem 'flutie'

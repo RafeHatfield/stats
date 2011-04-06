@@ -61,7 +61,7 @@ protected
   def get_user
     key = params[:key]
     writer_id = key.alphadecimal
-    if !Writer.instance.exists?(writer_id)
+    if !Writer.using(domain_extension).exists?(writer_id)
       render :file => "/public/404.html", :status => 404
       return false
     end

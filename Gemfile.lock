@@ -259,6 +259,7 @@ DEPENDENCIES
   rails (= 3.0.4)
   rails3-generators
   rails_best_practices
+  redis-namespace
   redis-objects
   resque
   resque-cleaner

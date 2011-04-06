@@ -62,12 +62,7 @@ class Article < ActiveRecord::Base
   def display_title
     URI.decode(self.title)
   end
-  
-  # def self.with_total_counts_for_writer_between(writer_id, start_date, end_date)
-  #   article_counts = Article.where(:writer_id => writer_id).map{ |a| {:id => a.id, :title => a.display_title, :permalink => a.permalink, :count => a.count_between(start_date, end_date)}}
-  #   article_counts.sort_by{|tc| -tc[:count]}
-  # end
-  
+    
   def self.with_total_counts_for_writer_between(writer_id, start_date, end_date)
     DailyPageView.
       select("article_id, title, permalink, SUM(count) as page_views_count").
@@ -101,6 +96,5 @@ class Article < ActiveRecord::Base
     EVAL
     article_counts
   end
-  
-    
+      
 end
