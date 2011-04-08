@@ -1,7 +1,7 @@
 == &laquo; #{link_to "#{I18n.t('article_report.back_to_dashboard')}", dashboard_path(@user[:key])}
 %h1= I18n.t('report.header')
 %date
-  =form_tag article_dashboard_path(@user[:id], @user[:key], @article_id), :method => :get do
+  =form_tag article_dashboard_path(@user[:key], @article_id), :method => :get do
     == #{I18n.t('report.start_date')} #{text_field_tag(:start_date, I18n.l(@start_date), {:id => "start_date"})}
     == #{I18n.t('report.end_date')} #{text_field_tag(:end_date, I18n.l(@end_date), {:id => "end_date"})}
     = submit_tag I18n.t('report.update')
