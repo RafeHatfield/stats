@@ -2,6 +2,8 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.0.4'
 
+
+gem 'rack', '>= 1.2.2'
 gem 'pg'
 gem 'engineyard'
 gem 'haml'
