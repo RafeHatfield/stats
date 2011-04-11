@@ -8,8 +8,8 @@ class DailyPageView < ActiveRecord::Base
   
   # Get the number of views for all articles for writer_id on each day between and including start_date and end_date.
   def self.counts_for_writer_between(writer_id, start_date, end_date)
-    views = DailyPageView.where(:writer_id => writer_id).between(start_date, end_date).all
-    counts_between(views, start_date, end_date)
+    date_counts = DailyPageView.select("date, sum(count) as count").where(:writer_id => writer_id).between(start_date, end_date).group(:date).order(:date).all
+    counts_between(date_counts, start_date, end_date)
   end
   
   # Get the number of views for an article on each day between and including start_date and end_date.
@@ -20,16 +20,9 @@ class DailyPageView < ActiveRecord::Base
     
   def self.counts_between(views, start_date, end_date)
     (start_date.to_date..end_date.to_date).map do |day| 
-      views_on_day = views.find_all{|v| v.date == day}
-      views_on_day.any? ? views_on_day.sum{|v| v.count} : 0
+      view_on_day = views.find{|v| v.date == day}
+      view_on_day.nil? ? 0 : view_on_day.count
     end
   end
-      
-  # Page Views on and between start_date and end_date
-  # def self.between(start_date, end_date)
-  #   where(:date => start_date.to_date...(end_date.to_date + 1.day))
-  #   # Note: With "..." range rails generates a sql where clause with 
-  #   # date >= d1, date < d2 so we add an extra day to include today.
-  # end
 
 end
