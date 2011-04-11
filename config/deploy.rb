@@ -21,8 +21,11 @@ set :repository,          "git@github.com:suite101/stats.git"
 set :scm,                 :git
 # This will execute the Git revision parsing on the *remote* server rather than locally
 set :real_revision,       lambda { source.query_revision(revision) { |cmd| capture(cmd) } }
-set :staging_database,    "suite101_en_staging"
-set :staging_dbhost,      "suite101-psql-staging-master"
+set :production_database, "stats_com_production"
+set :production_dbhost,   "suite101-psql-production-master"
+set :staging_database,    "stats_com_staging"
+#set :staging_dbhost,      "suite101-psql-staging-master"
+set :staging_dbhost,      "localhost"
 set :dbuser,              "suite101_db"
 set :dbpass,              "632bVy6Le3h9f"
 
@@ -37,6 +40,15 @@ ssh_options[:paranoid] = false
 # can also specify options that can be used to single out a specific subset of boxes in a
 # particular role, like :primary => true.
 
+task :production do
+  role :web, "209.251.186.100:7003" # suite101 [mongrel,memcached,redis,resque] [suite101-psql-production-master]
+  role :app, "209.251.186.100:7003", :mongrel => true, :memcached => true, :redis => true, :resque => true
+  role :db , "209.251.186.100:7003", :primary => true
+  role :app, "209.251.186.100:7004", :mongrel => true, :memcached => true, :redis => true, :resque => true
+  set :rails_env, "production"
+  set :environment_database, defer { production_database }
+  set :environment_dbhost, defer { production_dbhost }
+end
 task :staging do
   role :web, "209.251.186.100:7000" # suite101 [mongrel,memcached,redis,resque] [suite101-psql-staging-master]
   role :app, "209.251.186.100:7000", :memcached => true, :redis => true, :resque => true
@@ -60,7 +72,7 @@ end
 # Do not change below unless you know what you are doing!
 after "deploy", "deploy:cleanup"
 after "deploy:migrations" , "deploy:cleanup"
-after "deploy:update_code", "deploy:symlink_configs"
+after "deploy:update_code", "deploy:symlink_configs", "deploy:restart_passenger"
 # uncomment the following to have a database backup done before every migration
 # before "deploy:migrate", "db:dump"
 
@@ -74,7 +86,7 @@ namespace :resque do
 end
 
 namespace :deploy do 
-  task :start, :roles => :app do
+  task :restart_passenger, :roles => :app do
     run "touch #{current_release}/tmp/restart.txt"
   end
 end

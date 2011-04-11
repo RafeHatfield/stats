@@ -3,9 +3,9 @@ class ApplicationController < ActionController::Base
   
   before_filter :set_locale
   around_filter :select_shard
-  
+    
   def domain_extension
-    if request.domain
+    if Rails.env != 'development' && request.domain
       request.domain.split('.').last.to_sym
     else
       :com
@@ -31,6 +31,41 @@ class ApplicationController < ActionController::Base
     else
       yield
     end
+  end
+  
+protected
+  
+  def set_start_and_end_date
+    if params[:start_date].present?
+      @start_date = params[:start_date].to_date
+      session[:start_date] = @start_date
+    elsif session[:start_date].present?
+      @start_date = session[:start_date]
+    else
+      @start_date = 7.days.ago.to_date
+    end
+    
+    if params[:end_date].present?
+      @end_date = params[:end_date].to_date
+      session[:end_date] = @end_date
+    elsif session[:end_date].present?
+      @end_date = session[:end_date]
+    else
+      @end_date = Date.today
+    end
+  end
+  
+  
+  # Ensure that the supplied id and key match our encoding.
+  # Setup the @user object with authentication info.
+  def get_user
+    key = params[:key]
+    writer_id = key.alphadecimal
+    if !Writer.create(domain_extension).exists?(writer_id)
+      render :file => "/public/404.html", :status => 404
+      return false
+    end
+    @user = {:id => writer_id, :key => key}
   end
   
 end

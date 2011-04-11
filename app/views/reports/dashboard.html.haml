@@ -1,64 +1,24 @@
-%p.csv=link_to I18n.t('report.download_data'), article_view_csv_path(@user[:id], @user[:key])  
+= link_to 'Back to MySuite', 'http://mysuite.suite101.com'
 
 %h1
   = I18n.t('report.header')
 %date
-  =form_tag dashboard_path(@user[:id], @user[:key]), :method => :get do
+  =form_tag dashboard_path(@user[:key]), :method => :get do
     == #{I18n.t('report.start_date')} #{text_field_tag(:start_date, I18n.l(@start_date), {:id => "start_date"})}
     == #{I18n.t('report.end_date')} #{text_field_tag(:end_date, I18n.l(@end_date), {:id => "end_date"})}
     = submit_tag I18n.t('report.update')
 %br
+%p.csv=link_to I18n.t('report.download_data'), article_view_csv_path(@user[:key])  
 
 %h2= I18n.t('report.page_view_graph_header')
-#page_view_plot{:style => "width: 700px; height: 400px;"}
+#page_view_plot
 
 %h2.summary= I18n.t('report.article_views_line').gsub('[articles_views]', "#{@number_of_articles_with_views}").gsub('[total_views]', "#{@total_view_count}")
-#source_chart{:style => "width: 400px; height: 400px;"}
+#source_chart
 
 %h2= I18n.t('report.articles_header')
-
-%table#article_counts_summary.rounded-corner
-  %thead
-    %tr
-      %th.rounded-left Article
-      %th.rounded-bg ...
-      %th.rounded-right ...
-  %tfoot
-    %tr
-      %td.rounded-foot{:colspan => 3}
-        %a#more_article_counts{:href => "#"} Show all
-  %tbody
-    - @article_counts[0..4].each do |ac|
-      - if ac[:count] == 0
-        - break
-      %tr
-        %td
-          %a{:href => "#{ac[:permalink]}"}=ac[:title]
-        %td
-          =link_to I18n.t('report.details'), article_dashboard_url(@user[:id], @user[:key], ac[:suite101_article_id], :start_date => @start_date, :end_date => @end_date)
-        %td= ac[:count]
-
-
 %table#article_counts_full.rounded-corner
-  %thead
-    %tr
-      %th.rounded-left Article
-      %th.rounded-bg ...
-      %th.rounded-right ...
-  %tfoot
-    %tr
-      %td.rounded-foot{:colspan => 3, :height => 15}
-        %a#less_article_counts{:href => "#"} Show most popular
-  %tbody
-    - @article_counts.each do |ac|
-      - if ac[:count] == 0
-        - break
-      %tr
-        %td
-          %a{:href => "#{ac[:permalink]}"}=ac[:title]
-        %td
-          =link_to I18n.t('report.details'), article_dashboard_url(@user[:id], @user[:key], ac[:suite101_article_id], :start_date => @start_date, :end_date => @end_date)
-        %td= ac[:count]
+  = render 'article_stats/articles_stats', :articles_stats => @article_counts
 
 %h2= I18n.t('report.keyword_header')
 %table.rounded-corner
@@ -88,27 +48,19 @@
       %td= k[0].blank? ? "[direct]" : k[0]
       %td= k[1]
 
-
-
 - content_for :page_javascript do
+  = javascript_include_tag 'jquery.highcharts.page-view-plot'
+  = javascript_include_tag 'jquery.highcharts.source-chart'
   :javascript
     $(function(){
-      function toggle_article_counts(){
-        $("#article_counts_summary").toggle();
-        $("#article_counts_full").toggle();
-      };
-
-      $("#more_article_counts, #less_article_counts").click(function(){
-        toggle_article_counts();
-        return false;
+      
+      $("#pagination a").live("click", function() {
+          $.get(this.href, function(data) {
+            $('#article_counts_full').html(data);
+          });
+          return false;
       });
       
-      $("#article_counts_full").hide();
-
-      if($("tbody","#article_counts_full").children().length < 5){
-           $("#more_article_counts").hide();
-      }
-
       var dates = $( "#start_date, #end_date" ).datepicker({
         numberOfMonths: 1,
         minDate: new Date(2011, 1-1, 1),
@@ -126,80 +78,20 @@
       $.datepicker.setDefaults($.datepicker.regional["#{I18n.locale.to_s}"]);
   		
       // Make the 'page_view_plot' div a highchart showing the total view counts.
-      var view_chart;
-      chart = new Highcharts.Chart({
-        chart: {
-          renderTo: 'page_view_plot',
-          defaultSeriesType: 'line',
-          marginRight: 130,
-          marginBottom: 85
-        },
-        title: false,
-        legend: {
-          enabled: false
-        },
-        xAxis: {
-          type: 'datetime',
-          min: #{@start_date.at_midnight.to_i * 1000},
-          startOnTick: true
-        },
-        yAxis: {
-          title: false,
-          min: 0
-        },
-        tooltip: {
-          formatter: function() {
-            return Highcharts.dateFormat("%B %e %Y", this.x) + ': ' + this.y;
-          }
-        },
+      $('#page_view_plot').page_view_plot({
         series: [{
           name: 'This week',
           pointInterval: #{1.day * 1000},
           pointStart: #{@start_date.at_midnight.to_i * 1000},
-          data: #{@view_counts.inspect}
+          data: #{prepare_data(@view_counts, @start_date, @end_date)}
         }]
-      });
+      })      
       
-      // Make the 'source_chart' div a highchart pie chart showing the source types.
-      var source_chart;
-      source_chart = new Highcharts.Chart({
-        chart: {
-           renderTo: 'source_chart',
-           plotBackgroundColor: null,
-           plotBorderWidth: null,
-           plotShadow: false,
-           marginLeft: 100,
-           marginRight: 100,
-           marginBottom: 50,
-           marginTop: 50
-        },
-        title: {
-           text: ''
-        },
-        tooltip: {
-           formatter: function() {
-              return '<b>'+ this.point.name +'</b>: '+ this.y;
-           }
-        },
-        plotOptions: {
-           pie: {
-              allowPointSelect: true,
-              cursor: 'pointer',
-              dataLabels: {
-                 enabled: true,
-                 color: '#000000',
-                 connectorColor: '#000000',
-                 formatter: function() {
-                    return '<b>'+ this.point.name +'</b>: '+ this.y;
-                 }
-              }
-           }
-        },
+      $('#source_chart').source_chart({
          series: [{
            type: 'pie',
            data: #{@source_counts.map{|source_sym, count| [I18n.t("report.#{source_sym.to_s}"), count]}.to_json}
         }]
-     });
-      
+      })
     });
   

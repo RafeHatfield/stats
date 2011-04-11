@@ -5,8 +5,8 @@ class RawPageViewTest < ActiveSupport::TestCase
     should "require a title" do
       assert_equal false, FactoryGirl.build(:raw_page_view, :title => nil).valid?
     end
-    should "require a suite101_article_id" do
-      assert_equal false, FactoryGirl.build(:raw_page_view, :suite101_article_id => nil).valid?
+    should "require an article_id" do
+      assert_equal false, FactoryGirl.build(:raw_page_view, :article_id => nil).valid?
     end
     should "require a permalink" do
       assert_equal false, FactoryGirl.build(:raw_page_view, :permalink => nil).valid?
@@ -24,8 +24,8 @@ class RawPageViewTest < ActiveSupport::TestCase
     should "require writer_id to be an integer" do
       assert_equal false, FactoryGirl.build(:raw_page_view, :writer_id => "notanint").valid?
     end
-    should "require suite101_article_id to be an integer" do
-      assert_equal false, FactoryGirl.build(:raw_page_view, :suite101_article_id => "notanint").valid?
+    should "require article_id to be an integer" do
+      assert_equal false, FactoryGirl.build(:raw_page_view, :article_id => "notanint").valid?
     end
     should "require date's year to be recent" do
       assert_equal false, FactoryGirl.build(:raw_page_view, :date => Date.today - 100.years).valid?

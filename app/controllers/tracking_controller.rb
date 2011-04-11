@@ -1,17 +1,19 @@
 class TrackingController < ApplicationController
-
+  include Firewool
+  acts_as_firewalled
+  before_filter :ip_filter
+  
   def add_page_view
     
     current_utc = Time.now.utc
     
     raw_page_view_data = {
-      :suite101_article_id => params[:suite101_article_id],
+      :article_id => params[:suite101_article_id],
       :permalink => params[:permalink],
       :title => params[:title],
       :writer_id  => params[:writer_id],
       :referrer_url => params[:referrer_url] || "",
       :cookie_id => params[:cookie_id],
-      #:date => params[:utc_seconds] ? Time.at(params[:utc_seconds].to_i) : Time.now
       :date => current_utc
     }
     

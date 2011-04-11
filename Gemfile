@@ -12,7 +12,6 @@ gem 'resque'
 gem 'rpm_contrib'
 gem 'newrelic_rpm'
 gem 'jquery-rails', '>= 0.2.6'
-# gem 'hoptoad_notifier'
 gem 'fastercsv'
 gem 'resque-cleaner'
 gem 'memcache'
@@ -20,6 +19,12 @@ gem 'resque-multi-job-forks'
 gem 'capistrano'
 gem 'eycap'
 gem 'addressable', :require => 'addressable/uri'
+gem 'ruby-progressbar'
+gem 'kaminari'
+gem 'redis-objects'
+gem 'alphadecimal'
+gem 'firewool'
+gem 'redis-namespace'
 
 group :development, :test do
   gem 'flutie'
@@ -34,8 +39,9 @@ group :development do
 	gem 'rails_best_practices'
 end
 
-group :staging do
+group :staging, :production do
   gem 'ar-octopus', :require => "octopus"
+  gem 'hoptoad_notifier'
 end
 
 group :test do

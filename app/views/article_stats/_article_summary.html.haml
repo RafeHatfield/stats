@@ -1,0 +1,8 @@
+- if ac.page_views_count == 0
+  - break
+%tr.ac_summary
+  %td
+    = link_to CGI.unescape(ac[:title]), ac[:permalink]
+  %td
+    =link_to I18n.t('report.details'), article_dashboard_url(@user[:key], ac.article_id)
+  %td= ac.page_views_count
