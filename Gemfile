@@ -24,6 +24,7 @@ gem 'redis-objects'
 gem 'alphadecimal'
 gem 'firewool'
 gem 'redis-namespace'
+gem 'newrelic_rpm'
 
 group :development, :test do
   gem 'flutie'
