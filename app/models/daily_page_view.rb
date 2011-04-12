@@ -24,5 +24,23 @@ class DailyPageView < ActiveRecord::Base
       view_on_day.nil? ? 0 : view_on_day.count
     end
   end
+  
+  def self.with_total_counts_for_writer_between(writer_id, start_date, end_date)
+    DailyPageView.
+      select("article_id, title, permalink, SUM(count) as count_all").
+      where(:writer_id => writer_id).
+      between(start_date, end_date).
+      joins(:article).
+      group("article_id, title, permalink").
+      order("count_all DESC")
+  end
+  
+  def self.paginated_pageviews_for_writer_between(writer_id, start_date, end_date, page)
+    total_count = DailyPageView.with_total_counts_for_writer_between(writer_id, start_date, end_date).all.size
+    article_counts = DailyPageView.with_total_counts_for_writer_between(writer_id, start_date, end_date).page(page).per(20)
+    
+    [article_counts, total_count]
+  end
+  
 
 end

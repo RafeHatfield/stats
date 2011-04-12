@@ -80,7 +80,8 @@ class DailyDomainView < ActiveRecord::Base
   end
   
   # this method is required since there is a discrepancy between daily page views count and daily domain views count
-  def self.calibrate_count(source_counts, daily_page_views_count)
+  # This method is a hack to remove the discrepeancy
+  def self.calibrated_count(source_counts, daily_page_views_count)
     internal_and_organic_count = source_counts[:internal] + source_counts[:organic]
     other_count = daily_page_views_count - internal_and_organic_count
     source_counts[:other] = other_count
