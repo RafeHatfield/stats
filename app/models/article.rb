@@ -78,7 +78,7 @@ class Article < ActiveRecord::Base
   end
   
   def self.paginated_pageviews_for_writer_between(writer_id, start_date, end_date, page)
-    count = Article.with_total_counts_for_writer_between(writer_id, start_date, end_date).all.size
+    total_count = Article.with_total_counts_for_writer_between(writer_id, start_date, end_date).all.size
     
     article_counts = Article.with_total_counts_for_writer_between(writer_id, start_date, end_date).page(page).all
     article_counts.instance_eval <<-EVAL
@@ -94,7 +94,7 @@ class Article < ActiveRecord::Base
         20
       end
     EVAL
-    [article_counts, count]
+    [article_counts, total_count]
   end
       
 end

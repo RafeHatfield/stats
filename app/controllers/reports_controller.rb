@@ -15,6 +15,8 @@ class ReportsController < ApplicationController
         
     @domain_counts = DailyDomainView.domains_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date, :limit => 5)
     @source_counts = DailyDomainView.sources_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date)
+    
+    @source_counts = DailyDomainView.calibrate_count(@source_counts, @total_view_count)
   end
     
   # Dashboard for a specific article.
