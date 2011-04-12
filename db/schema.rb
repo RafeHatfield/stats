@@ -10,10 +10,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110411231559) do
+ActiveRecord::Schema.define(:version => 20110323221507) do
 
-  create_table "articles", :force => true do |t|
-    t.integer  "suite101_article_id"
+  create_table "articles", :id => false, :force => true do |t|
+    t.integer  "id",         :null => false
     t.string   "title"
     t.integer  "writer_id"
     t.string   "permalink"
@@ -22,7 +22,6 @@ ActiveRecord::Schema.define(:version => 20110411231559) do
   end
 
   add_index "articles", ["id"], :name => "uniq_article_check", :unique => true
-  add_index "articles", ["suite101_article_id"], :name => "index_articles_on_suite101_article_id"
   add_index "articles", ["writer_id"], :name => "index_articles_on_writer_id"
 
   create_table "daily_domain_views", :force => true do |t|
@@ -36,7 +35,6 @@ ActiveRecord::Schema.define(:version => 20110411231559) do
   end
 
   add_index "daily_domain_views", ["article_id"], :name => "index_daily_domain_views_on_article_id"
-  add_index "daily_domain_views", ["date", "writer_id"], :name => "index_daily_domain_views_on_date_and_writer_id"
   add_index "daily_domain_views", ["writer_id"], :name => "index_daily_domain_views_on_writer_id"
 
   create_table "daily_keyphrase_views", :force => true do |t|
@@ -50,7 +48,6 @@ ActiveRecord::Schema.define(:version => 20110411231559) do
   end
 
   add_index "daily_keyphrase_views", ["article_id"], :name => "index_daily_keyphrase_views_on_article_id"
-  add_index "daily_keyphrase_views", ["date", "writer_id"], :name => "index_daily_keyphrase_views_on_date_and_writer_id"
   add_index "daily_keyphrase_views", ["writer_id"], :name => "index_daily_keyphrase_views_on_writer_id"
 
   create_table "daily_page_views", :force => true do |t|
@@ -63,21 +60,20 @@ ActiveRecord::Schema.define(:version => 20110411231559) do
   end
 
   add_index "daily_page_views", ["article_id"], :name => "index_daily_page_views_on_article_id"
-  add_index "daily_page_views", ["date", "writer_id"], :name => "index_daily_page_views_on_date_and_writer_id"
   add_index "daily_page_views", ["writer_id"], :name => "index_daily_page_views_on_writer_id"
 
   create_table "raw_page_views", :force => true do |t|
-    t.integer  "suite101_article_id"
+    t.integer  "article_id"
     t.string   "permalink"
     t.string   "title"
     t.integer  "writer_id"
-    t.string   "referrer_url",        :limit => 1000
+    t.string   "referrer_url", :limit => 1000
     t.string   "cookie_id"
     t.datetime "date"
   end
 
+  add_index "raw_page_views", ["article_id"], :name => "index_raw_page_views_on_article_id"
   add_index "raw_page_views", ["cookie_id"], :name => "index_raw_page_views_on_cookie_id"
-  add_index "raw_page_views", ["suite101_article_id"], :name => "index_raw_page_views_on_suite101_article_id"
   add_index "raw_page_views", ["writer_id"], :name => "index_raw_page_views_on_writer_id"
 
 end

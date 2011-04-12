@@ -2,7 +2,6 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.0.4'
 
-
 gem 'rack', '1.2.1'
 gem 'pg'
 gem 'engineyard'
