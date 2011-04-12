@@ -259,7 +259,6 @@ DEPENDENCIES
   memcache-client
   newrelic_rpm
   pg
-  rack (= 1.2.1)
   rails (= 3.0.4)
   rails3-generators
   rails_best_practices
