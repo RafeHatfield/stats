@@ -112,7 +112,7 @@ class ReportsController < ApplicationController
   end
   
   def article_views_csv
-    @article_counts = Article.with_total_counts_for_writer_between(@user[:id], @start_date, @end_date)
+    @article_counts = DailyPageView.with_total_counts_for_writer_between(@user[:id], @start_date, @end_date)
     
     csv_string = FasterCSV.generate do |csv|
       csv << ["Title", "Views Yesterday"]
