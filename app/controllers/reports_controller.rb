@@ -34,6 +34,8 @@ class ReportsController < ApplicationController
     
     @domain_counts = DailyDomainView.domains_with_total_counts_for_article_between(@article_id, @start_date, @end_date)
     @source_counts = DailyDomainView.sources_with_total_counts_for_article_between(@article_id, @start_date, @end_date)
+    
+    @source_counts = DailyDomainView.calibrated_count(@source_counts, @total_view_count)
   end
     
   # Render javascript which will update the #total_page_views element with the lifetime page views of this user.
