@@ -1,9 +1,6 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.0.4'
-
-
-gem 'rack', '= 1.2.1'
 gem 'pg'
 gem 'engineyard'
 gem 'haml'
@@ -27,6 +24,7 @@ gem 'redis-objects'
 gem 'alphadecimal'
 gem 'firewool'
 gem 'redis-namespace'
+gem 'newrelic_rpm'
 
 group :development, :test do
   gem 'flutie'

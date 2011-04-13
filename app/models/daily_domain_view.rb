@@ -53,7 +53,6 @@ class DailyDomainView < ActiveRecord::Base
     end
     
     return total_source_counts
-    
   end
   
   # Get a hash with the total number of internal, organic, direct views for an article between
@@ -78,6 +77,15 @@ class DailyDomainView < ActiveRecord::Base
     where(:date => start_date.to_date...(end_date.to_date + 1.day))
     # Note: With "..." range rails generates a sql where clause with 
     # date >= d1, date < d2 so we add an extra day to include today.
+  end
+  
+  # this method is required since there is a discrepancy between daily page views count and daily domain views count
+  # This method is a hack to remove the discrepeancy
+  def self.calibrated_count(source_counts, daily_page_views_count)
+    internal_and_organic_count = source_counts[:internal] + source_counts[:organic]
+    other_count = daily_page_views_count - internal_and_organic_count
+    source_counts[:other] = other_count
+    source_counts
   end
   
   private
