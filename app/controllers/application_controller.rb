@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   around_filter :select_shard
     
   def domain_extension
-    if Rails.env != 'development' && request.domain
+    if request.domain
       request.domain.split('.').last.to_sym
     else
       :com
@@ -20,7 +20,9 @@ class ApplicationController < ActionController::Base
   def set_locale
     extensions = {
       :com => :en,
-      :de => :de
+      :de => :de,
+      :fr => :fr,
+      :net => :es
     }
     I18n.locale = extensions[domain_extension]    
   end
