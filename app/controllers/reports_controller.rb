@@ -3,6 +3,7 @@ class ReportsController < ApplicationController
   before_filter :set_start_and_end_date, :only => [:dashboard, :article_dashboard, :article_views_csv]
   
   # Show the writer's dashboard.
+  # TODO: this action should be dealing with writer model. #learnsomeoop
   def dashboard
     @view_counts = DailyPageView.counts_for_writer_between(@user[:id], @start_date, @end_date)
     @total_view_count = @view_counts.sum
@@ -19,10 +20,12 @@ class ReportsController < ApplicationController
   end
     
   # Dashboard for a specific article.
+  # TODO: this action should ever only be dealing with article model. It's leaking too much details. #learnsomeoop
   def article_dashboard
     @article_id = params[:article_id]
     
-    @article_title = Article.find(@article_id).display_title
+    @article = Article.find(@article_id)
+    @article_title = @article.display_title
     
     @view_counts = DailyPageView.counts_for_article_between(@article_id, @start_date, @end_date)
     @total_view_count = @view_counts.sum
@@ -31,8 +34,7 @@ class ReportsController < ApplicationController
     
     @keyphrase_counts = DailyKeyphraseView.paginated_keyphrases_with_total_counts_for_article_between(@article_id, @start_date, @end_date, page)
     
-    @domain_counts = DailyDomainView.domains_with_total_counts_for_article_between(@article_id, @start_date, @end_date)
-    @source_counts = DailyDomainView.sources_with_total_counts_for_article_between(@article_id, @start_date, @end_date)
+    @domain_counts, @source_counts = DailyDomainView.get_counts_for_article_between(@article_id, @start_date, @end_date)
     
     @source_counts = DailyDomainView.calibrated_count(@source_counts, @total_view_count)
   end
