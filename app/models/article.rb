@@ -61,5 +61,18 @@ class Article < ActiveRecord::Base
   
   def display_title
     URI.decode(self.title)
-  end      
+  end   
+  
+  def page_views_count_between(start_date, end_date)
+    DailyPageView.counts_for_article_between(self.id, start_date, end_date)
+  end
+  
+  def paginated_keyphrase_views_between(start_date, end_date, page)
+    DailyKeyphraseView.paginated_keyphrases_with_total_counts_for_article_between(self.id, start_date, end_date, page)
+  end
+  
+  def domain_views_counts_between(start_date, end_date)
+    DailyDomainView.get_counts_for_article_between(self.id, start_date, end_date)
+  end
+    
 end

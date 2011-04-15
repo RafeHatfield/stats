@@ -24,16 +24,7 @@ class DailyDomainView < ActiveRecord::Base
     
     return [domain_counts, total_source_counts]
   end
-    
-  # this method is required since there is a discrepancy between daily page views count and daily domain views count
-  # This method is a hack to remove the discrepeancy
-  def self.calibrated_count(source_counts, daily_page_views_count)
-    internal_and_organic_count = source_counts[:internal] + source_counts[:organic]
-    other_count = daily_page_views_count - internal_and_organic_count
-    source_counts[:other] = other_count
-    source_counts
-  end
-    
+        
   def self.get_counts_for_writer_between(writer_id, start_date, end_date, options={})
     
     total_domain_counts = DailyDomainView.domain_count_for_writer_between(writer_id, start_date, end_date, options)
