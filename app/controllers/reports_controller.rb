@@ -13,9 +13,8 @@ class ReportsController < ApplicationController
 
     @keyphrase_counts = DailyKeyphraseView.keyphrases_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date, :limit => 5)
         
-    @domain_counts = DailyDomainView.domains_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date, :limit => 5)
-    @source_counts = DailyDomainView.sources_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date)
-    
+    @domain_counts, @source_counts = DailyDomainView.get_counts_for_writer_between(@user[:id], @start_date, @end_date, :limit => 5)
+        
     @source_counts = DailyDomainView.calibrated_count(@source_counts, @total_view_count)
   end
     
