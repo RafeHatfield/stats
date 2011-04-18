@@ -4,34 +4,31 @@ class ReportsController < ApplicationController
   
   # Show the writer's dashboard.
   def dashboard
+    
     @view_counts = DailyPageView.counts_for_writer_between(@user[:id], @start_date, @end_date)
     @total_view_count = @view_counts.sum
     
     page = params[:page] || 1     
 
-    @article_counts, @number_of_articles_with_views = Article.paginated_pageviews_for_writer_between(@user[:id], @start_date, @end_date, page)
+    @article_counts, @number_of_articles_with_views = DailyPageView.paginated_pageviews_for_writer_between(@user[:id], @start_date, @end_date, page)
 
     @keyphrase_counts = DailyKeyphraseView.keyphrases_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date, :limit => 5)
         
-    @domain_counts = DailyDomainView.domains_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date, :limit => 5)
-    @source_counts = DailyDomainView.sources_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date)
+    @domain_counts, @source_counts = DailyDomainView.get_counts_for_writer_between(@user[:id], @start_date, @end_date, :limit => 5)
+        
+    @source_counts = calibrated_count(@source_counts, @total_view_count)
   end
     
   # Dashboard for a specific article.
   def article_dashboard
-    @article_id = params[:article_id]
-    
-    @article_title = Article.find(@article_id).display_title
-    
-    @view_counts = DailyPageView.counts_for_article_between(@article_id, @start_date, @end_date)
-    @total_view_count = @view_counts.sum
-    
+    @article = Article.find(params[:article_id])
     page = params[:page] || 1
-    per_page = 20
-    @keyphrase_counts = DailyKeyphraseView.paginated_keyphrases_with_total_counts_for_article_between(@article_id, @start_date, @end_date, page)
     
-    @domain_counts = DailyDomainView.domains_with_total_counts_for_article_between(@article_id, @start_date, @end_date)
-    @source_counts = DailyDomainView.sources_with_total_counts_for_article_between(@article_id, @start_date, @end_date)
+    @view_counts = @article.page_views_count_between(@start_date, @end_date)
+    @keyphrase_counts = @article.paginated_keyphrase_views_between(@start_date, @end_date, page)
+    @domain_counts, @source_counts = @article.domain_views_counts_between(@start_date, @end_date)
+    
+    @source_counts = calibrated_count(@source_counts, @view_counts.sum)
   end
     
   # Render javascript which will update the #total_page_views element with the lifetime page views of this user.
@@ -108,7 +105,7 @@ class ReportsController < ApplicationController
   end
   
   def article_views_csv
-    @article_counts = Article.with_total_counts_for_writer_between(@user[:id], @start_date, @end_date)
+    @article_counts = DailyPageView.with_total_counts_for_writer_between(@user[:id], @start_date, @end_date)
     
     csv_string = FasterCSV.generate do |csv|
       csv << ["Title", "Views Yesterday"]
@@ -136,7 +133,7 @@ class ReportsController < ApplicationController
     redirect_to article_dashboard_url(key, params[:article_id])
   end
   
-  private
+private
   
   # Parse the date from a rails select_date tag.
   def get_selected_date(date_hash, default)
@@ -145,6 +142,15 @@ class ReportsController < ApplicationController
     else
       default
     end
+  end
+  
+  # this method is required since there is a discrepancy between daily page views count and daily domain views count
+  # This method is a hack to remove the discrepeancy
+  def calibrated_count(source_counts, daily_page_views_count)
+    internal_and_organic_count = source_counts[:internal] + source_counts[:organic]
+    other_count = daily_page_views_count - internal_and_organic_count
+    source_counts[:other] = other_count
+    source_counts
   end
     
 end
