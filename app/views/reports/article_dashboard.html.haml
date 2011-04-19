@@ -1,5 +1,8 @@
-== &laquo; #{link_to "#{I18n.t('article_report.back_to_dashboard')}", dashboard_path(@user[:key])}
-%h1= I18n.t('report.header')
+%div{:style=> "margin-top: 15px; margin-bottom: 12px"}
+  %h1{:style => "display: inline"}
+    == Stats for &quot;#{@article.title}&quot;
+  %a{:href=> "#{dashboard_path(@user[:key])}"} (view all articles)
+
 %date
   =form_tag article_dashboard_path(@user[:key], @article.id), :method => :get do
     == #{I18n.t('report.start_date')} #{text_field_tag(:start_date, I18n.l(@start_date), {:id => "start_date"})}
@@ -10,7 +13,9 @@
 %h2= I18n.t('article_report.page_view_graph_header').gsub("[title]","#{@article.display_title}")
 #page_view_plot
 
-%h2= I18n.t('article_report.page_views_line').gsub('[total_views]',"#{@total_view_count}")
+%h2.summary
+  == This article was viewed #{@total_view_count} times.
+  /= I18n.t('article_report.page_views_line').gsub('[total_views]',"#{@total_view_count}")
 #source_chart
 
 %h2= I18n.t('report.keyword_header')

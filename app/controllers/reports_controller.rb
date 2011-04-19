@@ -25,6 +25,8 @@ class ReportsController < ApplicationController
     page = params[:page] || 1
     
     @view_counts = @article.page_views_count_between(@start_date, @end_date)
+    @total_view_count = @view_counts.sum
+    
     @keyphrase_counts = @article.paginated_keyphrase_views_between(@start_date, @end_date, page)
     @domain_counts, @source_counts = @article.domain_views_counts_between(@start_date, @end_date)
     

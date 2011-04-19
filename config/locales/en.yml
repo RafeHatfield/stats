@@ -1,7 +1,7 @@
 en:
   report:
-    header: "My stats"
-    start_date: 'From'
+    header: "MyStats"
+    start_date: 'from'
     end_date: 'to'
     update: 'Update'
     page_view_graph_header: "Readers Viewing My Articles"
@@ -10,11 +10,11 @@ en:
     other: Links
     organic: Search Engine
     articles_header: 'Which of My Articles People Are Reading?'
-    details: "Details"
+    details: "details"
     keyword_header: 'How Are People Finding Me?'
     domain_header: 'Where Are My Readers Coming From?'
-    download_data: "Download CSV"
+    download_data: "Download Yesterday's Data"
   article_report:
     back_to_dashboard: "Back to my dashboard"
-    page_view_graph_header: Readers Viewing [title]
+    page_view_graph_header: Readers
     page_views_line: "This article was viewed [total_views] times."

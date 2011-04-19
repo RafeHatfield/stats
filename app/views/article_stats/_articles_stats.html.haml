@@ -1,11 +1,10 @@
 %thead
   %tr
-    %th.rounded-left Article
-    %th.rounded-bg ...
-    %th.rounded-right ...
+    %th.first.rounded-left Article
+    %th.rounded-bg Views
 %tbody#articles_summary
   = render :partial => 'article_stats/article_summary', :collection => articles_stats, :as => :ac
 %tfoot
   %tr
-    %td.rounded-foot{:colspan => 3}
+    %td.rounded-foot{:colspan => 2}
       #pagination= paginate articles_stats, :params => {:controller => 'article_stats', :action => 'index'}

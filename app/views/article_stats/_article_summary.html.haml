@@ -3,6 +3,5 @@
 %tr.ac_summary
   %td
     = link_to CGI.unescape(ac[:title]), ac[:permalink]
-  %td
-    =link_to I18n.t('report.details'), article_dashboard_url(@user[:key], ac.article_id)
+    == ( #{link_to I18n.t('report.details'), article_dashboard_url(@user[:key], ac.article_id)} )
   %td= ac.count_all
