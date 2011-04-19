@@ -7,7 +7,7 @@ body {
 div.header {
 	background: url("http://graphics.suite101.com/blog_bg_header.jpg") repeat-x scroll left bottom #FFFFFF;
 	border: 1px solid #000000;
-	height: 100px;
+	height: 80px;
 }
 div.content {
 	width: 800px;
@@ -60,7 +60,7 @@ h2 {
 }
 table {
 	width: 700px;
-	margin: 10px auto;
+	margin: 0 auto;
 	margin-bottom: 20px;
 }
 th.first{

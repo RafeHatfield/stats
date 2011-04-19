@@ -1,7 +1,7 @@
 %thead
   %tr
-    %th.rounded-left Keyphrases
-    %th.rounded-tab2-right ...
+    %th.first Keyphrases
+    %th Views
 %tbody
   - keyphrase_counts.each do |k|
     %tr
@@ -9,5 +9,5 @@
       %td= k[1]
 %tfoot
   %tr
-    %td.rounded-foot{:colspan => 3}
+    %td{:colspan => 2}
       #pagination= paginate keyphrase_counts, :params => {:controller => 'keyphrases', :action => 'index'}      

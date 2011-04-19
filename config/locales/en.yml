@@ -7,8 +7,8 @@ en:
     page_view_graph_header: "Readers Viewing My Articles"
     article_views_line: "[articles_views] of your articles were viewed [total_views] times in total."
     internal: Suite101
-    other: Links
-    organic: Search Engine
+    other: Other
+    organic: Search Engines
     articles_header: 'Which of My Articles People Are Reading?'
     details: "details"
     keyword_header: 'How Are People Finding Me?'
@@ -16,5 +16,5 @@ en:
     download_data: "Download Yesterday's Data"
   article_report:
     back_to_dashboard: "Back to my dashboard"
-    page_view_graph_header: Readers
+    page_view_graph_header: Readers Viewing This Article
     page_views_line: "This article was viewed [total_views] times."
