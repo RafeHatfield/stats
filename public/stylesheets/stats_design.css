@@ -2,9 +2,20 @@ div.ui-datepicker{
 	font-size:11px;
 }
 body {
-	margin: 1em;
-	width: 800px;
+	background-color: #EEE;
 }
+div.header {
+	background: url("http://graphics.suite101.com/blog_bg_header.jpg") repeat-x scroll left bottom #FFFFFF;
+	border: 1px solid #000000;
+	height: 100px;
+}
+div.content {
+	width: 800px;
+	margin: 0 auto;
+	padding: 15px;
+	background-color: #FFF;
+}
+
 h1 {
 	color: #466F73;
 	font-size: 140%;
@@ -22,12 +33,13 @@ h2 {
 	font-size: 120%;
 	margin: 15px 0 8px;
 	padding-bottom: 5px;
-	width: 900px;
+	width: 750px;
 }
 .summary {
 	background:#a0a620;
 	width:700px;
 	margin: 10px;
+	margin-left: 20px;
 	padding: 20px;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
@@ -122,11 +134,13 @@ input[type="week"] {
 	border:#cbcbcb solid 1px;}
 
 #page_view_plot{
-	width: 700px; 
+	margin-left: 60px;
+	width: 750px; 
 	height: 400px;
 }
 
 #source_chart{
-	width: 400px; 
+	margin-left: 60px;
+	width: 600px; 
 	height: 400px;
 }

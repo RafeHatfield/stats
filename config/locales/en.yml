@@ -1,14 +1,14 @@
 en:
   report:
-    header: "My stats (beta)"
+    header: "My stats"
     start_date: 'From'
     end_date: 'to'
     update: 'Update'
     page_view_graph_header: "Readers Viewing My Articles"
     article_views_line: "[articles_views] of your articles were viewed [total_views] times in total."
-    internal: internal
-    other: other
-    organic: organic
+    internal: Suite101
+    other: Links
+    organic: Search Engine
     articles_header: 'Which of My Articles People Are Reading?'
     details: "Details"
     keyword_header: 'How Are People Finding Me?'
