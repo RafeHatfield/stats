@@ -1,12 +1,6 @@
 %p.utility_bar
-  = link_to "Download Yesterday's Data", article_view_csv_path(@user[:key]), :class => "csv"
   = link_to "View All Articles", dashboard_path(@user[:key])
 %h1== Stats for &quot;#{@article.title}&quot;
-
--# %div{:style=> "margin-top: 15px; margin-bottom: 12px"}
--#   %h1{:style => "display: inline"}
--#     == Stats for &quot;#{@article.title}&quot;
--#   %a{:style => "float: right;", :href=> "#{dashboard_path(@user[:key])}"} View All Articles
 
 %date
   =form_tag article_dashboard_path(@user[:key], @article.id), :method => :get do
@@ -16,7 +10,7 @@
 %br
 %hr
 
-%h2 People Viewing This Article
+%h2== People Viewing This Article
 
 #page_view_plot
 
@@ -25,7 +19,7 @@
 
 #source_chart
 
-%h2 How Are People Finding This Article?
+%h2 How Are People Finding &quot;#{@article.title}&quot;?
 %table#keyphrases
   = render 'article_stats/keyphrases', :keyphrase_counts => @keyphrase_counts
 
