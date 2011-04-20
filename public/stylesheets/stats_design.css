@@ -14,6 +14,10 @@ div.header a#mysuite{
 	display: block; 
 	margin-top: -35px
 }
+div.footer {
+	background-color: #eee;
+	height: 20px;
+}
 div.content {
 	width: 800px;
 	margin: 0 auto;
@@ -74,6 +78,9 @@ th.first_short{
 }
 th.second_short{
 	width: 190px;
+}
+tfoot td{
+	border-bottom: 0;
 }
 p.utility_bar {
 	float:right; 
