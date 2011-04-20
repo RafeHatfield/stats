@@ -22,7 +22,6 @@ gem 'ruby-progressbar'
 gem 'kaminari'
 gem 'redis-objects'
 gem 'alphadecimal'
-gem 'firewool'
 gem 'redis-namespace'
 gem 'newrelic_rpm'
 
