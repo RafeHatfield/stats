@@ -1,13 +1,18 @@
-div.ui-datepicker{
-	font-size:11px;
-}
+/* Layout */
 body {
 	background-color: #EEE;
 }
 div.header {
 	background: url("http://graphics.suite101.com/blog_bg_header.jpg") repeat-x scroll left bottom #FFFFFF;
 	border: 1px solid #000000;
-	height: 80px;
+	height: 100px;
+}
+div.header img{
+	display: block;
+}
+div.header a#mysuite{
+	display: block; 
+	margin-top: -35px
 }
 div.content {
 	width: 800px;
@@ -15,7 +20,19 @@ div.content {
 	padding: 15px;
 	background-color: #FFF;
 }
-
+date {
+	color: #466F73;
+	font-size: 120%;
+}
+date input[type="text"]{
+	margin: 3px;
+	padding: 3px 2px;
+	width: 100px;
+	border:#cbcbcb solid 1px;
+}
+date input[type="submit"] {
+	font-size: 14px;
+}
 h1 {
 	color: #466F73;
 	font-size: 140%;
@@ -23,28 +40,14 @@ h1 {
 	padding-bottom: 5px;
 	width: 900px;
 }
-date {
-/*	color:#999;
-	font-size:12px;*/
-	color: #466F73;
-	font-size: 120%;
-}
-date input[type="text"]{
-	margin: 3px;
-}
-input[type="submit"] {
-	/*height: 30px;*/
-	font-size: 14px;
-}
 h2 {
-/*	background: url("http://graphics.suite101.com/line-separator.png") no-repeat scroll 0 bottom transparent;*/
 	color: #666666;
 	font-size: 120%;
 	margin: 15px 0 8px;
 	padding-bottom: 5px;
 	width: 750px;
 }
-.summary {
+h2.summary {
 	background:#a0a620;
 	width:700px;
 	margin: 10px;
@@ -66,89 +69,29 @@ table {
 th.first{
 	width: 600px;
 }
-/* ------------------
-styling for the tables 
-------------------   */
-
-/*.rounded-corner {
-	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
-	font-size: 12px;
-	margin: 45px;
-	width: 700px;
-	text-align: left;
-	border-collapse: collapse;
+th.first_short{
+	width: 400px;
 }
-.rounded-corner thead th.rounded-bg {
-	background: #174140 url('../images/table-images/bg_gradient.png') left -1px repeat-x;
+th.second_short{
+	width: 190px;
 }
-.rounded-corner thead th.rounded-left {
-	background: #174140 url('../images/table-images/top_left.png') left -1px no-repeat;
-
+p.utility_bar {
+	float:right; 
+	margin-top:18px;
 }
-.rounded-corner thead th.rounded-right {
-	background: #174140 url('../images/table-images/top_right.png') right -1px no-repeat;
+p a{
+	margin-bottom: 15px;
+	display: block;
 }
-
-.rounded-corner thead th.rounded-tab2-right {
-	background: #174140 url('../images/table-images/top_right.png') right -1px no-repeat;
-	width:100px;
-}
-
-.rounded-corner th {
-	padding: 8px;
-	font-weight: normal;
-	font-size: 13px;
-	color: #fff;
-	font-weight:bold;
-	border-bottom:#fff 1px solid;
-}
-.rounded-corner td {
-	padding: 8px;
-	background: #fff;
-	border-bottom:#f1f1f1 1px solid;
-}
-
-.rounded-corner tfoot td.rounded-foot {
-	background: #d6d6d6 url('../images/table-images/bottom.png') right bottom no-repeat;
-	border: 0;
-	text-align:center;
-	height:10px;
-}
-*/
-/*.rounded-corner tbody tr:hover td {
-	background: #f1f1f1;
-}
-*/
-p.csv a:link {
+a.csv {
 	background: url('../images/table-images/download.png') right bottom no-repeat;
 	padding-right:32px;
-	line-height:30px;
+	line-height:20px;
 }
-p.csv a:active {
+a.csv:active {
 	background: url('../images/table-images/download.png') right bottom no-repeat;
 	padding-right:32px;
 }
-
-/* Text fields */
-input[type="color"],
-input[type="date"],
-input[type="datetime"],
-input[type="datetime-local"],
-input[type="email"],
-input[type="month"],
-input[type="number"],
-input[type="password"],
-input[type="range"],
-input[type="search"],
-input[type="tel"],
-input[type="text"],
-input[type="time"],
-input[type="url"],
-input[type="week"] {
-	font-size: inherit;
-	padding: 3px 2px;
-	width: 100px;
-	border:#cbcbcb solid 1px;}
 
 #page_view_plot{
 	margin-left: 60px;
@@ -160,4 +103,9 @@ input[type="week"] {
 	margin-left: 60px;
 	width: 600px; 
 	height: 400px;
+}
+
+/* Shrink the jquery-ui datepicker font size. */
+div.ui-datepicker{
+	font-size:11px;
 }

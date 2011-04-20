@@ -1,21 +1,28 @@
-%div{:style=> "margin-top: 15px; margin-bottom: 12px"}
-  %h1{:style => "display: inline"}
-    == Stats for &quot;#{@article.title}&quot;
-  %a{:style => "float: right;", :href=> "#{dashboard_path(@user[:key])}"} View All Articles
+%p.utility_bar
+  = link_to "Download Yesterday's Data", article_view_csv_path(@user[:key]), :class => "csv"
+  = link_to "View All Articles", dashboard_path(@user[:key])
+%h1== Stats for &quot;#{@article.title}&quot;
+
+-# %div{:style=> "margin-top: 15px; margin-bottom: 12px"}
+-#   %h1{:style => "display: inline"}
+-#     == Stats for &quot;#{@article.title}&quot;
+-#   %a{:style => "float: right;", :href=> "#{dashboard_path(@user[:key])}"} View All Articles
 
 %date
   =form_tag article_dashboard_path(@user[:key], @article.id), :method => :get do
     == from #{text_field_tag(:start_date, I18n.l(@start_date), {:id => "start_date"})}
     == to #{text_field_tag(:end_date, I18n.l(@end_date), {:id => "end_date"})}
-    = submit_tag I18n.t('report.update')
+    = submit_tag "Update"
 %br
+%hr
 
 %h2 People Viewing This Article
+
 #page_view_plot
 
 %h2.summary
   == This article was viewed #{@total_view_count} times.
-  /= I18n.t('article_report.page_views_line').gsub('[total_views]',"#{@total_view_count}")
+
 #source_chart
 
 %h2 How Are People Finding This Article?
