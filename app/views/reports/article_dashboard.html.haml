@@ -1,31 +1,34 @@
-== &laquo; #{link_to "#{I18n.t('article_report.back_to_dashboard')}", dashboard_path(@user[:key])}
-%h1= I18n.t('report.header')
+%p.utility_bar
+  = link_to "View All Articles", dashboard_path(@user[:key])
+%h1== Stats for &quot;#{@article.title}&quot;
+
 %date
   =form_tag article_dashboard_path(@user[:key], @article.id), :method => :get do
-    == #{I18n.t('report.start_date')} #{text_field_tag(:start_date, I18n.l(@start_date), {:id => "start_date"})}
-    == #{I18n.t('report.end_date')} #{text_field_tag(:end_date, I18n.l(@end_date), {:id => "end_date"})}
-    = submit_tag I18n.t('report.update')
+    == from #{text_field_tag(:start_date, I18n.l(@start_date), {:id => "start_date"})}
+    == to #{text_field_tag(:end_date, I18n.l(@end_date), {:id => "end_date"})}
+    = submit_tag "Update"
 %br
+%hr
 
-%h2= I18n.t('article_report.page_view_graph_header').gsub("[title]","#{@article.display_title}")
+%h2== People Viewing This Article
+
 #page_view_plot
 
-%h2= I18n.t('article_report.page_views_line').gsub('[total_views]',"#{@total_view_count}")
+%h2.summary
+  == This article was viewed #{@total_view_count} times.
+
 #source_chart
 
-%h2= I18n.t('report.keyword_header')
-%table.rounded-corner#keyphrases
+%h2 How Are People Finding &quot;#{@article.title}&quot;?
+%table#keyphrases
   = render 'article_stats/keyphrases', :keyphrase_counts => @keyphrase_counts
 
-%h2= I18n.t('report.domain_header')
-%table.rounded-corner
+%h2 Where Are People Coming From?
+%table
   %thead
     %tr
-      %th.rounded-left Domains
-      %th.rounded-tab2-right ...
-  %tfoot
-    %tr
-      %td.rounded-foot{:colspan => 2, :height => 15}
+      %th.first Domains
+      %th Views
   - @domain_counts.each do |k|
     %tr
       %td= k.domain.blank? ? "[direct]" : k.domain

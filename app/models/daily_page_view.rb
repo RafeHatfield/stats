@@ -38,7 +38,6 @@ class DailyPageView < ActiveRecord::Base
   def self.paginated_pageviews_for_writer_between(writer_id, start_date, end_date, page)
     total_count = DailyPageView.with_total_counts_for_writer_between(writer_id, start_date, end_date).all.size
     article_counts = DailyPageView.with_total_counts_for_writer_between(writer_id, start_date, end_date).page(page).per(20)
-    
     [article_counts, total_count]
   end
   
