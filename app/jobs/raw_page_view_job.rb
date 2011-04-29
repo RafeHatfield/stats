@@ -47,8 +47,8 @@ private
     
     set_timezone(raw_page_view.permalink)
     
-    domain = Writer.domain_extension(raw_page_view.permalink)
-    Writer.create(domain).writer_ids_set << raw_page_view.writer_id
+    # domain = Writer.domain_extension(raw_page_view.permalink)
+    # Writer.create(domain).writer_ids_set << raw_page_view.writer_id
     
     article = Article.find_and_update_title_or_create({
       :id => raw_page_view.article_id,
