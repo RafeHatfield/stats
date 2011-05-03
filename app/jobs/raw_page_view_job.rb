@@ -1,5 +1,19 @@
 class RawPageViewJob
   @queue = :page_view
+  
+  # resque-retry specific
+  extend Resque::Plugins::Retry
+  @retry_exceptions = [MemCache::MemCacheError]
+  @retry_limit = 3
+  @retry_delay = 60
+  
+  # retry_criteria_check do |exception, *args|
+  #   if exception.message =~ /InvalidJobId/
+  #     false # don't retry if we got passed a invalid job id.
+  #   else
+  #     true  # its okay for a retry attempt to continue.
+  #   end
+  # end
 
   def self.perform(raw_page_view_data)
     hash = ActiveSupport::JSON.decode(raw_page_view_data)

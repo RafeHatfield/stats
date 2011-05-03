@@ -24,6 +24,7 @@ gem 'redis-objects'
 gem 'alphadecimal'
 gem 'redis-namespace'
 gem 'newrelic_rpm'
+gem 'resque-retry'
 
 group :development, :test do
   gem 'flutie'
