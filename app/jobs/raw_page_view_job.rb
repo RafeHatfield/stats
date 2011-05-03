@@ -3,7 +3,7 @@ class RawPageViewJob
   
   # resque-retry specific
   extend Resque::Plugins::Retry
-  @retry_exceptions = [MemCache::MemCacheError]
+  @retry_exceptions = [MemCache::MemCacheError, Errno::ENOENT]
   @retry_limit = 3
   @retry_delay = 60
   
