@@ -3,7 +3,5 @@
 
 require File.expand_path('../config/application', __FILE__)
 require 'rake'
-require 'resque_scheduler/tasks'
-require 'resque/tasks'
 
 Stats::Application.load_tasks

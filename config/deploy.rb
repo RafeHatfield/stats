@@ -82,11 +82,20 @@ namespace :resque do
     run "sudo monit restart all -g resque_#{application}" 
     run 'sudo monit restart all -g resque_workers'
   end
-  after "deploy:symlink_configs","resque:restart", "resque:scheduler"
+  after "deploy:symlink_configs","resque:restart"
 end
 
 namespace :deploy do 
   task :restart_passenger, :roles => :app do
     run "touch #{current_release}/tmp/restart.txt"
   end
+end
+
+# cap staging rake:invoke task=rebuild_table_abc
+namespace :rake do  
+  desc "Run a task on a remote server."  
+  # run like: cap staging rake:invoke task=a_certain_task  
+  task :invoke do  
+    run("cd #{deploy_to}/current; /usr/bin/env rake #{ENV['task']} RAILS_ENV=#{rails_env}")  
+  end  
 end
