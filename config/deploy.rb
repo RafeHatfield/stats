@@ -91,7 +91,7 @@ namespace :deploy do
   end
 end
 
-# cap staging rake:invoke task=rebuild_table_abc
+# cap staging rake:invoke task=resque:scheduler
 namespace :rake do  
   desc "Run a task on a remote server."  
   # run like: cap staging rake:invoke task=a_certain_task  

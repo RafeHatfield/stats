@@ -50,4 +50,14 @@ namespace :resque do
     run_worker("*", 6)
     run_worker("high", 1)
   end
+  
+  desc "Retry the failed jobs"
+  task :retry_jobs => :environment do
+    count = Resque::Failure.count
+    Resque::Failure.all(0, count).each_with_index do |failure, index|
+      if failure['exception'] =~ /ActiveRecord::RecordNotUnique/
+        Resque::Failure.requeue(index)
+      end
+    end
+  end
 end
