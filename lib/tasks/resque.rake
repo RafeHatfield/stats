@@ -1,6 +1,4 @@
 # Include the tasks defined by resque.
-require 'resque/tasks'
-require 'resque_scheduler/tasks'
 require 'resque-retry'
 
 # Load the rails environment each time a worker is spawned.
