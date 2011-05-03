@@ -82,7 +82,7 @@ namespace :resque do
     run "sudo monit restart all -g resque_#{application}" 
     run 'sudo monit restart all -g resque_workers'
   end
-  after "deploy:symlink_configs","resque:restart" 
+  after "deploy:symlink_configs","resque:restart", "resque:scheduler"
 end
 
 namespace :deploy do 
