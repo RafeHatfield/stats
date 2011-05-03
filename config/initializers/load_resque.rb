@@ -1,4 +1,6 @@
 require 'resque'
+require 'resque-retry'
+require 'resque/failure/redis'
 # require 'resque/failure/hoptoad'
 
 Dir["#{Rails.root}/app/jobs/*.rb"].each { |file| require file }
@@ -16,3 +18,6 @@ ENV['INTERVAL'] = '3'
 # 
 # Workers work on more jobs before suicide. See death notes at https://github.com/staugaard/resque-multi-job-forks
 ENV['MINUTES_PER_FORK'] = '5'
+
+Resque::Failure::MultipleWithRetrySuppression.classes = [Resque::Failure::Redis]
+Resque::Failure.backend = Resque::Failure::MultipleWithRetrySuppression
