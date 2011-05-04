@@ -1,7 +1,6 @@
 # Include the tasks defined by resque.
 require 'resque/tasks'
-require 'resque_scheduler/tasks'
-require 'resque-retry'
+require 'resque-cleaner'
 
 # Load the rails environment each time a worker is spawned.
 task "resque:setup" => :environment do
@@ -53,11 +52,7 @@ namespace :resque do
   
   desc "Retry the failed jobs"
   task :retry_jobs => :environment do
-    count = Resque::Failure.count
-    Resque::Failure.all(0, count).each_with_index do |failure, index|
-      if failure['exception'] =~ /ActiveRecord::RecordNotUnique/
-        Resque::Failure.requeue(index)
-      end
-    end
+    cleaner = Resque::Plugins::ResqueCleaner.new
+    cleaner.requeue(true) {|j| j.exception?("Errno::EAGAIN")}
   end
 end

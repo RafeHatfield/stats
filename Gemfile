@@ -24,7 +24,6 @@ gem 'redis-objects'
 gem 'alphadecimal'
 gem 'redis-namespace'
 gem 'newrelic_rpm'
-gem 'resque-retry'
 gem 'resque-cleaner'
 
 group :development, :test do

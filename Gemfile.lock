@@ -179,13 +179,6 @@ GEM
     resque-multi-job-forks (0.3.1)
       json
       resque (~> 1.10.0)
-    resque-retry (0.1.0)
-      resque (>= 1.8.0)
-      resque-scheduler (>= 1.8.0)
-    resque-scheduler (1.9.9)
-      redis (>= 2.0.1)
-      resque (>= 1.8.0)
-      rufus-scheduler
     rest-client (1.6.1)
       mime-types (>= 1.16)
     rpm_contrib (1.0.13)
@@ -212,8 +205,6 @@ GEM
     ruby_parser (2.0.6)
       sexp_processor (~> 3.0)
     rubyzip (0.9.4)
-    rufus-scheduler (2.0.9)
-      tzinfo (>= 0.3.23)
     selenium-webdriver (0.1.4)
       childprocess (>= 0.1.7)
       ffi (>= 1.0.7)
@@ -272,7 +263,6 @@ DEPENDENCIES
   resque
   resque-cleaner
   resque-multi-job-forks
-  resque-retry
   rpm_contrib
   rspec-rails
   ruby-debug
