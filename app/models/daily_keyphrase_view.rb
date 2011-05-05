@@ -50,4 +50,25 @@ class DailyKeyphraseView < ActiveRecord::Base
     EVAL
     keyphrase_counts
   end
+  
+  def self.paginated_keyphrases_with_total_counts_for_writer_between(writer_id, start_date, end_date, page)
+    keyphrase_counts = DailyKeyphraseView.keyphrases_with_total_counts_for_writer_between(writer_id, start_date, end_date)
+    count = keyphrase_counts.size
+    keyphrase_counts = keyphrase_counts[((page.to_i - 1) * per_page)...(page.to_i * per_page)] || []
+    keyphrase_counts.instance_eval <<-EVAL
+      def current_page
+        #{page || 1}
+      end
+      
+      def num_pages
+        #{count} / #{per_page}
+      end
+      
+      def limit_value                                                                               
+        20
+      end
+    EVAL
+    keyphrase_counts
+  end
+  
 end

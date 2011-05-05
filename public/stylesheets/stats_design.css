@@ -70,6 +70,20 @@ table {
 	margin: 0 auto;
 	margin-bottom: 20px;
 }
+div.data_loading {
+	width: 700px;
+	margin: 0 auto;
+}
+div.data_loading img{
+	float: left;
+	margin-right: 10px;
+}
+div.data_loading h4{
+	padding-top: 6px;
+}
+div.clear {
+	clear: both;
+}
 th.first{
 	width: 600px;
 }

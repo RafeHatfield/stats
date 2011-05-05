@@ -9,7 +9,8 @@ Stats::Application.routes.draw do
   match '/article_report/:key/:article_id' => 'reports#article_dashboard', :as => :article_dashboard
   match '/report/:key/article_views.csv' => 'reports#article_views_csv', :as => :article_view_csv
   match '/article_stats/:key' => 'article_stats#index', :as => :article_stats
-  match '/keyphrases/:key/:article_id' => 'keyphrases#index', :as => :keyphrases
+  match '/keyphrases_for_article/:key/:article_id' => 'keyphrases#for_article', :as => :keyphrases_for_article
+  match '/keyphrases_for_writer/:key/:writer_id' => 'keyphrases#for_writer', :as => :keyphrases_for_writer
     
   # dashboard
   match '/test/:writer_id' => 'reports#test_dashboard'

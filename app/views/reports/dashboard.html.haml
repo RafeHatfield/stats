@@ -20,16 +20,18 @@
   = render 'article_stats/articles_stats', :articles_stats => @article_counts
 
 %h2 How Are People Finding Me?
-%table
-  %thead
-    %tr
-      %th.first Keyphrases
-      %th Views
-  - @keyphrase_counts.each do |k|
-    %tr
-      %td= k[0]
-      %td= k[1]
-      
+
+#keyphrases_loading.data_loading
+  = image_tag 'ajax-loader.gif'
+  %h4 Generating your data. Please wait.
+  .clear
+%table#keyphrases
+    
+  -# - @keyphrase_counts.each do |k|
+  -#   %tr
+  -#     %td= k[0]
+  -#     %td= k[1]
+  -#     
 %h2 Where Are My Readers Coming From?
 %table
   %thead
@@ -46,6 +48,15 @@
   = javascript_include_tag 'jquery.highcharts.source-chart'
   :javascript
     $(function(){
+      
+      $("#keyphrases_loading").ajaxStart(function(){
+        $(this).show();
+      }).ajaxComplete(function(){
+        $(this).hide();
+      }).hide();
+      
+      // Render the keyphrase counts asynchronously
+      $("#keyphrases").load("#{keyphrases_for_writer_url(@user[:key], @user[:id])}"); 
       
       $("#pagination a").live("click", function() {
           $.get(this.href, function(data) {

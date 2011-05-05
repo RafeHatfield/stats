@@ -20,8 +20,12 @@
 #source_chart
 
 %h2 How Are People Finding &quot;#{@article.title}&quot;?
+#keyphrases_loading.data_loading
+  = image_tag 'ajax-loader.gif'
+  %h4 Generating your data. Please wait.
+  .clear
 %table#keyphrases
-  = render 'article_stats/keyphrases', :keyphrase_counts => @keyphrase_counts
+  -# = render 'article_stats/keyphrases', :keyphrase_counts => @keyphrase_counts
 
 %h2 Where Are People Coming From?
 %table
@@ -40,6 +44,16 @@
   
   :javascript
     $(function(){
+      
+      $("#keyphrases_loading").ajaxStart(function(){
+        $(this).show();
+      }).ajaxComplete(function(){
+        $(this).hide();
+      }).hide();
+      
+      // Render the keyphrase counts asynchronously
+      $("#keyphrases").load("#{keyphrases_for_article_url(@user[:key], @article.id)}"); 
+      
       $("#pagination a").live("click", function() {
           $.get(this.href, function(data) {
             $('#keyphrases').html(data);
