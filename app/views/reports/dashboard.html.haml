@@ -64,7 +64,7 @@
       // Render the keyphrase counts asynchronously
       $("#keyphrases").load("#{writer_keyphrases_url(@user[:key], @user[:id])}", {}, function(){
         $("#keyphrases_loading").hide();
-        $('#keyphrases').paginateTable({ rowsPerPage: 2 });
+        $('#keyphrases').paginateTable({ rowsPerPage: 20 });
 
       }); 
       
