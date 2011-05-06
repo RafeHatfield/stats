@@ -27,6 +27,14 @@
 #keyphrases_loading
   = render 'loading_indicator'
 %table#keyphrases
+.pager
+  %a.firstPage{:href=>"#", :alt => "First"} First
+  %a.prevPage{:href=>"#", :alt => "Previous"} Previous
+  %span.currentPage
+  of
+  %span.totalPages
+  %a.nextPage{:href=>"#", :alt => "Next"} Next
+  %a.lastPage{:href=>"#", :alt => "Last"} Last
 
 %h2 Where Are My Readers Coming From?
 #domains_loading
@@ -56,6 +64,8 @@
       // Render the keyphrase counts asynchronously
       $("#keyphrases").load("#{writer_keyphrases_url(@user[:key], @user[:id])}", {}, function(){
         $("#keyphrases_loading").hide();
+        $('#keyphrases').paginateTable({ rowsPerPage: 2 });
+
       }); 
       
       var dates = $( "#start_date, #end_date" ).datepicker({
@@ -75,5 +85,6 @@
   		
       // Make the 'page_view_plot' div a highchart showing the total view counts.
       $('#page_view_plot').page_view_plot(#{@view_counts.to_json}, #{@start_date.at_midnight.to_i * 1000});
+      
     });
   
