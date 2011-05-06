@@ -1,5 +1,6 @@
 # Include the tasks defined by resque.
 require 'resque/tasks'
+require 'resque-cleaner'
 
 # Load the rails environment each time a worker is spawned.
 task "resque:setup" => :environment do
@@ -47,5 +48,13 @@ namespace :resque do
   task :start_workers => :environment do
     run_worker("*", 6)
     run_worker("high", 1)
+  end
+  
+  desc "Retry the failed jobs"
+  task :retry_jobs => :environment do
+    cleaner = Resque::Plugins::ResqueCleaner.new
+    # exceptions = %w(ActiveRecord::RecordNotUnique Errno::ENOENT Errno::EAGAIN MemCache::MemCacheError)
+    cleaner.requeue(true) {|j| j.exception?("MemCache::MemCacheError")}
+    cleaner.clear {|j| j.exception?("ActiveRecord::RecordInvalid")}
   end
 end

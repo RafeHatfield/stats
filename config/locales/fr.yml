@@ -28,7 +28,9 @@ fr:
   # - Tsutomu Kuroda - http://github.com/kuroda (t-kuroda@oiax.jp)
   date:
     formats:
-      default: "%d/%m/%Y"
+      # The following date format is causing troubles. Changing it to the English standard.
+      # default: "%d/%m/%Y"
+      default: "%m/%d/%Y"
       short: "%e %b"
       long: "%e %B %Y"
     day_names: [dimanche, lundi, mardi, mercredi, jeudi, vendredi, samedi]

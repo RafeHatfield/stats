@@ -1,6 +1,6 @@
 %p.utility_bar
   = link_to "View All Articles", dashboard_path(@user[:key])
-%h1== Stats for &quot;#{@article.title}&quot;
+%h1== Stats for &quot;#{CGI.unescape(@article.title)}&quot;
 
 %date
   =form_tag article_dashboard_path(@user[:key], @article.id), :method => :get do
@@ -21,7 +21,6 @@
 %h2 How Are People Finding &quot;#{@article.title}&quot;?
 #keyphrases_loading
   = render 'loading_indicator'
-%table#keyphrases
 
 %h2 Where Are People Coming From?
 #domains_loading

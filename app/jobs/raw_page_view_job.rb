@@ -1,5 +1,13 @@
 class RawPageViewJob
   @queue = :page_view
+    
+  # retry_criteria_check do |exception, *args|
+  #   if exception.message =~ /InvalidJobId/
+  #     false # don't retry if we got passed a invalid job id.
+  #   else
+  #     true  # its okay for a retry attempt to continue.
+  #   end
+  # end
 
   def self.perform(raw_page_view_data)
     hash = ActiveSupport::JSON.decode(raw_page_view_data)
@@ -47,8 +55,8 @@ private
     
     set_timezone(raw_page_view.permalink)
     
-    domain = Writer.domain_extension(raw_page_view.permalink)
-    Writer.create(domain).writer_ids_set << raw_page_view.writer_id
+    # domain = Writer.domain_extension(raw_page_view.permalink)
+    # Writer.create(domain).writer_ids_set << raw_page_view.writer_id
     
     article = Article.find_and_update_title_or_create({
       :id => raw_page_view.article_id,
