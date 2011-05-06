@@ -11,12 +11,9 @@
 %hr
 
 %h2== People Viewing This Article
-
 #page_view_plot
 
-%h2.summary
-  == This article was viewed #{@total_view_count} times.
-
+%h2.summary== This article was viewed #{@total_view_count} times.
 #sources_loading
   = render 'loading_indicator'
 #source_chart
@@ -54,7 +51,7 @@
       });
       
       // Render the keyphrase counts asynchronously
-      $("#keyphrases").load("#{keyphrases_for_article_url(@user[:key], @article.id)}", {}, function(){
+      $("#keyphrases").load("#{article_keyphrases_url(@user[:key], @article.id)}", {}, function(){
         $("#keyphrases_loading").hide();
       });
       

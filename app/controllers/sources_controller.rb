@@ -1,8 +1,7 @@
 class SourcesController < ApplicationController
-
   before_filter :set_start_and_end_date
   after_filter do
-    sleep 3
+    sleep 1
   end
 
   def for_writer
