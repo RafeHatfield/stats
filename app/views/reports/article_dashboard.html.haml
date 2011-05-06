@@ -17,6 +17,11 @@
 %h2.summary
   == This article was viewed #{@total_view_count} times.
 
+#sources_loading.data_loading
+  = image_tag 'ajax-loader.gif'
+  %h4 Generating
+  = image_tag 'ajax-loader.gif'
+  .clear
 #source_chart
 
 %h2 How Are People Finding &quot;#{@article.title}&quot;?
@@ -41,6 +46,16 @@
   
   :javascript
     $(function(){
+      
+      $.getJSON("#{sources_for_article_url(@user[:key], @article.id)}", {}, function(data){
+        $("#sources_loading").hide();
+        $('#source_chart').source_chart({
+           series: [{
+             type: 'pie',
+             data: data
+          }]
+        });
+      });
       
       // Render the domain counts asynchronously
       $("#domains").load("#{domains_for_article_url(@user[:key], @article.id)}", {}, function(){
@@ -82,12 +97,5 @@
           pointStart: #{@start_date.at_midnight.to_i * 1000},
           data: #{prepare_data(@view_counts, @start_date, @end_date)}
         }]
-      })
-      
-      $('#source_chart').source_chart({
-         series: [{
-           type: 'pie',
-           data: #{@source_counts.map{|source_sym, count| [I18n.t("report.#{source_sym.to_s}"), count]}.to_json}
-        }]
-      })
+      });
     });

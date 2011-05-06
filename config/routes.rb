@@ -13,6 +13,8 @@ Stats::Application.routes.draw do
   match '/keyphrases_for_writer/:key/:writer_id' => 'keyphrases#for_writer', :as => :keyphrases_for_writer
   match '/domains_for_writer/:key/:writer_id' => 'domains#domains_for_writer', :as => :domains_for_writer
   match '/domains_for_article/:key/:article_id' => 'domains#domains_for_article', :as => :domains_for_article
+  match '/sources_for_writer/:key/:writer_id' => 'domains#sources_for_writer', :as => :sources_for_writer
+  match '/sources_for_article/:key/:article_id' => 'domains#sources_for_article', :as => :sources_for_article
     
   # dashboard
   match '/test/:writer_id' => 'reports#test_dashboard'

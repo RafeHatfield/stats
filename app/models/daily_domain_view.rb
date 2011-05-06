@@ -14,7 +14,7 @@ class DailyDomainView < ActiveRecord::Base
   end
   
   def self.source_counts_for_writer_between(writer_id, start_date, end_date)
-    total_domain_counts = DailyDomainView.domain_count_for_writer_between(writer_id, start_date, end_date, options)
+    total_domain_counts = DailyDomainView.domain_count_for_writer_between(writer_id, start_date, end_date)
     source_counts = total_domain_counts.map {|domain,count| [source_from_domain(domain), count]}
     
     total_source_counts = {:internal => 0, :other => 0, :organic => 0}
@@ -27,7 +27,7 @@ class DailyDomainView < ActiveRecord::Base
   end
   
   def self.source_counts_for_article_between(article_id, start_date, end_date)
-    total_domain_counts = DailyDomainView.domain_count_for_article_between(article_id, start_date, end_date, options)
+    total_domain_counts = DailyDomainView.domain_count_for_article_between(article_id, start_date, end_date)
     source_counts = total_domain_counts.map {|domain,count| [source_from_domain(domain), count]}
     
     total_source_counts = {:internal => 0, :other => 0, :organic => 0}

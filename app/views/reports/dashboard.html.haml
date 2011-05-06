@@ -13,6 +13,11 @@
 #page_view_plot
 
 %h2.summary== #{@number_of_articles_with_views} of your articles were viewed #{@total_view_count} times in total.
+#sources_loading.data_loading
+  = image_tag 'ajax-loader.gif'
+  %h4 Generating
+  = image_tag 'ajax-loader.gif'
+  .clear
 #source_chart
 
 %h2 Which of My Articles People Are Reading?
@@ -40,6 +45,16 @@
   = javascript_include_tag 'jquery.highcharts.source-chart'
   :javascript
     $(function(){
+      
+      $.getJSON("#{sources_for_writer_url(@user[:key], @user[:id])}", {}, function(data){
+        $("#sources_loading").hide();
+        $('#source_chart').source_chart({
+           series: [{
+             type: 'pie',
+             data: data
+          }]
+        });
+      });
       
       // Render the domain counts asynchronously
       $("#domains").load("#{domains_for_writer_url(@user[:key], @user[:id])}", {}, function(){
@@ -83,14 +98,5 @@
           data: #{prepare_data(@view_counts, @start_date, @end_date)}
         }]
       })      
-      
-      
-      
-      $('#source_chart').source_chart({
-         series: [{
-           type: 'pie',
-           data: #{@source_counts.map{|source_sym, count| [I18n.t("report.#{source_sym.to_s}"), count]}.to_json}
-        }]
-      })
     });
   

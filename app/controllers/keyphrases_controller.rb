@@ -7,7 +7,7 @@ class KeyphrasesController < ApplicationController
     
     @keyphrase_counts = DailyKeyphraseView.paginated_keyphrases_with_total_counts_for_article_between(@article_id, @start_date, @end_date, page)
         
-    sleep 10    
+    sleep 3
         
     render :partial => 'article_stats/keyphrases', :locals => {:keyphrase_counts => @keyphrase_counts} and return
   end
@@ -17,7 +17,7 @@ class KeyphrasesController < ApplicationController
     
     @keyphrase_counts = DailyKeyphraseView.paginated_keyphrases_with_total_counts_for_writer_between(@writer_id, @start_date, @end_date, 1)
 
-    sleep 10
+    sleep 3
     
     render :partial => 'article_stats/keyphrases', :locals => {:keyphrase_counts => @keyphrase_counts} and return
   end
