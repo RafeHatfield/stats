@@ -14,8 +14,7 @@
 
 %h2.summary== #{@number_of_articles_with_views} of your articles were viewed #{@total_view_count} times in total.
 #sources_loading.data_loading
-  = image_tag 'ajax-loader.gif'
-  %h4 Generating
+  %h4 Generating your data.
   = image_tag 'ajax-loader.gif'
   .clear
 #source_chart
@@ -26,16 +25,14 @@
 
 %h2 How Are People Finding Me?
 #keyphrases_loading.data_loading
-  = image_tag 'ajax-loader.gif'
-  %h4 Generating
+  %h4 Generating your data.
   = image_tag 'ajax-loader.gif'
   .clear
 %table#keyphrases
 
 %h2 Where Are My Readers Coming From?
 #domains_loading.data_loading
-  = image_tag 'ajax-loader.gif'
-  %h4 Generating
+  %h4 Generating your data.
   = image_tag 'ajax-loader.gif'
   .clear
 %table#domains
@@ -48,7 +45,7 @@
       
       $.getJSON("#{sources_for_writer_url(@user[:key], @user[:id])}", {}, function(data){
         $("#sources_loading").hide();
-        $('#source_chart').source_chart({
+        $('#source_chart').addClass("source_chart").source_chart({
            series: [{
              type: 'pie',
              data: data

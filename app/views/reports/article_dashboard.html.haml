@@ -18,24 +18,21 @@
   == This article was viewed #{@total_view_count} times.
 
 #sources_loading.data_loading
-  = image_tag 'ajax-loader.gif'
-  %h4 Generating
+  %h4 Generating your data.
   = image_tag 'ajax-loader.gif'
   .clear
 #source_chart
 
 %h2 How Are People Finding &quot;#{@article.title}&quot;?
 #keyphrases_loading.data_loading
-  = image_tag 'ajax-loader.gif'
-  %h4 Generating
+  %h4 Generating your data.
   = image_tag 'ajax-loader.gif'
   .clear
 %table#keyphrases
 
 %h2 Where Are People Coming From?
 #domains_loading.data_loading
-  = image_tag 'ajax-loader.gif'
-  %h4 Generating
+  %h4 Generating your data.
   = image_tag 'ajax-loader.gif'
   .clear
 %table#domains
@@ -49,7 +46,7 @@
       
       $.getJSON("#{sources_for_article_url(@user[:key], @article.id)}", {}, function(data){
         $("#sources_loading").hide();
-        $('#source_chart').source_chart({
+        $('#source_chart').addClass("source_chart").source_chart({
            series: [{
              type: 'pie',
              data: data

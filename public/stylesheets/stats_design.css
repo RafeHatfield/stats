@@ -80,7 +80,7 @@ div.data_loading img{
 }
 div.data_loading h4{
 	float: left;
-	padding-top: 7px;
+	padding-top: 22px;
 	margin-right: 10px;
 }
 div.clear {
@@ -122,10 +122,10 @@ a.csv:active {
 	height: 400px;
 }
 
-#source_chart{
-	margin-left: 60px;
-	width: 600px; 
+.source_chart{
 	height: 400px;
+	width: 600px;
+	margin-left: 60px;
 }
 
 /* Shrink the jquery-ui datepicker font size. */
