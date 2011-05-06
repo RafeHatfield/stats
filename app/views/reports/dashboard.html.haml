@@ -13,10 +13,8 @@
 #page_view_plot
 
 %h2.summary== #{@number_of_articles_with_views} of your articles were viewed #{@total_view_count} times in total.
-#sources_loading.data_loading
-  %h4 Generating your data.
-  = image_tag 'ajax-loader.gif'
-  .clear
+#sources_loading
+  = render 'loading_indicator'
 #source_chart
 
 %h2 Which of My Articles People Are Reading?
@@ -24,17 +22,13 @@
   = render 'article_stats/articles_stats', :articles_stats => @article_counts
 
 %h2 How Are People Finding Me?
-#keyphrases_loading.data_loading
-  %h4 Generating your data.
-  = image_tag 'ajax-loader.gif'
-  .clear
+#keyphrases_loading
+  = render 'loading_indicator'
 %table#keyphrases
 
 %h2 Where Are My Readers Coming From?
-#domains_loading.data_loading
-  %h4 Generating your data.
-  = image_tag 'ajax-loader.gif'
-  .clear
+#domains_loading
+  = render 'loading_indicator'
 %table#domains
 
 - content_for :page_javascript do
@@ -43,7 +37,7 @@
   :javascript
     $(function(){
       
-      $.getJSON("#{sources_for_writer_url(@user[:key], @user[:id])}", {}, function(data){
+      $.getJSON("#{writer_sources_url(@user[:key], @user[:id])}", {}, function(data){
         $("#sources_loading").hide();
         $('#source_chart').addClass("source_chart").source_chart({
            series: [{
@@ -54,7 +48,7 @@
       });
       
       // Render the domain counts asynchronously
-      $("#domains").load("#{domains_for_writer_url(@user[:key], @user[:id])}", {}, function(){
+      $("#domains").load("#{writer_domains_url(@user[:key], @user[:id])}", {}, function(){
         $("#domains_loading").hide();
       });
       

@@ -11,10 +11,10 @@ Stats::Application.routes.draw do
   match '/article_stats/:key' => 'article_stats#index', :as => :article_stats
   match '/keyphrases_for_article/:key/:article_id' => 'keyphrases#for_article', :as => :keyphrases_for_article
   match '/keyphrases_for_writer/:key/:writer_id' => 'keyphrases#for_writer', :as => :keyphrases_for_writer
-  match '/domains_for_writer/:key/:writer_id' => 'domains#domains_for_writer', :as => :domains_for_writer
-  match '/domains_for_article/:key/:article_id' => 'domains#domains_for_article', :as => :domains_for_article
-  match '/sources_for_writer/:key/:writer_id' => 'domains#sources_for_writer', :as => :sources_for_writer
-  match '/sources_for_article/:key/:article_id' => 'domains#sources_for_article', :as => :sources_for_article
+  match '/writer_domains/:key/:writer_id' => 'domains#for_writer', :as => :writer_domains
+  match '/article_domains/:key/:article_id' => 'domains#for_article', :as => :article_domains
+  match '/writer_sources/:key/:writer_id' => 'sources#for_writer', :as => :writer_sources
+  match '/article_sources/:key/:article_id' => 'sources#for_article', :as => :article_sources
     
   # dashboard
   match '/test/:writer_id' => 'reports#test_dashboard'

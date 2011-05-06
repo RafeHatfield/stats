@@ -17,24 +17,18 @@
 %h2.summary
   == This article was viewed #{@total_view_count} times.
 
-#sources_loading.data_loading
-  %h4 Generating your data.
-  = image_tag 'ajax-loader.gif'
-  .clear
+#sources_loading
+  = render 'loading_indicator'
 #source_chart
 
 %h2 How Are People Finding &quot;#{@article.title}&quot;?
-#keyphrases_loading.data_loading
-  %h4 Generating your data.
-  = image_tag 'ajax-loader.gif'
-  .clear
+#keyphrases_loading
+  = render 'loading_indicator'
 %table#keyphrases
 
 %h2 Where Are People Coming From?
-#domains_loading.data_loading
-  %h4 Generating your data.
-  = image_tag 'ajax-loader.gif'
-  .clear
+#domains_loading
+  = render 'loading_indicator'
 %table#domains
 
 - content_for :page_javascript do
@@ -44,7 +38,7 @@
   :javascript
     $(function(){
       
-      $.getJSON("#{sources_for_article_url(@user[:key], @article.id)}", {}, function(data){
+      $.getJSON("#{article_sources_url(@user[:key], @article.id)}", {}, function(data){
         $("#sources_loading").hide();
         $('#source_chart').addClass("source_chart").source_chart({
            series: [{
@@ -55,7 +49,7 @@
       });
       
       // Render the domain counts asynchronously
-      $("#domains").load("#{domains_for_article_url(@user[:key], @article.id)}", {}, function(){
+      $("#domains").load("#{article_domains_url(@user[:key], @article.id)}", {}, function(){
         $("#domains_loading").hide();
       });
       
