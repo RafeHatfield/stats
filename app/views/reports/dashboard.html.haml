@@ -34,19 +34,12 @@
 %table#domains
 
 - content_for :page_javascript do
-  = javascript_include_tag 'jquery.highcharts.page-view-plot'
-  = javascript_include_tag 'jquery.highcharts.source-chart'
   :javascript
     $(function(){
       
       $.getJSON("#{writer_sources_url(@user[:key], @user[:id])}", {}, function(data){
         $("#sources_loading").hide();
-        $('#source_chart').addClass("source_chart").source_chart({
-           series: [{
-             type: 'pie',
-             data: data
-          }]
-        });
+        $('#source_chart').addClass("source_chart").source_chart(data);
       });
       
       // Render the article counts asynchronously

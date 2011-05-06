@@ -71,20 +71,11 @@ table {
 	margin-bottom: 20px;
 }
 div.data_loading {
-	width: 700px;
-	margin: 0 auto;
+	text-align: center;
 }
 div.data_loading img{
-	float: left;
-	margin-right: 10px;
 }
 div.data_loading h4{
-	float: left;
-	padding-top: 22px;
-	margin-right: 10px;
-}
-div.clear {
-	clear: both;
 }
 th.first{
 	width: 600px;
