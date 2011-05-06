@@ -47,14 +47,7 @@
       $("#keyphrases").load("#{article_keyphrases_url(@user[:key], @article.id)}", {}, function(){
         $("#keyphrases_loading").hide();
       });
-      
-      $("#pagination a").live("click", function() {
-          $.get(this.href, function(data) {
-            $('#keyphrases').html(data);
-          });
-          return false;
-      });
-      
+          
       var dates = $( "#start_date, #end_date" ).datepicker({
         numberOfMonths: 1,
         minDate: new Date(2011, 1-1, 1),
@@ -67,16 +60,9 @@
           selectedDate, instance.settings );
           dates.not( this ).datepicker( "option", option, date );
         }
-      });
-    
+      });    
       $.datepicker.setDefaults($.datepicker.regional["#{I18n.locale.to_s}"]);
       
-      $('#page_view_plot').page_view_plot({
-        series: [{
-          name: 'This week',
-          pointInterval: #{1.day * 1000},
-          pointStart: #{@start_date.at_midnight.to_i * 1000},
-          data: #{prepare_data(@view_counts, @start_date, @end_date)}
-        }]
-      });
+      $('#page_view_plot').page_view_plot(#{@view_counts.to_json}, #{@start_date.at_midnight.to_i * 1000});
+
     });

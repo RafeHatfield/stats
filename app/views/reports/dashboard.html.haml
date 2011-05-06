@@ -58,13 +58,6 @@
         $("#keyphrases_loading").hide();
       }); 
       
-      $("#pagination a").live("click", function() {
-          $.get(this.href, function(data) {
-            $('#article_counts_full').html(data);
-          });
-          return false;
-      });
-      
       var dates = $( "#start_date, #end_date" ).datepicker({
         numberOfMonths: 1,
         minDate: new Date(2011, 1-1, 1),
@@ -78,17 +71,9 @@
           dates.not( this ).datepicker( "option", option, date );
         }
       });
-      
       $.datepicker.setDefaults($.datepicker.regional["#{I18n.locale.to_s}"]);
   		
       // Make the 'page_view_plot' div a highchart showing the total view counts.
-      $('#page_view_plot').page_view_plot({
-        series: [{
-          name: 'This week',
-          pointInterval: #{1.day * 1000},
-          pointStart: #{@start_date.at_midnight.to_i * 1000},
-          data: #{prepare_data(@view_counts, @start_date, @end_date)}
-        }]
-      })      
+      $('#page_view_plot').page_view_plot(#{@view_counts.to_json}, #{@start_date.at_midnight.to_i * 1000});
     });
   
