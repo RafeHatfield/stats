@@ -11,7 +11,3 @@
         %td= ac.title
         %td== #{link_to "More Details", article_dashboard_url(@user[:key], ac.article_id)} / #{link_to "View Article", ac.permalink}
         %td= ac.count
-%tfoot
-  %tr
-    %td{:colspan => 3}
-      -# #pagination= paginate articles_counts, :params => {:controller => 'articles', :action => 'for_article'}

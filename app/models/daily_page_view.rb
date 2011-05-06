@@ -34,11 +34,5 @@ class DailyPageView < ActiveRecord::Base
       group("article_id, title, permalink").
       order("count DESC")
   end
-  
-  def self.paginated_article_counts_for_writer_between(writer_id, start_date, end_date, page)
-    number_of_articles_with_counts = DailyPageView.article_counts_for_writer_between(writer_id, start_date, end_date).all.size
-    article_counts = DailyPageView.article_counts_for_writer_between(writer_id, start_date, end_date).page(page).per(20)
-    [article_counts, number_of_articles_with_counts]
-  end
 
 end

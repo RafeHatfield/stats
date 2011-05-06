@@ -21,6 +21,7 @@
 %h2 How Are People Finding &quot;#{@article.title}&quot;?
 #keyphrases_loading
   = render 'loading_indicator'
+%table#keyphrases
 
 %h2 Where Are People Coming From?
 #domains_loading
@@ -28,11 +29,10 @@
 %table#domains
 
 - content_for :page_javascript do
-  = javascript_include_tag 'jquery.highcharts.page-view-plot'
-  
   :javascript
     $(function(){
       
+      // Render the sources asynchronously
       $.getJSON("#{article_sources_url(@user[:key], @article.id)}", {}, function(data){
         $("#sources_loading").hide();
         $('#source_chart').addClass("source_chart").source_chart(data);

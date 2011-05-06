@@ -37,6 +37,7 @@
   :javascript
     $(function(){
       
+      // Render the sources asynchronously
       $.getJSON("#{writer_sources_url(@user[:key], @user[:id])}", {}, function(data){
         $("#sources_loading").hide();
         $('#source_chart').addClass("source_chart").source_chart(data);

@@ -5,12 +5,12 @@ class KeyphrasesController < ApplicationController
   end
   
   def for_article
-    keyphrase_counts = DailyKeyphraseView.paginated_keyphrases_with_total_counts_for_article_between(params[:article_id], @start_date, @end_date, params[:page] || 1)
+    keyphrase_counts = DailyKeyphraseView.keyphrases_with_total_counts_for_article_between(params[:article_id], @start_date, @end_date)
     render :partial => 'keyphrases', :locals => {:keyphrase_counts => keyphrase_counts} and return
   end
   
   def for_writer
-    keyphrase_counts = DailyKeyphraseView.paginated_keyphrases_with_total_counts_for_writer_between(params[:writer_id], @start_date, @end_date, params[:page] || 1)
+    keyphrase_counts = DailyKeyphraseView.keyphrases_with_total_counts_for_writer_between(params[:writer_id], @start_date, @end_date)
     render :partial => 'keyphrases', :locals => {:keyphrase_counts => keyphrase_counts} and return
   end
 

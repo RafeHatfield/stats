@@ -1,6 +1,0 @@
-- if ac.count_all == 0
-  - break
-%tr.ac_summary
-  %td= CGI.unescape(ac[:title])
-  %td== #{link_to "More Details", article_dashboard_url(@user[:key], ac.article_id)} / #{link_to "View Article", ac[:permalink]}
-  %td= ac.count_all
