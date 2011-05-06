@@ -22,11 +22,11 @@ Stats::Application.routes.draw do
   match '/report/:key' => 'reports#dashboard', :as => :dashboard
   
   # My suite graphs and data.
-  match '/report/:id/:key/weekly_page_view_graph/' => 'reports#weekly_page_view_graph'
-  match '/report/:id/:key/monthly_page_view_graph/' => 'reports#monthly_page_view_graph'
-  match '/report/:id/:key/twelve_week_page_view_graph/' => 'reports#twelve_week_page_view_graph'
-  match '/report/:id/:key/page_view_sparkline.gif' => 'reports#page_view_sparkline'
-  match '/report/:id/:key/update_total_page_views.js' => 'reports#update_total_page_views'
+  match '/report/:key/weekly_page_view_graph/' => 'mysuite_integration#weekly_page_view_graph'
+  match '/report/:key/monthly_page_view_graph/' => 'mysuite_integration#monthly_page_view_graph'
+  match '/report/:key/twelve_week_page_view_graph/' => 'mysuite_integration#twelve_week_page_view_graph'
+  match '/report/:key/page_view_sparkline.gif' => 'mysuite_integration#page_view_sparkline'
+  match '/report/:key/update_total_page_views.js' => 'mysuite_integration#update_total_page_views'
   
   match ':controller(/:action(/:id(.:format)))'
 end
