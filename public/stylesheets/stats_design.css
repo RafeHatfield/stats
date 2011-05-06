@@ -79,7 +79,9 @@ div.data_loading img{
 	margin-right: 10px;
 }
 div.data_loading h4{
-	padding-top: 6px;
+	float: left;
+	padding-top: 7px;
+	margin-right: 10px;
 }
 div.clear {
 	clear: both;

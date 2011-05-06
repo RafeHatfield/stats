@@ -11,6 +11,8 @@ Stats::Application.routes.draw do
   match '/article_stats/:key' => 'article_stats#index', :as => :article_stats
   match '/keyphrases_for_article/:key/:article_id' => 'keyphrases#for_article', :as => :keyphrases_for_article
   match '/keyphrases_for_writer/:key/:writer_id' => 'keyphrases#for_writer', :as => :keyphrases_for_writer
+  match '/domains_for_writer/:key/:writer_id' => 'domains#domains_for_writer', :as => :domains_for_writer
+  match '/domains_for_article/:key/:article_id' => 'domains#domains_for_article', :as => :domains_for_article
     
   # dashboard
   match '/test/:writer_id' => 'reports#test_dashboard'

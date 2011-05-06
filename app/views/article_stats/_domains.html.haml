@@ -1,0 +1,8 @@
+%thead
+  %tr
+    %th.first Domains
+    %th Views
+- domain_counts.each do |k|
+  %tr
+    %td= k[0].blank? ? "[direct]" : k[0]
+    %td= k[1]

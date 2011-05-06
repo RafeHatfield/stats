@@ -20,28 +20,20 @@
   = render 'article_stats/articles_stats', :articles_stats => @article_counts
 
 %h2 How Are People Finding Me?
-
 #keyphrases_loading.data_loading
   = image_tag 'ajax-loader.gif'
-  %h4 Generating your data. Please wait.
+  %h4 Generating
+  = image_tag 'ajax-loader.gif'
   .clear
 %table#keyphrases
-    
-  -# - @keyphrase_counts.each do |k|
-  -#   %tr
-  -#     %td= k[0]
-  -#     %td= k[1]
-  -#     
+
 %h2 Where Are My Readers Coming From?
-%table
-  %thead
-    %tr
-      %th.first Domains
-      %th Views
-  - @domain_counts.each do |k|
-    %tr
-      %td= k[0].blank? ? "[direct]" : k[0]
-      %td= k[1]
+#domains_loading.data_loading
+  = image_tag 'ajax-loader.gif'
+  %h4 Generating
+  = image_tag 'ajax-loader.gif'
+  .clear
+%table#domains
 
 - content_for :page_javascript do
   = javascript_include_tag 'jquery.highcharts.page-view-plot'
@@ -49,14 +41,15 @@
   :javascript
     $(function(){
       
-      $("#keyphrases_loading").ajaxStart(function(){
-        $(this).show();
-      }).ajaxComplete(function(){
-        $(this).hide();
-      }).hide();
+      // Render the domain counts asynchronously
+      $("#domains").load("#{domains_for_writer_url(@user[:key], @user[:id])}", {}, function(){
+        $("#domains_loading").hide();
+      });
       
       // Render the keyphrase counts asynchronously
-      $("#keyphrases").load("#{keyphrases_for_writer_url(@user[:key], @user[:id])}"); 
+      $("#keyphrases").load("#{keyphrases_for_writer_url(@user[:key], @user[:id])}", {}, function(){
+        $("#keyphrases_loading").hide();
+      }); 
       
       $("#pagination a").live("click", function() {
           $.get(this.href, function(data) {
@@ -90,6 +83,8 @@
           data: #{prepare_data(@view_counts, @start_date, @end_date)}
         }]
       })      
+      
+      
       
       $('#source_chart').source_chart({
          series: [{

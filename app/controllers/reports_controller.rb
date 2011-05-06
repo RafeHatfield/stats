@@ -11,10 +11,8 @@ class ReportsController < ApplicationController
     page = params[:page] || 1     
 
     @article_counts, @number_of_articles_with_views = DailyPageView.paginated_pageviews_for_writer_between(@user[:id], @start_date, @end_date, page)
-
-    #@keyphrase_counts = DailyKeyphraseView.keyphrases_with_total_counts_for_writer_between(@user[:id], @start_date, @end_date, :limit => 5)
-        
-    @domain_counts, @source_counts = DailyDomainView.get_counts_for_writer_between(@user[:id], @start_date, @end_date, :limit => 5)
+      
+    @domain_counts, @source_counts = DailyDomainView.get_counts_for_writer_between(@user[:id], @start_date, @end_date)
         
     @source_counts = calibrated_count(@source_counts, @total_view_count)
   end
@@ -27,7 +25,6 @@ class ReportsController < ApplicationController
     @view_counts = @article.page_views_count_between(@start_date, @end_date)
     @total_view_count = @view_counts.sum
     
-    @keyphrase_counts = @article.paginated_keyphrase_views_between(@start_date, @end_date, page)
     @domain_counts, @source_counts = @article.domain_views_counts_between(@start_date, @end_date)
     
     @source_counts = calibrated_count(@source_counts, @view_counts.sum)
