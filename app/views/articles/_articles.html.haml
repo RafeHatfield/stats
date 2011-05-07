@@ -9,5 +9,5 @@
     - if ac.count != 0
       %tr
         %td= ac.title
-        %td== #{link_to "More Details", article_dashboard_url(@user[:key], ac.article_id)} / #{link_to "View Article", ac.permalink}
+        %td== #{link_to "Details", article_dashboard_url(@user[:key], ac.article_id)} / #{link_to "View", ac.permalink}
         %td= ac.count

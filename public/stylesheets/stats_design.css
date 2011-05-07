@@ -73,6 +73,9 @@ table {
 div.data_loading {
 	text-align: center;
 }
+.load_more {
+	text-align: center;
+}
 div.data_loading img{
 }
 div.data_loading h4{

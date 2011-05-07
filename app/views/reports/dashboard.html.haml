@@ -24,17 +24,17 @@
 %table#articles
   
 %h2 How Are People Finding Me?
+%table#keyphrases
+  %thead
+    %tr
+      %th.first Keyphrases
+      %th Views
+  %tbody
 #keyphrases_loading
   = render 'loading_indicator'
-%table#keyphrases
-.pager
-  %a.firstPage{:href=>"#", :alt => "First"} First
-  %a.prevPage{:href=>"#", :alt => "Previous"} Previous
-  %span.currentPage
-  of
-  %span.totalPages
-  %a.nextPage{:href=>"#", :alt => "Next"} Next
-  %a.lastPage{:href=>"#", :alt => "Last"} Last
+  
+.load_more
+  %a#more_keyphrases{:href=>""} More
 
 %h2 Where Are My Readers Coming From?
 #domains_loading
@@ -62,11 +62,21 @@
       });
       
       // Render the keyphrase counts asynchronously
-      $("#keyphrases").load("#{writer_keyphrases_url(@user[:key], @user[:id])}", {}, function(){
+      $.get("#{writer_keyphrases_url(@user[:key], @user[:id])}", {}, function(html){
         $("#keyphrases_loading").hide();
-        $('#keyphrases').paginateTable({ rowsPerPage: 20 });
-
+        $("#keyphrases").append(html);
       }); 
+      
+      
+      $("#more_keyphrases").click(function(){
+        $("#keyphrases_loading").show();
+        $.get("#{writer_keyphrases_url(@user[:key], @user[:id])}", {limit : 20, offset : $("#keyphrases tbody tr").length}, function(data){
+            $("#keyphrases").append(data);
+            $("#keyphrases_loading").hide();
+          }
+        );
+        return false;
+      })
       
       var dates = $( "#start_date, #end_date" ).datepicker({
         numberOfMonths: 1,
