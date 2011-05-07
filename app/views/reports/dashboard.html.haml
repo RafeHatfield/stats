@@ -24,22 +24,39 @@
 %table#articles
   
 %h2 How Are People Finding Me?
-%table#keyphrases
-  %thead
-    %tr
-      %th.first Keyphrases
-      %th Views
-  %tbody
-#keyphrases_loading
-  = render 'loading_indicator'
-  
-.load_more
-  %a#more_keyphrases{:href=>""} More
+#keyphrases
+  %table
+    %thead
+      %tr
+        %th.first Keyphrases
+        %th Views
+    %tbody
+  .loading
+    = render 'loading_indicator'
+  .more
+    %a{:href => ""} More
 
 %h2 Where Are My Readers Coming From?
 #domains_loading
   = render 'loading_indicator'
 %table#domains
+
+-# var keyphrases = $("#keyphrases");
+-# 
+-# $.get("#{writer_keyphrases_url(@user[:key], @user[:id])}", {}, function(html){
+-#   $(".loading", keyphrases).hide();
+-#   $("table", keyphrases).append(html);
+-# }); 
+-# 
+-# $(".more", keyphrases).click(function(){
+-#   $(".loading", keyphrases).show();
+-#   $.get("#{writer_keyphrases_url(@user[:key], @user[:id])}", {limit : 20, offset : $("tbody tr", keyphrases).length}, function(data){
+-#       $("table", keyphrases).append(data);
+-#       $(".loading", keyphrases).hide();
+-#     }
+-#   );
+-#   return false;
+-# });
 
 - content_for :page_javascript do
   :javascript
@@ -62,21 +79,7 @@
       });
       
       // Render the keyphrase counts asynchronously
-      $.get("#{writer_keyphrases_url(@user[:key], @user[:id])}", {}, function(html){
-        $("#keyphrases_loading").hide();
-        $("#keyphrases").append(html);
-      }); 
-      
-      
-      $("#more_keyphrases").click(function(){
-        $("#keyphrases_loading").show();
-        $.get("#{writer_keyphrases_url(@user[:key], @user[:id])}", {limit : 20, offset : $("#keyphrases tbody tr").length}, function(data){
-            $("#keyphrases").append(data);
-            $("#keyphrases_loading").hide();
-          }
-        );
-        return false;
-      })
+      $("#keyphrases").paginated_table("#{writer_keyphrases_url(@user[:key], @user[:id])}");
       
       var dates = $( "#start_date, #end_date" ).datepicker({
         numberOfMonths: 1,
