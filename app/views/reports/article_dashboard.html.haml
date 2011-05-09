@@ -37,10 +37,10 @@
       });
       
       // Render the domain counts asynchronously
-      $("#domains").paginated_table("#{article_domains_url(@user[:key], @article.id)}");
+      $("#domains").paginated_table("#{article_domains_url(@user[:key], @article.id)}", 50);
       
       // Render the keyphrase counts asynchronously
-      $("#keyphrases").paginated_table("#{article_keyphrases_url(@user[:key], @article.id)}");
+      $("#keyphrases").paginated_table("#{article_keyphrases_url(@user[:key], @article.id)}", 50);
           
       var dates = $( "#start_date, #end_date" ).datepicker({
         numberOfMonths: 1,
