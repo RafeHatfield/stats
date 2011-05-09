@@ -22,7 +22,7 @@ en:
     generating_data:  Generating your data.
     people_viewing_article: People Viewing This Article
     where_people_from: Where Are People Coming From?
-    your_articles_viewed_times: Your articles were viewed [times] times in total.
-    stats_for_article:  Stats for "[title]"
-    this_article_viewed_times: This article was viewed [times] times.
-    how_people_finding_article: How Are People Finding "[title]"?
+    your_articles_viewed_times: Your articles were viewed %{times} times in total.
+    stats_for_article:  Stats for "%{title}"
+    this_article_viewed_times: This article was viewed %{times} times.
+    how_people_finding_article: How Are People Finding "%{title}"?

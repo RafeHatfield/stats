@@ -15,7 +15,7 @@
   = render 'loading_indicator'
 #page_view_plot
 
-%h2.summary=raw I18n.t('report.your_articles_viewed_times').gsub("[times]","<span id='total_views'>...</span>")
+%h2.summary=raw I18n.t 'report.your_articles_viewed_times', :times => "<span id='total_views'>...</span>"
   
 #sources_loading
   = render 'loading_indicator'

@@ -40,4 +40,11 @@ Stats::Application.routes.draw do
   match '/report/:key/page_view_sparkline.gif' => 'mysuite_integration#page_view_sparkline'
   match '/report/:key/update_total_page_views.js' => 'mysuite_integration#update_total_page_views'
   
+  # Translate gem
+
+    match '/translate_list', :to => 'translate#index'
+    match '/translate', :to => 'translate#translate'
+    match '/translate_reload', :to => 'translate#reload', :as => 'translate_reload'
+
+  
 end

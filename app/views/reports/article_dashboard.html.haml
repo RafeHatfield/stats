@@ -1,6 +1,6 @@
 %p.utility_bar
   = link_to I18n.t('report.view_all_articles'), dashboard_path(@user[:key])
-%h1= I18n.t('report.stats_for_article').gsub('[title]', display_article_title(@article.title))
+%h1= I18n.t 'report.stats_for_article', :title => display_article_title(@article.title)
 
 %date
   =form_tag article_dashboard_path(@user[:key], @article.id), :method => :get do
@@ -13,13 +13,13 @@
 %h2= I18n.t('report.people_viewing_article')
 #page_view_plot
 
-%h2.summary=raw I18n.t('report.this_article_viewed_times').gsub('[times]',"<span id='total_views'>...</span>")
+%h2.summary=raw I18n.t 'report.this_article_viewed_times', :times => "<span id='total_views'>...</span>"
 
 #sources_loading
   = render 'loading_indicator'
 #source_chart
 
-%h2= I18n.t('report.how_people_finding_article').gsub('[title]', display_article_title(@article.title))
+%h2= I18n.t 'report.how_people_finding_article', :title => display_article_title(@article.title)
 #keyphrases
   = render 'keyphrases_table'
 
