@@ -58,9 +58,6 @@ class Article < ActiveRecord::Base
   def count_between(start_date, end_date)
     self.daily_page_views.between(start_date, end_date).sum("count")
   end
-  
-  def display_title
-    URI.decode(self.title)
-  end   
+
 
 end
