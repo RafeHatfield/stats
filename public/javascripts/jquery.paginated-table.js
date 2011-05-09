@@ -27,16 +27,19 @@
 		    var limit = 10;
 		 }
 
+		// Hide the 'more' button.
+		$(".more", o).hide();
+
 		// Load the first set of data.
 		$.get(data_url, {limit : limit, offset : 0}, function(html){
 			// Hide the loading indicator.
       $(".loading", o).hide();
 			// Append the returned html to the table.
       $("table", o).append(html);
-			// Hide the 'more' button if less than 'limit' items were loaded.
+			// Show the 'more' button if at least 'limit' items were loaded.
 			var items_loaded = $(html).filter("tr").length
-			if(items_loaded < limit){
-				$(".more", o).hide();
+			if(items_loaded >= limit){
+				$(".more", o).show();
 			}
     }); 
 
