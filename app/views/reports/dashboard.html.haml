@@ -19,44 +19,26 @@
 #source_chart
 
 %h2 Which of My Articles People Are Reading?
-#articles_loading
-  = render 'loading_indicator'
-%table#articles
-  
-%h2 How Are People Finding Me?
-#keyphrases
-  %table
+#articles
+  %table  
     %thead
       %tr
-        %th.first Keyphrases
+        %th.first_short Article
+        %th.second_short
         %th Views
     %tbody
   .loading
     = render 'loading_indicator'
   .more
-    %a{:href => ""} More
+    = render 'more'
+  
+%h2 How Are People Finding Me?
+#keyphrases
+  = render 'keyphrases'
 
 %h2 Where Are My Readers Coming From?
-#domains_loading
-  = render 'loading_indicator'
-%table#domains
-
--# var keyphrases = $("#keyphrases");
--# 
--# $.get("#{writer_keyphrases_url(@user[:key], @user[:id])}", {}, function(html){
--#   $(".loading", keyphrases).hide();
--#   $("table", keyphrases).append(html);
--# }); 
--# 
--# $(".more", keyphrases).click(function(){
--#   $(".loading", keyphrases).show();
--#   $.get("#{writer_keyphrases_url(@user[:key], @user[:id])}", {limit : 20, offset : $("tbody tr", keyphrases).length}, function(data){
--#       $("table", keyphrases).append(data);
--#       $(".loading", keyphrases).hide();
--#     }
--#   );
--#   return false;
--# });
+#domains
+  = render 'domains'
 
 - content_for :page_javascript do
   :javascript
@@ -69,14 +51,10 @@
       });
       
       // Render the article counts asynchronously
-      $("#articles").load("#{writer_articles_url(@user[:key], @user[:id])}", {}, function(){
-        $("#articles_loading").hide();
-      });
+      $("#articles").paginated_table("#{writer_articles_url(@user[:key], @user[:id])}");
       
       // Render the domain counts asynchronously
-      $("#domains").load("#{writer_domains_url(@user[:key], @user[:id])}", {}, function(){
-        $("#domains_loading").hide();
-      });
+      $("#domains").paginated_table("#{writer_domains_url(@user[:key], @user[:id])}");
       
       // Render the keyphrase counts asynchronously
       $("#keyphrases").paginated_table("#{writer_keyphrases_url(@user[:key], @user[:id])}");

@@ -19,14 +19,12 @@
 #source_chart
 
 %h2 How Are People Finding &quot;#{@article.title}&quot;?
-#keyphrases_loading
-  = render 'loading_indicator'
-%table#keyphrases
+#keyphrases
+  = render 'keyphrases'
 
 %h2 Where Are People Coming From?
-#domains_loading
-  = render 'loading_indicator'
-%table#domains
+#domains
+  = render 'domains'
 
 - content_for :page_javascript do
   :javascript
@@ -39,14 +37,10 @@
       });
       
       // Render the domain counts asynchronously
-      $("#domains").load("#{article_domains_url(@user[:key], @article.id)}", {}, function(){
-        $("#domains_loading").hide();
-      });
+      $("#domains").paginated_table("#{article_domains_url(@user[:key], @article.id)}");
       
       // Render the keyphrase counts asynchronously
-      $("#keyphrases").load("#{article_keyphrases_url(@user[:key], @article.id)}", {}, function(){
-        $("#keyphrases_loading").hide();
-      });
+      $("#keyphrases").paginated_table("#{article_keyphrases_url(@user[:key], @article.id)}");
           
       var dates = $( "#start_date, #end_date" ).datepicker({
         numberOfMonths: 1,

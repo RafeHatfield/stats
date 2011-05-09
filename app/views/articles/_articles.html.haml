@@ -1,13 +1,6 @@
-%thead
-  %tr
-    %th.first_short Article
-    %th.second_short
-    %th Views
-      
-%tbody
-  - article_counts.each do |ac|
-    - if ac.count != 0
-      %tr
-        %td= ac.title
-        %td== #{link_to "Details", article_dashboard_url(@user[:key], ac.article_id)} / #{link_to "View", ac.permalink}
-        %td= ac.count
+- article_counts.each do |ac|
+  - if ac.count != 0
+    %tr
+      %td= ac.title
+      %td== #{link_to "Details", article_dashboard_url(@user[:key], ac.article_id)} / #{link_to "View", ac.permalink}
+      %td= ac.count
