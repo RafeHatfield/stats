@@ -14,6 +14,10 @@ Stats::Application.routes.draw do
   # CSV
   match '/report/:key/article_views.csv' => 'reports#article_views_csv', :as => :article_view_csv
   
+  # Page Views
+  match '/article_page_views/:key/:article_id' => 'page_views#for_article', :as => :article_page_views
+  match '/writer_page_views/:key/:writer_id' => 'page_views#for_writer', :as => :writer_page_views
+  
   # Keyphrases
   match '/article_keyphrases/:key/:article_id' => 'keyphrases#for_article', :as => :article_keyphrases
   match '/writer_keyphrases/:key/:writer_id' => 'keyphrases#for_writer', :as => :writer_keyphrases

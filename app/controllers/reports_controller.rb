@@ -4,8 +4,6 @@ class ReportsController < ApplicationController
   
   # Show the writer's dashboard.
   def dashboard
-    @view_counts = DailyPageView.counts_for_writer_between(@user[:id], @start_date, @end_date)
-    @total_view_count = @view_counts.sum
   end
   
   # Generate a key for the user and redirect to their dashbaord
@@ -16,8 +14,6 @@ class ReportsController < ApplicationController
   # Dashboard for a specific article.
   def article_dashboard
     @article = Article.find(params[:article_id])  
-    @view_counts = @article.page_views_count_between(@start_date, @end_date)
-    @total_view_count = @view_counts.sum
   end
         
   def article_views_csv

@@ -116,7 +116,7 @@ a.csv:active {
 	height: 400px;
 }
 
-.source_chart{
+#source_chart{
 	height: 400px;
 	width: 600px;
 	margin-left: 60px;

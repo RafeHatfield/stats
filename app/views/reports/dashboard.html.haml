@@ -11,9 +11,15 @@
 %hr
 
 %h2 Readers Viewing My Articles
+#page_views_loading
+  = render 'loading_indicator'
 #page_view_plot
 
-%h2.summary== Your articles were viewed #{@total_view_count} times in total.
+%h2.summary 
+  Your articles were viewed
+  %span#total_views ...
+  times in total.
+  
 #sources_loading
   = render 'loading_indicator'
 #source_chart
@@ -34,19 +40,29 @@
   :javascript
     $(function(){
       
-      // Render the sources asynchronously
-      $.getJSON("#{writer_sources_url(@user[:key], @user[:id])}", {}, function(data){
-        $("#sources_loading").hide();
-        $('#source_chart').addClass("source_chart").source_chart(data);
+      // Render page views
+      $.getJSON("#{writer_page_views_url(@user[:key], @user[:id])}", {}, function(data){
+        $("#page_views_loading").hide();
+        $('#page_view_plot').page_view_plot(data, #{@start_date.at_midnight.to_i * 1000});
+        // Update the total page views.
+        var total_views = 0;
+        for(var i in data){ total_views += data[i]; }
+        $('#total_views').text(total_views);
       });
       
-      // Render the article counts asynchronously
+      // Render sources
+      $.getJSON("#{writer_sources_url(@user[:key], @user[:id])}", {}, function(data){
+        $("#sources_loading").hide();
+        $('#source_chart').source_chart(data);
+      });
+      
+      // Render article counts
       $("#articles").paginated_table("#{writer_articles_url(@user[:key], @user[:id])}", 10);
       
-      // Render the domain counts asynchronously
+      // Render the domain counts
       $("#domains").paginated_table("#{writer_domains_url(@user[:key], @user[:id])}", 10);
       
-      // Render the keyphrase counts asynchronously
+      // Render the keyphrase counts
       $("#keyphrases").paginated_table("#{writer_keyphrases_url(@user[:key], @user[:id])}", 10);
       
       var dates = $( "#start_date, #end_date" ).datepicker({
@@ -63,9 +79,6 @@
         }
       });
       $.datepicker.setDefaults($.datepicker.regional["#{I18n.locale.to_s}"]);
-  		
-      // Make the 'page_view_plot' div a highchart showing the total view counts.
-      $('#page_view_plot').page_view_plot(#{@view_counts.to_json}, #{@start_date.at_midnight.to_i * 1000});
       
     });
   

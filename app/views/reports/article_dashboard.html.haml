@@ -13,12 +13,16 @@
 %h2== People Viewing This Article
 #page_view_plot
 
-%h2.summary== This article was viewed #{@total_view_count} times.
+%h2.summary
+  This article was viewed
+  %span#total_views ...
+  times.
+
 #sources_loading
   = render 'loading_indicator'
 #source_chart
 
-%h2 How Are People Finding &quot;#{@article.title}&quot;?
+%h2 How Are People Finding &quot;#{CGI.unescape(@article.title)}&quot;?
 #keyphrases
   = render 'keyphrases_table'
 
@@ -30,10 +34,20 @@
   :javascript
     $(function(){
       
+      // Render page views
+      $.getJSON("#{article_page_views_url(@user[:key], @article.id)}", {}, function(data){
+        $("#page_views_loading").hide();
+        $('#page_view_plot').page_view_plot(data, #{@start_date.at_midnight.to_i * 1000});
+        // Update the total page views.
+        var total_views = 0;
+        for(var i in data){ total_views += data[i]; }
+        $('#total_views').text(total_views);
+      });
+      
       // Render the sources asynchronously
       $.getJSON("#{article_sources_url(@user[:key], @article.id)}", {}, function(data){
         $("#sources_loading").hide();
-        $('#source_chart').addClass("source_chart").source_chart(data);
+        $('#source_chart').source_chart(data);
       });
       
       // Render the domain counts asynchronously
