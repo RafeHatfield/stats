@@ -24,7 +24,7 @@
 	  if (!o.length) { return o; }
 		// Define a default limit.
 		if (typeof limit == "undefined") {
-		    var limit = 20;
+		    var limit = 10;
 		 }
 
 		// Load the first set of data.
