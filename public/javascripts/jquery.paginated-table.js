@@ -17,18 +17,30 @@
 
 (function($) {
 
-	$.fn.paginated_table = function(data_url) {
+	$.fn.paginated_table = function(data_url, limit) {
+		// Save wrapped object as 'o'.
 		var o = this;
+		// If no wrapped object, return the empty wrap.
 	  if (!o.length) { return o; }
-	
-		$.get(data_url, {}, function(html){
+		// Define a default limit.
+		if (typeof limit == "undefined") {
+		    var limit = 20;
+		 }
+
+		// Append the first set of data to the table
+		// and remove the loading indicator.
+		$.get(data_url, {limit : limit, offset : 0}, function(html){
       $(".loading", o).hide();
       $("table", o).append(html);
     }); 
     
+		// When the 'more' button is clicked.
     $(".more", o).click(function(){
+			// Show the loading indicator.
       $(".loading", o).show();
-      $.get( data_url, {limit : 20, offset : $("tbody tr", o).length}, function(data){
+			// Append the next set of data to the table
+			// and remove the loading indicator.
+      $.get( data_url, {limit : limit, offset : $("tbody tr", o).length}, function(data){
           $("table", o).append(data);
           $(".loading", o).hide();
         }

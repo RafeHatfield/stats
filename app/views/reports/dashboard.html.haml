@@ -44,7 +44,7 @@
       $("#articles").paginated_table("#{writer_articles_url(@user[:key], @user[:id])}");
       
       // Render the domain counts asynchronously
-      $("#domains").paginated_table("#{writer_domains_url(@user[:key], @user[:id])}");
+      $("#domains").paginated_table("#{writer_domains_url(@user[:key], @user[:id])}", 3);
       
       // Render the keyphrase counts asynchronously
       $("#keyphrases").paginated_table("#{writer_keyphrases_url(@user[:key], @user[:id])}");
