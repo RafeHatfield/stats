@@ -27,29 +27,42 @@
 		    var limit = 20;
 		 }
 
-		// Append the first set of data to the table
-		// and remove the loading indicator.
+		// Load the first set of data.
 		$.get(data_url, {limit : limit, offset : 0}, function(html){
+			// Hide the loading indicator.
       $(".loading", o).hide();
+			// Append the returned html to the table.
       $("table", o).append(html);
+			// Hide the 'more' button if less than 'limit' items were loaded.
+				var items_loaded = $(html).filter("tr").length
+			if(items_loaded < limit){
+				$(".more", o).hide();
+			}
     }); 
-    
+
 		// When the 'more' button is clicked.
     $(".more", o).click(function(){
 			// Show the loading indicator.
       $(".loading", o).show();
 			// Append the next set of data to the table
 			// and remove the loading indicator.
-      $.get( data_url, {limit : limit, offset : $("tbody tr", o).length}, function(data){
-          $("table", o).append(data);
-          $(".loading", o).hide();
-        }
-      );
-      return false;
+			// Load the next set of data.
+      $.get( data_url, {limit : limit, offset : $("tbody tr", o).length}, function(html){
+				// Hide the loading indicator.
+				$(".loading", o).hide();
+				// Append the returned html to the table.
+        $("table", o).append(html);
+				// Hide the 'more' button if less than 'limit' items were loaded.
+				var items_loaded = $(html).filter("tr").length
+				if(items_loaded < limit){
+					$(".more", o).hide();
+				}
+      });
+      
+			return false;
     });
 		
-		return o;
-		
+		return o;		
 	};
 
 })(jQuery);
