@@ -20,25 +20,15 @@
 
 %h2 Which of My Articles People Are Reading?
 #articles
-  %table  
-    %thead
-      %tr
-        %th.first_short Article
-        %th.second_short
-        %th Views
-    %tbody
-  .loading
-    = render 'loading_indicator'
-  .more
-    = render 'more'
+  = render 'articles_table'
   
 %h2 How Are People Finding Me?
 #keyphrases
-  = render 'keyphrases'
+  = render 'keyphrases_table'
 
 %h2 Where Are My Readers Coming From?
 #domains
-  = render 'domains'
+  = render 'domains_table'
 
 - content_for :page_javascript do
   :javascript

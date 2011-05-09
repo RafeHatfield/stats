@@ -3,7 +3,7 @@ class KeyphrasesController < ApplicationController
   @@PER_PAGE = 20
   
   def for_article
-    keyphrase_counts = DailyKeyphraseView.keyphrases_with_total_counts_for_article_between(params[:article_id], @start_date, @end_date)
+    keyphrase_counts = DailyKeyphraseView.keyphrases_with_total_counts_for_article_between(params[:article_id], @start_date, @end_date, params[:limit] || @@PER_PAGE, params[:offset] || 0)
     render :partial => 'keyphrase_count', :collection => keyphrase_counts and return
   end
   

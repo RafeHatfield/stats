@@ -1,3 +1,20 @@
+// jQuery plugin to make a table into a lazy-ajax-loading table
+// with a "load more" button, and a loading indicator.
+// Structure:
+//	#object_id
+//		%table
+//			%thead
+//				...
+//			%tbody
+//				[ajax loaded content]		
+//		.loading
+//		.more
+// Calling:
+//	$("#object_id").paginated_table("url_to_load_data");
+// Server-side:
+//	The loading url should accept 'limit', and 'offset' parameters
+// 	and return the appropriate data in html table row format.
+
 (function($) {
 
 	$.fn.paginated_table = function(data_url) {

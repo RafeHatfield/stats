@@ -20,11 +20,11 @@
 
 %h2 How Are People Finding &quot;#{@article.title}&quot;?
 #keyphrases
-  = render 'keyphrases'
+  = render 'keyphrases_table'
 
 %h2 Where Are People Coming From?
 #domains
-  = render 'domains'
+  = render 'domains_table'
 
 - content_for :page_javascript do
   :javascript

@@ -25,14 +25,16 @@ class DailyPageView < ActiveRecord::Base
     end
   end
   
-  def self.article_counts_for_writer_between(writer_id, start_date, end_date)
+  def self.article_counts_for_writer_between(writer_id, start_date, end_date, limit, offset)
     DailyPageView.
       select("article_id, title, permalink, SUM(count) as count").
       where(:writer_id => writer_id).
       between(start_date, end_date).
       joins(:article).
       group("article_id, title, permalink").
-      order("count DESC")
+      order("count DESC").
+      limit(limit).
+      offset(offset)
   end
 
 end
