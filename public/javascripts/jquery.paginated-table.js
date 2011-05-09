@@ -34,7 +34,7 @@
 			// Append the returned html to the table.
       $("table", o).append(html);
 			// Hide the 'more' button if less than 'limit' items were loaded.
-				var items_loaded = $(html).filter("tr").length
+			var items_loaded = $(html).filter("tr").length
 			if(items_loaded < limit){
 				$(".more", o).hide();
 			}
@@ -42,20 +42,20 @@
 
 		// When the 'more' button is clicked.
     $(".more", o).click(function(){
+			// Hide the 'more' button
+			$(".more", o).hide();
 			// Show the loading indicator.
       $(".loading", o).show();
-			// Append the next set of data to the table
-			// and remove the loading indicator.
 			// Load the next set of data.
       $.get( data_url, {limit : limit, offset : $("tbody tr", o).length}, function(html){
 				// Hide the loading indicator.
 				$(".loading", o).hide();
 				// Append the returned html to the table.
         $("table", o).append(html);
-				// Hide the 'more' button if less than 'limit' items were loaded.
+				// Show the 'more' button if at least 'limit' items were loaded.
 				var items_loaded = $(html).filter("tr").length
-				if(items_loaded < limit){
-					$(".more", o).hide();
+				if(items_loaded >= limit){
+					$(".more", o).show();
 				}
       });
       
