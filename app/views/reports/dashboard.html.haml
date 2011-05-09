@@ -1,35 +1,35 @@
 %p.utility_bar
-  = link_to I18n.t 'report.download_csv', article_view_csv_path(@user[:key]), :class => "csv"
-%h1= I18n.t 'report.showing_all_articles'
+  = link_to t('report.download_csv'), article_view_csv_path(@user[:key]), :class => "csv"
+%h1= t 'report.showing_all_articles'
 
 %date
   =form_tag dashboard_path(@user[:key]), :method => :get do
-    == #{I18n.t('report.from')} #{text_field_tag(:start_date, I18n.l(@start_date), {:id => "start_date"})}
-    == #{I18n.t('report.to')}  #{text_field_tag(:end_date, I18n.l(@end_date), {:id => "end_date"})}
-    = submit_tag I18n.t 'report.update'
+    == #{t('report.from')} #{text_field_tag(:start_date, I18n.l(@start_date), {:id => "start_date"})}
+    == #{t('report.to')}  #{text_field_tag(:end_date, I18n.l(@end_date), {:id => "end_date"})}
+    = submit_tag t 'report.update'
 %br
 %hr
 
-%h2= I18n.t 'report.readers_viewing'
+%h2= t 'report.readers_viewing'
 #page_views_loading
   = render 'loading_indicator'
 #page_view_plot
 
-%h2.summary=raw I18n.t 'report.your_articles_viewed_times', :times => "<span id='total_views'>...</span>"
+%h2.summary=raw t 'report.your_articles_viewed_times', :times => "<span id='total_views'>...</span>"
   
 #sources_loading
   = render 'loading_indicator'
 #source_chart
 
-%h2= I18n.t 'report.which_articles_people_are_reading'
+%h2= t 'report.which_articles_people_are_reading'
 #articles
   = render 'articles_table'
   
-%h2= I18n.t 'report.how_people_finding_me'
+%h2= t 'report.how_people_finding_me'
 #keyphrases
   = render 'keyphrases_table'
 
-%h2= I18n.t 'report.where_readers_from'
+%h2= t 'report.where_readers_from'
 #domains
   = render 'domains_table'
 

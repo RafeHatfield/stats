@@ -1,24 +1,5 @@
 fr:
-  
-  report:
-    header: Mes stats
-    start_date: date de début
-    end_date: date de fin
-    update: envoyer
-    page_view_graph_header: nombre de lecteurs
-    article_views_line: cet article a été vu [articles_views] fois (Total views [total_views] ???)
-    internal: Interne
-    other: autre
-    organic: organique
-    articles_header: Comment les lecteurs sont arrivés ?
-    details: Détails
-    keyword_header: Quels sont les articles lus ?
-    domain_header: D'où viennent les lecteurs ?
-    download_data: les stats d'hier
-  article_report:
-    back_to_dashboard: Revenir à l'accueil
-    page_view_graph_header: nombre de lecteurs
-    page_views_line: Total views [total_views] ???
+
   
   # French translations for Ruby on Rails
   # by Christian Lescuyer (christian@flyingcoders.com)

@@ -26,3 +26,4 @@ en:
     stats_for_article:  Stats for "%{title}"
     this_article_viewed_times: This article was viewed %{times} times.
     how_people_finding_article: How Are People Finding "%{title}"?
+    keyphrases: Keyphrases

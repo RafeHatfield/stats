@@ -1,24 +1,4 @@
 es:
-  report:
-    header: report.header
-    start_date: report.start_date
-    end_date: report.end_date
-    update: report.update
-    page_view_graph_header: report.page_view_graph_header
-    article_views_line: report.article_views_list<articles_views><total_views>
-    internal: report.internal
-    other: report.other
-    organic: report.organic
-    articles_header: report.articles_header
-    details: report.details
-    keyword_header: report.keyword_header
-    domain_header: report.domain_header
-    download_data: report.download_date
-  article_report:
-    back_to_dashboard: article_report.back_to_dashboard
-    page_view_graph_header: article_report.page_view_graph_header <title>
-    page_views_line: article_report.article_views_line <total_views>
-  
   
   # Spanish translations for Rails
   # by Francisco Fernando García Nieto (ffgarcianieto@gmail.com)
