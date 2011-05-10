@@ -70,6 +70,16 @@ table {
 	margin: 0 auto;
 	margin-bottom: 20px;
 }
+div.data_loading {
+	text-align: center;
+}
+.more {
+	text-align: center;
+}
+div.data_loading img{
+}
+div.data_loading h4{
+}
 th.first{
 	width: 600px;
 }
@@ -107,9 +117,9 @@ a.csv:active {
 }
 
 #source_chart{
-	margin-left: 60px;
-	width: 600px; 
 	height: 400px;
+	width: 600px;
+	margin-left: 60px;
 }
 
 /* Shrink the jquery-ui datepicker font size. */

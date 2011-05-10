@@ -1,20 +1,29 @@
 en:
   report:
-    header: "MyStats"
-    start_date: 'from'
-    end_date: 'to'
-    update: 'Update'
-    page_view_graph_header: "Readers Viewing My Articles"
-    article_views_line: "[articles_views] of your articles were viewed [total_views] times in total."
+    mysuite_link: Back to MySuite
+    download_csv: Download Yesterday's Data
+    showing_all_articles: Showing all articles
+    from: from
+    to: to
+    update: Update
+    readers_viewing: Readers Viewing My Articles
+    which_articles_people_are_reading: Which of My Articles People Are Reading?
+    how_people_finding_me: How Are People Finding Me?
+    where_readers_from: Where Are My Readers Coming From?
+    view_all_articles: View All Articles
     internal: Suite101
     other: Other
     organic: Search Engines
-    articles_header: 'Which of My Articles People Are Reading?'
-    details: "details"
-    keyword_header: 'How Are People Finding Me?'
-    domain_header: 'Where Are My Readers Coming From?'
-    download_data: "Download Yesterday's Data"
-  article_report:
-    back_to_dashboard: "Back to my dashboard"
-    page_view_graph_header: Readers Viewing This Article
-    page_views_line: "This article was viewed [total_views] times."
+    article: Article
+    views: Views
+    details: Details
+    domains: Domains
+    load_more: Load More
+    generating_data:  Generating your data.
+    people_viewing_article: People Viewing This Article
+    where_people_from: Where Are People Coming From?
+    your_articles_viewed_times: Your articles were viewed %{times} times in total.
+    stats_for_article:  Stats for "%{title}"
+    this_article_viewed_times: This article was viewed %{times} times.
+    how_people_finding_article: How Are People Finding "%{title}"?
+    keyphrases: Keyphrases

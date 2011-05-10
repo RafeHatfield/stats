@@ -1,52 +1,58 @@
 %p.utility_bar
-  = link_to "View All Articles", dashboard_path(@user[:key])
-%h1== Stats for &quot;#{CGI.unescape(@article.title)}&quot;
+  = link_to t('report.view_all_articles'), dashboard_path(@user[:key])
+%h1= t('report.stats_for_article', :title => display_article_title(@article.title))
 
 %date
   =form_tag article_dashboard_path(@user[:key], @article.id), :method => :get do
-    == from #{text_field_tag(:start_date, I18n.l(@start_date), {:id => "start_date"})}
-    == to #{text_field_tag(:end_date, I18n.l(@end_date), {:id => "end_date"})}
-    = submit_tag "Update"
+    == #{t('report.from')} #{text_field_tag(:start_date, I18n.l(@start_date), {:id => "start_date"})}
+    == #{t('report.to')} #{text_field_tag(:end_date, I18n.l(@end_date), {:id => "end_date"})}
+    = submit_tag t('report.update')
 %br
 %hr
 
-%h2== People Viewing This Article
-
+%h2= t('report.people_viewing_article')
 #page_view_plot
 
-%h2.summary
-  == This article was viewed #{@total_view_count} times.
+%h2.summary=raw t 'report.this_article_viewed_times', :times => "<span id='total_views'>...</span>"
 
+#sources_loading
+  = render 'loading_indicator'
 #source_chart
 
-%h2 How Are People Finding &quot;#{CGI.unescape(@article.title)}&quot;?
-%table#keyphrases
-  = render 'article_stats/keyphrases', :keyphrase_counts => @keyphrase_counts
+%h2= t 'report.how_people_finding_article', :title => display_article_title(@article.title)
+#keyphrases
+  = render 'keyphrases_table'
 
-%h2 Where Are People Coming From?
-%table
-  %thead
-    %tr
-      %th.first Domains
-      %th Views
-  - @domain_counts.each do |k|
-    %tr
-      %td= k.domain.blank? ? "[direct]" : k.domain
-      %td= k.domain_views_count
+%h2= t('report.where_people_from')
+#domains
+  = render 'domains_table'
 
 - content_for :page_javascript do
-  = javascript_include_tag 'jquery.highcharts.page-view-plot'
-  = javascript_include_tag 'jquery.highcharts.source-chart'
-  
   :javascript
     $(function(){
-      $("#pagination a").live("click", function() {
-          $.get(this.href, function(data) {
-            $('#keyphrases').html(data);
-          });
-          return false;
+      
+      // Render page views
+      $.getJSON("#{article_page_views_url(@user[:key], @article.id)}", {}, function(data){
+        $("#page_views_loading").hide();
+        $('#page_view_plot').page_view_plot(data, #{@start_date.at_midnight.to_i * 1000});
+        // Update the total page views.
+        var total_views = 0;
+        for(var i in data){ total_views += data[i]; }
+        $('#total_views').text(total_views);
       });
       
+      // Render the sources asynchronously
+      $.getJSON("#{article_sources_url(@user[:key], @article.id)}", {}, function(data){
+        $("#sources_loading").hide();
+        $('#source_chart').source_chart(data);
+      });
+      
+      // Render the domain counts asynchronously
+      $("#domains").paginated_table("#{article_domains_url(@user[:key], @article.id)}", 50);
+      
+      // Render the keyphrase counts asynchronously
+      $("#keyphrases").paginated_table("#{article_keyphrases_url(@user[:key], @article.id)}", 50);
+          
       var dates = $( "#start_date, #end_date" ).datepicker({
         numberOfMonths: 1,
         minDate: new Date(2011, 1-1, 1),
@@ -59,23 +65,9 @@
           selectedDate, instance.settings );
           dates.not( this ).datepicker( "option", option, date );
         }
-      });
-    
+      });    
       $.datepicker.setDefaults($.datepicker.regional["#{I18n.locale.to_s}"]);
       
-      $('#page_view_plot').page_view_plot({
-        series: [{
-          name: 'This week',
-          pointInterval: #{1.day * 1000},
-          pointStart: #{@start_date.at_midnight.to_i * 1000},
-          data: #{prepare_data(@view_counts, @start_date, @end_date)}
-        }]
-      })
-      
-      $('#source_chart').source_chart({
-         series: [{
-           type: 'pie',
-           data: #{@source_counts.map{|source_sym, count| [I18n.t("report.#{source_sym.to_s}"), count]}.to_json}
-        }]
-      })
+      $('#page_view_plot').page_view_plot(#{@view_counts.to_json}, #{@start_date.at_midnight.to_i * 1000});
+
     });
