@@ -1,6 +1,34 @@
 fr:
 
-  
+  report:
+    mysuite_link: Back to MySuite
+    download_csv: Download Yesterday's Data
+    showing_all_articles: Showing all articles
+    from: from
+    to: to
+    update: Update
+    readers_viewing: Readers Viewing My Articles
+    which_articles_people_are_reading: Which of My Articles People Are Reading?
+    how_people_finding_me: How Are People Finding Me?
+    where_readers_from: Where Are My Readers Coming From?
+    view_all_articles: View All Articles
+    internal: Suite101
+    other: Other
+    organic: Search Engines
+    article: Article
+    views: Views
+    details: Details
+    domains: Domains
+    load_more: Load More
+    generating_data:  Generating your data.
+    people_viewing_article: People Viewing This Article
+    where_people_from: Where Are People Coming From?
+    your_articles_viewed_times: Your articles were viewed %{times} times in total.
+    stats_for_article:  Stats for "%{title}"
+    this_article_viewed_times: This article was viewed %{times} times.
+    how_people_finding_article: How Are People Finding "%{title}"?
+    keyphrases: Keyphrases
+
   # French translations for Ruby on Rails
   # by Christian Lescuyer (christian@flyingcoders.com)
   # contributors:
@@ -9,9 +37,7 @@ fr:
   # - Tsutomu Kuroda - http://github.com/kuroda (t-kuroda@oiax.jp)
   date:
     formats:
-      # The following date format is causing troubles. Changing it to the English standard.
-      # default: "%d/%m/%Y"
-      default: "%m/%d/%Y"
+      default: "%d/%m/%Y"
       short: "%e %b"
       long: "%e %B %Y"
     day_names: [dimanche, lundi, mardi, mercredi, jeudi, vendredi, samedi]

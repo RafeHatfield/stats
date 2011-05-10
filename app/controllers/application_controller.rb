@@ -37,9 +37,14 @@ class ApplicationController < ActionController::Base
   
 protected
   
+  # Parse a date string using the i18n date format.
+  def parse_i18n_date(date_str)
+    Date.strptime(date_str, I18n.t('date.formats.default'))
+  end
+  
   def set_start_and_end_date
     if params[:start_date].present?
-      @start_date = params[:start_date].to_date
+      @start_date = parse_i18n_date(params[:start_date])
       session[:start_date] = @start_date
     elsif session[:start_date].present?
       @start_date = session[:start_date]
@@ -48,7 +53,7 @@ protected
     end
     
     if params[:end_date].present?
-      @end_date = params[:end_date].to_date
+      @end_date = parse_i18n_date(params[:end_date])
       session[:end_date] = @end_date
     elsif session[:end_date].present?
       @end_date = session[:end_date]
