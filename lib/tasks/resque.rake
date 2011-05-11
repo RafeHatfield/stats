@@ -49,19 +49,4 @@ namespace :resque do
     run_worker("*", 6)
     run_worker("high", 1)
   end
-  
-  desc "Retry the failed jobs"
-  task :retry_jobs => :environment do
-    redis = Resque.redis
-    count = Resque::Failure.backend.count
-    
-    Resque::Failure.all(0, 100).each_with_index do |failure, index|
-      if failure['exception'] =~ /ActiveRecord::RecordInvalid/
-        value = redis.lindex(:failed, index)
-        redis.lrem(:failed, 1, value)
-      # elsif failure['exception'] =~ //
-      #   
-      end
-    end
-  end  
 end
