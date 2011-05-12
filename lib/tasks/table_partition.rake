@@ -70,7 +70,7 @@ namespace :partition do
         (article_id, date DESC);
     COMMANDS
   end
-  
+    
   def index_on_writer_id_and_date(index, column)
     <<-COMMANDS
       CREATE INDEX index_daily_#{column}_views_#{index}_on_writer_id_n_date
@@ -82,15 +82,22 @@ namespace :partition do
   
   def drop_index_on_article_id_and_date(index, column)
     <<-COMMANDS
-      DROP INDEX IF EXISTS index_daily_#{column}_views_#{index}_on_article_id_n_date;
+      DROP INDEX IF EXISTS index_daily_#{column}_views_p#{index}_on_article_id_n_date;
     COMMANDS
   end
   
   def drop_index_on_writer_id_and_date(index, column)
     <<-COMMANDS
-      DROP INDEX IF EXISTS index_daily_#{column}_views_#{index}_on_writer_id_n_date;
+      DROP INDEX IF EXISTS index_daily_#{column}_views_p#{index}_on_writer_id_n_date;
     COMMANDS
   end
+  
+  def drop_index_on_keyphrase(index, column)
+    <<-COMMANDS
+      DROP INDEX IF EXISTS index_daily_#{column}_views_p#{index}_on_keyphrase;
+    COMMANDS
+  end
+  
   
   # rake partition:create column=domain
   desc "Create partition table"
@@ -138,6 +145,7 @@ namespace :partition do
     0.upto(PARTITION_SIZE - 1).each_with_index do |index, partition|
       conn.exec(drop_index_on_article_id_and_date(index, column))
       conn.exec(drop_index_on_writer_id_and_date(index, column))
+      conn.exec(drop_index_on_keyphrase(index, column))
     end
   end
   
