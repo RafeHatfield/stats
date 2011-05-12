@@ -80,6 +80,17 @@ namespace :partition do
     COMMANDS
   end
   
+  def drop_index_on_article_id_and_date(index, column)
+    <<-COMMANDS
+      DROP INDEX IF EXISTS index_daily_#{column}_views_#{index}_on_article_id_n_date;
+    COMMANDS
+  end
+  
+  def drop_index_on_writer_id_and_date(index, column)
+    <<-COMMANDS
+      DROP INDEX IF EXISTS index_daily_#{column}_views_#{index}_on_writer_id_n_date;
+    COMMANDS
+  end
   
   # rake partition:create column=domain
   desc "Create partition table"
@@ -116,6 +127,20 @@ namespace :partition do
       conn.exec(index_on_writer_id_and_date(index, column))
     end
   end
+  
+  # rake partition:drop_indices column=domain
+  desc "Drop indices for each partition"
+  task :drop_indices => :environment do
+    conn = get_db_connection
+    column = ENV['column']
+    
+    puts "Dropping indices on partitioned tables"
+    0.upto(PARTITION_SIZE - 1).each_with_index do |index, partition|
+      conn.exec(drop_index_on_article_id_and_date(index, column))
+      conn.exec(drop_index_on_writer_id_and_date(index, column))
+    end
+  end
+  
   
   # rake partition:drop column=domain
   desc "Create partition table"
