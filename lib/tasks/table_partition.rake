@@ -65,7 +65,7 @@ namespace :partition do
   def index_on_article_id_and_date(index, column)
     <<-COMMANDS
       CREATE INDEX index_daily_#{column}_views_#{index}_on_article_id_n_date
-        ON daily_#{column}_views_#{index}
+        ON daily_#{column}_views_p#{index}
         USING btree
         (article_id, date DESC);
     COMMANDS
@@ -74,9 +74,18 @@ namespace :partition do
   def index_on_writer_id_and_date(index, column)
     <<-COMMANDS
       CREATE INDEX index_daily_#{column}_views_#{index}_on_writer_id_n_date
-        ON daily_#{column}_views_#{index}
+        ON daily_#{column}_views_p#{index}
         USING btree
         (writer_id, date DESC);
+    COMMANDS
+  end
+
+  def index_on_keyphrase(index, column)
+    <<-COMMANDS
+      CREATE INDEX index_daily_#{column}_views_#{index}_on_writer_id_n_date
+        ON daily_#{column}_views_p#{index}
+        USING btree
+        (keyphrase);
     COMMANDS
   end
   
@@ -112,7 +121,7 @@ namespace :partition do
     
     puts "Creating partitioned tables"
     0.upto(PARTITION_SIZE - 1) do |partition|
-      conn.exec("CREATE TABLE daily_#{column}_views_#{partition}( ) INHERITS (#{master_table});")
+      conn.exec("CREATE TABLE daily_#{column}_views_p#{partition}( ) INHERITS (#{master_table});")
     end
     
     puts "Creating trigger function"
@@ -132,6 +141,7 @@ namespace :partition do
     0.upto(PARTITION_SIZE - 1).each_with_index do |index, partition|
       conn.exec(index_on_article_id_and_date(index, column))
       conn.exec(index_on_writer_id_and_date(index, column))
+      conn.exec(index_on_keyphrase(index, column))
     end
   end
   
