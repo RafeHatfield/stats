@@ -35,7 +35,7 @@ namespace :partition do
   
   def register_trigger(column)
     <<-COMMAND
-      CREATE OR REPLACE TRIGGER insert_#{column}_trigger
+      CREATE TRIGGER insert_#{column}_trigger
           BEFORE INSERT ON daily_#{column}_views
           FOR EACH ROW EXECUTE PROCEDURE writers_#{column}_trigger();
     COMMAND
