@@ -17,7 +17,7 @@ namespace :partition do
       DECLARE
         ins_sql TEXT; 
       BEGIN
-        ins_sql := 'INSERT INTO daily_#{column}_views_' || (NEW.writer_id % 41) ||
+        ins_sql := 'INSERT INTO daily_#{column}_views_' || (NEW.writer_id % #{PARTITION_SIZE}) ||
           '(date,article_id,#{column},count,writer_id) 
           VALUES ' ||
           '('|| quote_literal(NEW.date) || ',' || NEW.article_id ||',' ||
@@ -35,7 +35,7 @@ namespace :partition do
   
   def register_trigger(column)
     <<-COMMAND
-      CREATE TRIGGER insert_#{column}_trigger
+      CREATE OR REPLACE TRIGGER insert_#{column}_trigger
           BEFORE INSERT ON daily_#{column}_views
           FOR EACH ROW EXECUTE PROCEDURE writers_#{column}_trigger();
     COMMAND
@@ -62,10 +62,14 @@ namespace :partition do
     COMMANDS
   end
   
+  def create_partition_table(column, partition, master_table)
+    "CREATE TABLE daily_#{column}_views_#{partition}( ) INHERITS (#{master_table});"
+  end
+  
   def index_on_article_id_and_date(index, column)
     <<-COMMANDS
       CREATE INDEX index_daily_#{column}_views_#{index}_on_article_id_n_date
-        ON daily_#{column}_views_p#{index}
+        ON daily_#{column}_views_#{index}
         USING btree
         (article_id, date DESC);
     COMMANDS
@@ -74,7 +78,7 @@ namespace :partition do
   def index_on_writer_id_and_date(index, column)
     <<-COMMANDS
       CREATE INDEX index_daily_#{column}_views_#{index}_on_writer_id_n_date
-        ON daily_#{column}_views_p#{index}
+        ON daily_#{column}_views_#{index}
         USING btree
         (writer_id, date DESC);
     COMMANDS
@@ -83,7 +87,7 @@ namespace :partition do
   def index_on_keyphrase(index, column)
     <<-COMMANDS
       CREATE INDEX index_daily_#{column}_views_#{index}_on_writer_id_n_date
-        ON daily_#{column}_views_p#{index}
+        ON daily_#{column}_views_#{index}
         USING btree
         (keyphrase);
     COMMANDS
@@ -91,24 +95,24 @@ namespace :partition do
   
   def drop_index_on_article_id_and_date(index, column)
     <<-COMMANDS
-      DROP INDEX IF EXISTS index_daily_#{column}_views_p#{index}_on_article_id_n_date;
+      DROP INDEX IF EXISTS index_daily_#{column}_views_#{index}_on_article_id_n_date;
     COMMANDS
   end
   
   def drop_index_on_writer_id_and_date(index, column)
     <<-COMMANDS
-      DROP INDEX IF EXISTS index_daily_#{column}_views_p#{index}_on_writer_id_n_date;
+      DROP INDEX IF EXISTS index_daily_#{column}_views_#{index}_on_writer_id_n_date;
     COMMANDS
   end
   
   def drop_index_on_keyphrase(index, column)
     <<-COMMANDS
-      DROP INDEX IF EXISTS index_daily_#{column}_views_p#{index}_on_keyphrase;
+      DROP INDEX IF EXISTS index_daily_#{column}_views_#{index}_on_keyphrase;
     COMMANDS
   end
   
   
-  # rake partition:create column=domain
+  # RAILS_ENV=production rake partition:create column=domain
   desc "Create partition table"
   task :create => :environment do
     conn = get_db_connection
@@ -121,7 +125,7 @@ namespace :partition do
     
     puts "Creating partitioned tables"
     0.upto(PARTITION_SIZE - 1) do |partition|
-      conn.exec("CREATE TABLE daily_#{column}_views_p#{partition}( ) INHERITS (#{master_table});")
+      conn.exec(create_partition_table(column, partition, master_table))
     end
     
     puts "Creating trigger function"
@@ -166,7 +170,7 @@ namespace :partition do
     conn = get_db_connection
     column = ENV['column']
     
-    master_table = "daily_#{column}_views_main"
+    master_table = "daily_#{column}_views_master"
     puts "Drop master table #{master_table}"
     conn.exec("Drop TABLE IF EXISTS #{master_table} CASCADE;")    
   end
