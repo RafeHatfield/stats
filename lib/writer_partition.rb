@@ -27,7 +27,7 @@ module WriterPartition
   def register_trigger(column)
     <<-COMMAND
       CREATE TRIGGER insert_#{column}_trigger
-          BEFORE INSERT ON daily_#{column}_views
+          BEFORE INSERT ON daily_#{column}_views_master
           FOR EACH ROW EXECUTE PROCEDURE writers_#{column}_trigger();
     COMMAND
   end
