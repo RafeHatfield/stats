@@ -1,6 +1,6 @@
 require 'lib/date_partition.rb'
 
-namespace :partition do
+namespace :date_partition do
     
   # RAILS_ENV=production rake partition:create column=domain
   desc "Create partition table"
