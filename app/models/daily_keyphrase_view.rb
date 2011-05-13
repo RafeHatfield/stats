@@ -2,6 +2,9 @@ class DailyKeyphraseView < ActiveRecord::Base
   belongs_to :article  
   validates_presence_of :date, :article_id, :writer_id, :count
   
+  set_table_name "daily_keyphrase_views_master"
+  scope :partitioned, lambda {|writer_id| where(:partition_id => writer_id.to_i % PARTITION_SIZE) }
+  
   # Keyphrase Views on and between start_date and end_date
   def self.between(start_date, end_date)
     where(:date => start_date.to_date...(end_date.to_date + 1.day))
@@ -11,15 +14,15 @@ class DailyKeyphraseView < ActiveRecord::Base
   
   # Get the total number of views for each keyphrase for writer_id between start_date and end_date
   # Ordered by total count descending.
-  def self.keyphrases_with_total_counts_for_writer_between(writer_id, start_date, end_date, limit, offset)  
-    keyphrase_counts = DailyKeyphraseView.where(:writer_id => writer_id).between(start_date, end_date).group("keyphrase").select("keyphrase, SUM(count) as sum_count").order("sum_count desc").limit(limit).offset(offset)
+  def self.keyphrases_with_total_counts_for_writer_between(writer_id, start_date, end_date, limit, offset)
+    keyphrase_counts = DailyKeyphraseView.partitioned(writer_id).where(:writer_id => writer_id).between(start_date, end_date).group("keyphrase").select("keyphrase, SUM(count) as sum_count").order("sum_count desc").limit(limit).offset(offset)
     keyphrase_counts.sum("count").to_a
   end
   
   # Get the total number of views for each keyphrase for an article between start_date and end_date
   # Ordered by total count descending.
   def self.keyphrases_with_total_counts_for_article_between(article_id, start_date, end_date, limit, offset)
-    keyphrases = DailyKeyphraseView.between(start_date, end_date).joins(:article) & Article.where(:id => article_id)
+    keyphrases = DailyKeyphraseView.partitioned(writer_id).between(start_date, end_date).joins(:article) & Article.where(:id => article_id)
     keyphrase_counts = keyphrases.group("keyphrase").select("keyphrase").order("sum_count desc").limit(limit).offset(offset)
     keyphrase_counts.sum("count").to_a
   end

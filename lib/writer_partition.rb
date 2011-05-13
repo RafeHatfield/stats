@@ -1,10 +1,10 @@
 class WriterPartition
-  PARTITION_SIZE = 41
   
-  def initialize(column)
+  def initialize(column, partition_size)
     raise 'No column name specified!' if column.blank?
     
     @column = column
+    @partition_size = partition_size
     config = YAML.load_file("#{Rails.root.to_s}/config/database.yml")[Rails.env]
     @owner = config["username"]
     @conn = PGconn.new(config["host"], config["port"], '', '', config["database"], @owner, config["password"])
@@ -23,13 +23,13 @@ class WriterPartition
       DECLARE
         ins_sql TEXT; 
       BEGIN
-        ins_sql := 'INSERT INTO daily_#{@column}_views_' || (NEW.writer_id % #{PARTITION_SIZE}) ||
-          '(date,article_id,#{@column},count,writer_id) 
+        ins_sql := 'INSERT INTO daily_#{@column}_views_' || (NEW.writer_id % #{@partition_size}) ||
+          '(date,article_id,#{@column},count,writer_id,partition_id) 
           VALUES ' ||
           '('|| quote_literal(NEW.date) || ',' || NEW.article_id ||',' ||
           	quote_literal(NEW.#{@column}) || ',' || 
       			NEW.count || ',' || 
-      			NEW.writer_id || ')'
+      			NEW.writer_id || ',' || (NEW.writer_id % 41) ||')'
           ; 
         EXECUTE ins_sql;
         RETURN NULL;
@@ -56,6 +56,7 @@ class WriterPartition
         writer_id integer,
         created_at timestamp without time zone,
         updated_at timestamp without time zone,
+        partition_id integer,
         CONSTRAINT daily_#{@column}_views_master_pkey PRIMARY KEY (id)
       )
       WITH (
@@ -67,14 +68,14 @@ class WriterPartition
   end
   
   def create_partition_tables
-    0.upto(PARTITION_SIZE - 1) do |p|
+    0.upto(@partition_size - 1) do |p|
       cmd = "CREATE TABLE daily_#{@column}_views_#{p}( ) INHERITS (#{master_table});"
       @conn.exec(cmd)
     end
   end
   
   def add_indices
-    0.upto(PARTITION_SIZE - 1) do |index|
+    0.upto(@partition_size - 1) do |index|
       index_on_article_id_and_date(index)
       index_on_writer_id_and_date(index)
       index_on_keyphrase(index)
@@ -82,7 +83,7 @@ class WriterPartition
   end
   
   def drop_indices
-    0.upto(PARTITION_SIZE - 1) do |index|
+    0.upto(@partition_size - 1) do |index|
       drop_index_on_article_id_and_date(index)
       drop_index_on_writer_id_and_date(index)
       drop_index_on_column(index)
