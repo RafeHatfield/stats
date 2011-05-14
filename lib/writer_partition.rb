@@ -17,19 +17,21 @@ class WriterPartition
   # column can be
   # keyphrase, domain, or page
   def trigger
+    trigger_function = "insert_#{master_table}"
+    
     cmd = <<-COMMAND
-      CREATE OR REPLACE FUNCTION writers_#{@column}_trigger() 
+      CREATE OR REPLACE FUNCTION #{trigger_function}() 
       RETURNS TRIGGER AS $$ 
       DECLARE
         ins_sql TEXT; 
       BEGIN
-        ins_sql := 'INSERT INTO daily_#{@column}_views_' || (NEW.writer_id % #{@partition_size}) ||
+        ins_sql := 'INSERT INTO #{master_table}_' || (NEW.writer_id % #{@partition_size}) ||
           '(date,article_id,#{@column},count,writer_id,partition_id) 
           VALUES ' ||
           '('|| quote_literal(NEW.date) || ',' || NEW.article_id ||',' ||
           	quote_literal(NEW.#{@column}) || ',' || 
       			NEW.count || ',' || 
-      			NEW.writer_id || ',' || (NEW.writer_id % 41) ||')'
+      			NEW.writer_id || ',' || (NEW.writer_id % #{@partition_size}) ||')'
           ; 
         EXECUTE ins_sql;
         RETURN NULL;
@@ -37,16 +39,16 @@ class WriterPartition
       $$
       LANGUAGE plpgsql;
       
-      CREATE TRIGGER insert_#{@column}_trigger
-          BEFORE INSERT ON daily_#{@column}_views_master
-          FOR EACH ROW EXECUTE PROCEDURE writers_#{@column}_trigger();
+      CREATE TRIGGER #{trigger_function}_trigger
+          BEFORE INSERT ON #{master_table}
+          FOR EACH ROW EXECUTE PROCEDURE #{trigger_function}();
     COMMAND
     @conn.exec(cmd)
   end
-    
+      
   def create_master_table
     cmd = <<-COMMANDS
-      CREATE TABLE daily_#{@column}_views_master
+      CREATE TABLE #{master_table}
       (
         id serial NOT NULL,
         date date,
@@ -57,12 +59,12 @@ class WriterPartition
         created_at timestamp without time zone,
         updated_at timestamp without time zone,
         partition_id integer,
-        CONSTRAINT daily_#{@column}_views_master_pkey PRIMARY KEY (id)
+        CONSTRAINT #{master_table}_pkey PRIMARY KEY (id)
       )
       WITH (
         OIDS=FALSE
       );
-      ALTER TABLE daily_#{@column}_views OWNER TO #{@owner};
+      ALTER TABLE #{master_table} OWNER TO #{@owner};
     COMMANDS
     @conn.exec(cmd)
   end
@@ -92,7 +94,7 @@ class WriterPartition
   
   def index_on_article_id_and_date(index)
     cmd = <<-COMMANDS
-      CREATE INDEX index_daily_#{@column}_views_#{index}_on_article_id_n_date
+      CREATE INDEX index_#{master_table}_#{index}_on_article_id_n_date
         ON daily_#{@column}_views_#{index}
         USING btree
         (article_id, date DESC);
@@ -102,7 +104,7 @@ class WriterPartition
     
   def index_on_writer_id_and_date(index)
     cmd = <<-COMMANDS
-      CREATE INDEX index_daily_#{@column}_views_#{index}_on_writer_id_n_date
+      CREATE INDEX index_#{master_table}_#{index}_on_writer_id_n_date
         ON daily_#{@column}_views_#{index}
         USING btree
         (writer_id, date DESC);
@@ -112,7 +114,7 @@ class WriterPartition
 
   def index_on_keyphrase(index)
     cmd = <<-COMMANDS
-      CREATE INDEX index_daily_#{@column}_views_#{index}_on_#{@column}
+      CREATE INDEX index_#{master_table}_#{index}_on_#{@column}
         ON daily_#{@column}_views_#{index}
         USING btree
         (#{@column});
@@ -122,27 +124,71 @@ class WriterPartition
   
   def drop_index_on_article_id_and_date(index)
     cmd = <<-COMMANDS
-      DROP INDEX IF EXISTS index_daily_#{@column}_views_#{index}_on_article_id_n_date;
+      DROP INDEX IF EXISTS index_#{master_table}_#{index}_on_article_id_n_date;
     COMMANDS
     @conn.exec(cmd)
   end
   
   def drop_index_on_writer_id_and_date(index)
     cmd = <<-COMMANDS
-      DROP INDEX IF EXISTS index_daily_#{@column}_views_#{index}_on_writer_id_n_date;
+      DROP INDEX IF EXISTS index_#{master_table}_#{index}_on_writer_id_n_date;
     COMMANDS
     @conn.exec(cmd)
   end
   
   def drop_index_on_column(index)
     cmd = <<-COMMANDS
-      DROP INDEX IF EXISTS index_daily_#{@column}_views_#{index}_on_#{@column};
+      DROP INDEX IF EXISTS index_#{master_table}_#{index}_on_#{@column};
     COMMANDS
     @conn.exec(cmd)
   end
   
   def drop_tables
+    puts "Dropping partitioned tables"
+    
+    # 0.upto(@partition_size - 1) do |p|
+    #   cmd = "DROP TABLE IF EXISTS #{master_table}_#{p};"
+    #   @conn.exec(cmd)
+    # end
     cmd = "Drop TABLE IF EXISTS #{master_table} CASCADE;"
+    @conn.exec(cmd)
+    
+    cmd = <<-COMMANDS
+      DROP TRIGGER IF EXISTS insert_#{master_table}_trigger on #{master_table};
+      DROP TRIGGER IF EXISTS update_#{master_table}_trigger on #{master_table};
+      
+      DROP FUNCTION IF EXISTS insert_#{master_table}();
+      DROP FUNCTION IF EXISTS update_#{master_table}();
+    COMMANDS
+    puts "Dropping triggers and functions"
+    @conn.exec(cmd)
+  end
+  
+  def live_migrate_trigger
+    trigger_function = "update_#{master_table}"
+    
+    cmd = <<-COMMANDS
+      CREATE OR REPLACE FUNCTION #{trigger_function}() 
+      RETURNS TRIGGER AS $$ 
+      BEGIN
+        INSERT INTO #{master_table} values(NEW.*); 
+        DELETE FROM #{master_table} WHERE OLD.id=id; 
+        RETURN NULL;
+      END; 
+      $$ 
+      LANGUAGE plpgsql; 
+      
+      CREATE TRIGGER #{trigger_function}_trigger
+        BEFORE UPDATE ON #{master_table}
+        FOR EACH ROW EXECUTE PROCEDURE #{trigger_function}();
+    COMMANDS
+    @conn.exec(cmd)
+  end
+  
+  def live_migrate
+    cmd = <<-COMMANDS
+      UPDATE #{master_table} SET writer_id=writer_id where writer_id='687311';      
+    COMMANDS
     @conn.exec(cmd)
   end
   
