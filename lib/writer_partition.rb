@@ -25,7 +25,7 @@ class WriterPartition
       DECLARE
         ins_sql TEXT; 
       BEGIN
-        ins_sql := 'INSERT INTO #{master_table}_' || (NEW.writer_id % #{@partition_size}) ||
+        ins_sql := 'INSERT INTO daily_#{@column}_views_' || (NEW.writer_id % #{@partition_size}) ||
           '(date,article_id,#{@column},count,writer_id,partition_id) 
           VALUES ' ||
           '('|| quote_literal(NEW.date) || ',' || NEW.article_id ||',' ||
