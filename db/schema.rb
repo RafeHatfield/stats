@@ -13,18 +13,29 @@
 ActiveRecord::Schema.define(:version => 20110323221507) do
 
   create_table "articles", :id => false, :force => true do |t|
-    t.integer  "id",         :null => false
-    t.string   "title"
-    t.integer  "writer_id"
-    t.string   "permalink"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer   "id",                      :null => false
+    t.string    "title"
+    t.integer   "writer_id"
+    t.string    "permalink"
+    t.timestamp "created_at", :limit => 6
+    t.timestamp "updated_at", :limit => 6
   end
 
-  add_index "articles", ["id"], :name => "uniq_article_check", :unique => true
   add_index "articles", ["writer_id"], :name => "index_articles_on_writer_id"
 
-  create_table "daily_domain_views", :force => true do |t|
+  create_table "daily_domain_views", :id => false, :force => true do |t|
+    t.integer   "id",                      :null => false
+    t.date      "date"
+    t.integer   "article_id"
+    t.string    "domain"
+    t.integer   "count"
+    t.integer   "writer_id"
+    t.timestamp "created_at", :limit => 6
+    t.timestamp "updated_at", :limit => 6
+  end
+
+  create_table "daily_domain_views_0", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
     t.date     "date"
     t.integer  "article_id"
     t.string   "domain"
@@ -32,12 +43,526 @@ ActiveRecord::Schema.define(:version => 20110323221507) do
     t.integer  "writer_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "partition_id"
   end
 
-  add_index "daily_domain_views", ["article_id"], :name => "index_daily_domain_views_on_article_id"
-  add_index "daily_domain_views", ["writer_id"], :name => "index_daily_domain_views_on_writer_id"
+  create_table "daily_domain_views_1", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_10", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_11", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_12", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_13", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_14", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_15", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_16", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_17", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_18", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_19", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_2", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_20", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_21", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_22", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_23", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_24", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_25", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_26", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_27", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_28", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_29", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_3", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_30", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_31", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_32", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_33", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_34", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_35", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_36", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_37", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_38", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_39", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_4", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_40", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_5", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_6", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_7", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_8", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_9", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_domain_views_copy", :id => false, :force => true do |t|
+    t.integer   "id",                      :null => false
+    t.date      "date"
+    t.integer   "article_id"
+    t.string    "domain"
+    t.integer   "count"
+    t.integer   "writer_id"
+    t.timestamp "created_at", :limit => 6
+    t.timestamp "updated_at", :limit => 6
+  end
+
+  create_table "daily_domain_views_master", :force => true do |t|
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "domain"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
 
   create_table "daily_keyphrase_views", :force => true do |t|
+    t.date      "date"
+    t.integer   "article_id"
+    t.string    "keyphrase"
+    t.integer   "count"
+    t.integer   "writer_id"
+    t.timestamp "created_at", :limit => 6
+    t.timestamp "updated_at", :limit => 6
+  end
+
+  add_index "daily_keyphrase_views", ["article_id", "date"], :name => "index_daily_keyphrase_views_on_article_id_n_date"
+  add_index "daily_keyphrase_views", ["keyphrase"], :name => "index_daily_keyphrase_views_on_keyphrase"
+
+  create_table "daily_keyphrase_views_0", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
     t.date     "date"
     t.integer  "article_id"
     t.string   "keyphrase"
@@ -45,31 +570,531 @@ ActiveRecord::Schema.define(:version => 20110323221507) do
     t.integer  "writer_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "partition_id"
   end
 
-  add_index "daily_keyphrase_views", ["article_id"], :name => "index_daily_keyphrase_views_on_article_id"
-  add_index "daily_keyphrase_views", ["writer_id"], :name => "index_daily_keyphrase_views_on_writer_id"
-
-  create_table "daily_page_views", :force => true do |t|
+  create_table "daily_keyphrase_views_1", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
     t.date     "date"
     t.integer  "article_id"
+    t.string   "keyphrase"
     t.integer  "count"
     t.integer  "writer_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "partition_id"
   end
 
-  add_index "daily_page_views", ["article_id"], :name => "index_daily_page_views_on_article_id"
-  add_index "daily_page_views", ["writer_id"], :name => "index_daily_page_views_on_writer_id"
+  create_table "daily_keyphrase_views_10", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_11", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_12", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_13", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_14", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_15", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_16", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_17", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_18", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_19", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_2", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_20", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_21", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_22", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_23", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_24", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_25", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_26", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_27", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_28", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_29", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_3", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_30", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_31", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_32", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_33", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_34", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_35", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_36", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_37", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_38", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_39", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_4", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_40", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_5", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_6", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_7", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_8", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_9", :id => false, :force => true do |t|
+    t.integer  "id",           :null => false
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_keyphrase_views_copy", :id => false, :force => true do |t|
+    t.integer   "id",                      :null => false
+    t.date      "date"
+    t.integer   "article_id"
+    t.string    "keyphrase"
+    t.integer   "count"
+    t.integer   "writer_id"
+    t.timestamp "created_at", :limit => 6
+    t.timestamp "updated_at", :limit => 6
+  end
+
+  create_table "daily_keyphrase_views_master", :force => true do |t|
+    t.date     "date"
+    t.integer  "article_id"
+    t.string   "keyphrase"
+    t.integer  "count"
+    t.integer  "writer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "partition_id"
+  end
+
+  create_table "daily_page_views", :force => true do |t|
+    t.date      "date"
+    t.integer   "article_id"
+    t.integer   "count"
+    t.integer   "writer_id"
+    t.timestamp "created_at", :limit => 6
+    t.timestamp "updated_at", :limit => 6
+  end
+
+  add_index "daily_page_views", ["article_id", "date"], :name => "index_daily_page_views_on_article_id_n_date"
+  add_index "daily_page_views", ["writer_id", "date"], :name => "index_daily_page_views_on_date_and_writer_id"
 
   create_table "raw_page_views", :force => true do |t|
-    t.integer  "article_id"
-    t.string   "permalink"
-    t.string   "title"
-    t.integer  "writer_id"
-    t.string   "referrer_url", :limit => 1000
-    t.string   "cookie_id"
-    t.datetime "date"
+    t.integer   "article_id"
+    t.string    "permalink"
+    t.string    "title"
+    t.integer   "writer_id"
+    t.string    "referrer_url", :limit => 1000
+    t.string    "cookie_id"
+    t.timestamp "date",         :limit => 6
   end
 
   add_index "raw_page_views", ["article_id"], :name => "index_raw_page_views_on_article_id"

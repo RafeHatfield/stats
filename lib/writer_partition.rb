@@ -29,7 +29,7 @@ class WriterPartition
           '(date,article_id,#{@column},count,writer_id,partition_id) 
           VALUES ' ||
           '('|| quote_literal(NEW.date) || ',' || NEW.article_id ||',' ||
-          	quote_literal(NEW.#{@column}) || ',' || 
+          	coalesce(quote_literal(NEW.#{@column}), 'NULL') || ',' || 
       			NEW.count || ',' || 
       			NEW.writer_id || ',' || (NEW.writer_id % #{@partition_size}) ||')'
           ; 
@@ -66,6 +66,7 @@ class WriterPartition
       );
       ALTER TABLE #{master_table} OWNER TO #{@owner};
     COMMANDS
+    
     @conn.exec(cmd)
   end
   
@@ -145,14 +146,16 @@ class WriterPartition
   
   def drop_tables
     puts "Dropping partitioned tables"
-    
+    drop_functions    
     # 0.upto(@partition_size - 1) do |p|
     #   cmd = "DROP TABLE IF EXISTS #{master_table}_#{p};"
     #   @conn.exec(cmd)
     # end
     cmd = "Drop TABLE IF EXISTS #{master_table} CASCADE;"
     @conn.exec(cmd)
-    
+  end
+  
+  def drop_functions
     cmd = <<-COMMANDS
       DROP TRIGGER IF EXISTS insert_#{master_table}_trigger on #{master_table};
       DROP TRIGGER IF EXISTS update_#{master_table}_trigger on #{master_table};
@@ -168,11 +171,11 @@ class WriterPartition
     trigger_function = "update_#{master_table}"
     
     cmd = <<-COMMANDS
-      CREATE OR REPLACE FUNCTION #{trigger_function}() 
+      CREATE OR REPLACE FUNCTION #{trigger_function}()
       RETURNS TRIGGER AS $$ 
       BEGIN
-        INSERT INTO #{master_table} values(NEW.*); 
         DELETE FROM #{master_table} WHERE OLD.id=id; 
+        INSERT INTO #{master_table} values(NEW.*); 
         RETURN NULL;
       END; 
       $$ 
@@ -187,7 +190,18 @@ class WriterPartition
   
   def live_migrate
     cmd = <<-COMMANDS
-      UPDATE #{master_table} SET writer_id=writer_id where writer_id='687311';      
+      UPDATE #{master_table} SET id=id;      
+    COMMANDS
+    @conn.exec(cmd)
+  end
+  
+  def migrate(start_date, end_date)
+    cmd = <<-COMMANDS
+      INSERT INTO #{master_table}
+      (date, article_id, #{@column}, count, writer_id)
+      SELECT date, article_id, #{@column}, count, writer_id
+      FROM daily_#{@column}_views
+      WHERE date BETWEEN '#{start_date}' AND '#{end_date}';
     COMMANDS
     @conn.exec(cmd)
   end

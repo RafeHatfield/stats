@@ -7,9 +7,8 @@ namespace :writer_partition do
   task :create => :environment do
     partition = WriterPartition.new(ENV['column'], PARTITION_SIZE)
     
-    puts "Creating master partition table #{partition.master_table}"
     partition.create_master_table
-    
+        
     puts "Creating partitioned tables"
     partition.create_partition_tables
     
@@ -41,8 +40,18 @@ namespace :writer_partition do
   task :drop => :environment do
     partition = WriterPartition.new(ENV['column'], PARTITION_SIZE)
     
-    puts "Drop master table #{partition.master_table}"
     partition.drop_tables
+  end
+  
+  # RAILS_ENV=production rake writer_partition:migrate column=keyphrase
+  desc "Migration data from unpartitioned table"
+  task :migrate => :environment do
+    partition = WriterPartition.new(ENV['column'], PARTITION_SIZE)
+    start_date = '2011-04-01' 
+    end_date = '2011-04-09'
+     
+    puts "Migrating data to #{partition.master_table}"
+    partition.migrate(start_date, end_date)
   end
   
 end
