@@ -18,6 +18,10 @@ class WriterPartition
   # keyphrase, domain, or page
   def trigger
     trigger_function = "insert_#{master_table}"
+    unless @column == 'page'
+      column = "#{@column},"
+      column_function = "coalesce(quote_literal(NEW.#{@column}), 'NULL') || ',' ||"
+    end
     
     cmd = <<-COMMAND
       CREATE OR REPLACE FUNCTION #{trigger_function}() 
@@ -26,10 +30,10 @@ class WriterPartition
         ins_sql TEXT; 
       BEGIN
         ins_sql := 'INSERT INTO daily_#{@column}_views_' || (NEW.writer_id % #{@partition_size}) ||
-          '(date,article_id,#{@column},count,writer_id,partition_id) 
+          '(date,article_id,#{column}count,writer_id,partition_id) 
           VALUES ' ||
           '('|| quote_literal(NEW.date) || ',' || NEW.article_id ||',' ||
-          	coalesce(quote_literal(NEW.#{@column}), 'NULL') || ',' || 
+          	#{column_function} 
       			NEW.count || ',' || 
       			NEW.writer_id || ',' || (NEW.writer_id % #{@partition_size}) ||')'
           ; 
@@ -47,13 +51,17 @@ class WriterPartition
   end
       
   def create_master_table
+    unless @column == 'page'
+      column = "#{@column} character varying(255),"
+    end
+    
     cmd = <<-COMMANDS
       CREATE TABLE #{master_table}
       (
         id serial NOT NULL,
         date date,
         article_id integer,
-        "#{@column}" character varying(255),
+        #{column}
         count integer,
         writer_id integer,
         created_at timestamp without time zone,
@@ -196,10 +204,13 @@ class WriterPartition
   end
   
   def migrate(start_date, end_date)
+    unless @column == 'page'
+      column = "#{@column},"
+    end
     cmd = <<-COMMANDS
       INSERT INTO #{master_table}
-      (date, article_id, #{@column}, count, writer_id)
-      SELECT date, article_id, #{@column}, count, writer_id
+      (date, article_id, #{column}count, writer_id)
+      SELECT date, article_id, #{column} count, writer_id
       FROM daily_#{@column}_views
       WHERE date BETWEEN '#{start_date}' AND '#{end_date}';
     COMMANDS
