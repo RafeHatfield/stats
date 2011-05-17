@@ -25,7 +25,7 @@ class DailyKeyphraseView < ActiveRecord::Base
   def self.keyphrases_with_total_counts_for_article_between(article_id, start_date, end_date, limit, offset)
     set_table_name 'daily_keyphrase_views_master'
     
-    keyphrases = DailyKeyphraseView.partitioned(writer_id).between(start_date, end_date).joins(:article) & Article.where(:id => article_id)
+    keyphrases = DailyKeyphraseView.between(start_date, end_date).joins(:article) & Article.where(:id => article_id)
     keyphrase_counts = keyphrases.group("keyphrase").select("keyphrase").order("sum_count desc").limit(limit).offset(offset)
     keyphrase_counts.sum("count").to_a
   end

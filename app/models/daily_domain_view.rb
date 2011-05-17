@@ -15,7 +15,7 @@ class DailyDomainView < ActiveRecord::Base
   def self.domain_counts_for_article_between(article_id, start_date, end_date, limit, offset)
     set_table_name 'daily_domain_views_master'
     
-    domain_counts = DailyDomainView.partitioned(writer_id).where(:article_id => article_id).between(start_date, end_date).group("domain").select("domain").order("sum_count desc").limit(limit).offset(offset).sum("count")
+    domain_counts = DailyDomainView.where(:article_id => article_id).between(start_date, end_date).group("domain").select("domain").order("sum_count desc").limit(limit).offset(offset).sum("count")
   end
   
   def self.source_counts_for_writer_between(writer_id, start_date, end_date, limit, offset)
