@@ -5,9 +5,14 @@ class WriterPartition
     
     @column = column
     @partition_size = partition_size
-    config = YAML.load_file("#{Rails.root.to_s}/config/database.yml")[Rails.env]
-    @owner = config["username"]
-    @conn = PGconn.new(config["host"], config["port"], '', '', config["database"], @owner, config["password"])
+    shards_config = YAML.load_file("#{Rails.root.to_s}/config/shards.yml")['octopus'][Rails.env]
+    
+    @conns = []
+    %w(de fr net).each do |site|
+      config = shards_config[site]
+      @owner = config["username"]
+      @conns << PGconn.new(config["host"], config["port"], '', '', config["database"], @owner, config["password"])
+    end
   end
   
   def master_table
@@ -47,7 +52,7 @@ class WriterPartition
           BEFORE INSERT ON #{master_table}
           FOR EACH ROW EXECUTE PROCEDURE #{trigger_function}();
     COMMAND
-    @conn.exec(cmd)
+    @conns.each{|conn| conn.exec(cmd)}
   end
       
   def create_master_table
@@ -75,13 +80,13 @@ class WriterPartition
       ALTER TABLE #{master_table} OWNER TO #{@owner};
     COMMANDS
     
-    @conn.exec(cmd)
+    @conns.each{|conn| conn.exec(cmd)}
   end
   
   def create_partition_tables
     0.upto(@partition_size - 1) do |p|
       cmd = "CREATE TABLE daily_#{@column}_views_#{p}( ) INHERITS (#{master_table});"
-      @conn.exec(cmd)
+      @conns.each{|conn| conn.exec(cmd)}
     end
   end
   
@@ -112,7 +117,7 @@ class WriterPartition
         USING btree
         (article_id, date DESC);
     COMMANDS
-    @conn.exec(cmd)
+    @conns.each{|conn| conn.exec(cmd)}
   end
     
   def index_on_writer_id_and_date(index)
@@ -122,7 +127,7 @@ class WriterPartition
         USING btree
         (writer_id, date DESC);
     COMMANDS
-    @conn.exec(cmd)
+    @conns.each{|conn| conn.exec(cmd)}
   end
 
   def index_on_column(index)
@@ -132,28 +137,28 @@ class WriterPartition
         USING btree
         (#{@column});
     COMMANDS
-    @conn.exec(cmd)
+    @conns.each{|conn| conn.exec(cmd)}
   end
   
   def drop_index_on_article_id_and_date(index)
     cmd = <<-COMMANDS
       DROP INDEX IF EXISTS index_#{master_table}_#{index}_on_article_id_n_date;
     COMMANDS
-    @conn.exec(cmd)
+    @conns.each{|conn| conn.exec(cmd)}
   end
   
   def drop_index_on_writer_id_and_date(index)
     cmd = <<-COMMANDS
       DROP INDEX IF EXISTS index_#{master_table}_#{index}_on_writer_id_n_date;
     COMMANDS
-    @conn.exec(cmd)
+    @conns.each{|conn| conn.exec(cmd)}
   end
   
   def drop_index_on_column(index)
     cmd = <<-COMMANDS
       DROP INDEX IF EXISTS index_#{master_table}_#{index}_on_#{@column};
     COMMANDS
-    @conn.exec(cmd)
+    @conns.each{|conn| conn.exec(cmd)}
   end
   
   def drop_tables
@@ -164,7 +169,7 @@ class WriterPartition
     #   @conn.exec(cmd)
     # end
     cmd = "Drop TABLE IF EXISTS #{master_table} CASCADE;"
-    @conn.exec(cmd)
+    @conns.each{|conn| conn.exec(cmd)}
   end
   
   def drop_functions
@@ -176,7 +181,7 @@ class WriterPartition
       DROP FUNCTION IF EXISTS update_#{master_table}();
     COMMANDS
     puts "Dropping triggers and functions"
-    @conn.exec(cmd)
+    @conns.each{|conn| conn.exec(cmd)}
   end
   
   def live_migrate_trigger
@@ -197,14 +202,14 @@ class WriterPartition
         BEFORE UPDATE ON #{master_table}
         FOR EACH ROW EXECUTE PROCEDURE #{trigger_function}();
     COMMANDS
-    @conn.exec(cmd)
+    @conns.each{|conn| conn.exec(cmd)}
   end
   
   def live_migrate
     cmd = <<-COMMANDS
       UPDATE #{master_table} SET id=id;      
     COMMANDS
-    @conn.exec(cmd)
+    @conns.each{|conn| conn.exec(cmd)}
   end
   
   def migrate(start_date, end_date)
@@ -218,7 +223,7 @@ class WriterPartition
       FROM daily_#{@column}_views
       WHERE date BETWEEN '#{start_date}' AND '#{end_date}';
     COMMANDS
-    @conn.exec(cmd)
+    @conns.each{|conn| conn.exec(cmd)}
   end
   
 end
