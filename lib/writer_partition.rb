@@ -89,7 +89,9 @@ class WriterPartition
     0.upto(@partition_size - 1) do |index|
       index_on_article_id_and_date(index)
       index_on_writer_id_and_date(index)
-      index_on_keyphrase(index)
+      unless @column == 'page'
+        index_on_column(index)
+      end
     end
   end
   
@@ -97,7 +99,9 @@ class WriterPartition
     0.upto(@partition_size - 1) do |index|
       drop_index_on_article_id_and_date(index)
       drop_index_on_writer_id_and_date(index)
-      drop_index_on_column(index)
+      unless @column == 'page'
+        drop_index_on_column(index)
+      end
     end
   end
   
@@ -121,7 +125,7 @@ class WriterPartition
     @conn.exec(cmd)
   end
 
-  def index_on_keyphrase(index)
+  def index_on_column(index)
     cmd = <<-COMMANDS
       CREATE INDEX index_#{master_table}_#{index}_on_#{@column}
         ON daily_#{@column}_views_#{index}
