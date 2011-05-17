@@ -3,6 +3,7 @@ require 'lib/writer_partition.rb'
 namespace :writer_partition do
     
   # RAILS_ENV=production rake writer_partition:create column=keyphrase
+  # RAILS_ENV=staging rake writer_partition:create column=keyphrase
   desc "Create partition table"
   task :create => :environment do
     partition = WriterPartition.new(ENV['column'], PARTITION_SIZE)
@@ -47,8 +48,8 @@ namespace :writer_partition do
   desc "Migration data from unpartitioned table"
   task :migrate => :environment do
     partition = WriterPartition.new(ENV['column'], PARTITION_SIZE)
-    start_date = '2011-04-01' 
-    end_date = '2011-04-09'
+    start_date = '2011-02-01' 
+    end_date = '2011-04-30'
      
     puts "Migrating data to #{partition.master_table}"
     partition.migrate(start_date, end_date)
