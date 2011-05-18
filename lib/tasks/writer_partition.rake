@@ -50,7 +50,7 @@ namespace :writer_partition do
     partition = WriterPartition.new(ENV['column'], PARTITION_SIZE)
     start_date = '2011-05-01' 
     end_date = '2011-05-11'
-     
+    # need to migrate 05-12 data
     puts "Migrating data to #{partition.master_table}"
     partition.migrate(start_date, end_date)
   end
@@ -59,10 +59,9 @@ end
 # recommended sequence
 
 # RAILS_ENV=production rake writer_partition:migrate column=page
-# RAILS_ENV=production rake writer_partition:migrate column=domain
+# RAILS_ENV=production rake writer_partition:migrate column=domain 
 # RAILS_ENV=production rake writer_partition:migrate column=keyphrase
 
 # RAILS_ENV=production rake writer_partition:indices column=keyphrase
-# =>
 # RAILS_ENV=production rake writer_partition:indices column=page
 # RAILS_ENV=production rake writer_partition:indices column=domain
