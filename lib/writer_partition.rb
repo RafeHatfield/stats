@@ -99,10 +99,10 @@ class WriterPartition
   
   def add_indices
     0.upto(@partition_size - 1) do |partition|
-      # index_on_article_id_and_date(partition)
-      # index_on_writer_id_and_date(partition)
+      index_on_article_id_and_date(partition)
+      index_on_writer_id_and_date(partition)
       unless @column == 'page'
-        # index_on_column(partition)
+        index_on_column(partition)
         # index used for tracking
         index_on_date_and_column(partition)
       else
@@ -126,7 +126,7 @@ class WriterPartition
   end
   
   def index_on_article_id_and_date(index, drop=false)
-    index_name = "index_#{master_table}_#{index}_on_article_id_n_date"
+    index_name = "daily_#{@column}_views_#{index}_on_article_id_n_date"
     
     if drop
       cmd = drop_index(index_name)
@@ -142,7 +142,7 @@ class WriterPartition
   end
     
   def index_on_writer_id_and_date(index, drop=false)
-    index_name = "index_#{master_table}_#{index}_on_writer_id_n_date"
+    index_name = "daily_#{@column}_views_#{index}_on_writer_id_n_date"
     if drop
       cmd = drop_index(index_name)
     else
@@ -157,7 +157,7 @@ class WriterPartition
   end
 
   def index_on_column(index, drop=false)
-    index_name = "index_#{master_table}_#{index}_on_#{@column}"
+    index_name = "daily_#{@column}_views_#{index}_on_#{@column}"
     if drop
       cmd = drop_index(index_name)
     else
@@ -172,7 +172,7 @@ class WriterPartition
   end
   
   def index_on_date_and_column(index, drop=false)
-    index_name = "index_#{master_table}_#{index}_on_date_n_#{@column}"
+    index_name = "daily_#{@column}_views_#{index}_on_date_n_#{@column}"
     
     if drop
       cmd = drop_index(index_name)
@@ -188,11 +188,12 @@ class WriterPartition
   end
   
   def index_on_date(index, drop=false)
+    index_name = "daily_#{@column}_views_#{index}_on_date"
     if drop
       cmd = drop_index(index_name)
     else
       cmd = <<-COMMANDS
-        CREATE INDEX index_#{master_table}_#{index}_on_date
+        CREATE INDEX #{index_name}
           ON daily_#{@column}_views_#{index}
           USING btree
           (date DESC);
