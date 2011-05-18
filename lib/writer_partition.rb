@@ -99,10 +99,12 @@ class WriterPartition
   
   def add_indices
     0.upto(@partition_size - 1) do |partition|
-      index_on_article_id_and_date(partition)
-      index_on_writer_id_and_date(partition)
+      # index_on_article_id_and_date(partition)
+      # index_on_writer_id_and_date(partition)
       unless @column == 'page'
         index_on_column(partition)
+      else
+        index_on_date(partition)
       end
     end
   end
@@ -113,8 +115,24 @@ class WriterPartition
       index_on_writer_id_and_date(partition, true)
       unless @column == 'page'
         index_on_column(partition, true)
+      else
+        index_on_date(partition, true)
       end
     end
+  end
+  
+  def index_on_date(index, drop=false)
+    if drop
+      cmd = drop_index(index_name)
+    else
+      cmd = <<-COMMANDS
+        CREATE INDEX index_#{master_table}_#{index}_on_date
+          ON daily_#{@column}_views_#{index}
+          USING btree
+          (date DESC);
+      COMMANDS
+    end
+    @conns.each{|conn| conn.exec(cmd)}
   end
   
   def index_on_article_id_and_date(index, drop=false)
