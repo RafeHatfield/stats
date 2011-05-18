@@ -103,11 +103,6 @@ class WriterPartition
       index_on_writer_id_and_date(partition)
       unless @column == 'page'
         index_on_column(partition)
-        # index used for tracking
-        index_on_date_and_column(partition)
-      else
-        # index used for tracking
-        index_on_date(partition)
       end
     end
   end
@@ -118,9 +113,6 @@ class WriterPartition
       index_on_writer_id_and_date(partition, true)
       unless @column == 'page'
         index_on_column(partition, true)
-        index_on_date_and_column(partition, true)
-      else
-        index_on_date(partition, true)
       end
     end
   end
@@ -170,38 +162,7 @@ class WriterPartition
     end
     @conns.each{|conn| conn.exec(cmd)}
   end
-  
-  def index_on_date_and_column(index, drop=false)
-    index_name = "index_daily_#{@column}_views_#{index}_on_date_n_#{@column}"
     
-    if drop
-      cmd = drop_index(index_name)
-    else
-      cmd = <<-COMMANDS
-        CREATE INDEX #{index_name}
-          ON daily_#{@column}_views_#{index}
-          USING btree
-          (date DESC, #{@column});
-      COMMANDS
-    end
-    @conns.each{|conn| conn.exec(cmd)}
-  end
-  
-  def index_on_date(index, drop=false)
-    index_name = "index_daily_#{@column}_views_#{index}_on_date"
-    if drop
-      cmd = drop_index(index_name)
-    else
-      cmd = <<-COMMANDS
-        CREATE INDEX #{index_name}
-          ON daily_#{@column}_views_#{index}
-          USING btree
-          (date DESC);
-      COMMANDS
-    end
-    @conns.each{|conn| conn.exec(cmd)}
-  end
-  
   def drop_index(index_name)
     <<-COMMANDS
       DROP INDEX IF EXISTS #{index_name};
