@@ -26,7 +26,7 @@ namespace :writer_partition do
     partition.add_indices
   end
   
-  # rake writer_partition:drop_indices column=domain
+  # RAILS_ENV=production rake writer_partition:drop_indices column=domain
   desc "Drop indices for each partition"
   task :drop_indices => :environment do
     partition = WriterPartition.new(ENV['column'], PARTITION_SIZE)

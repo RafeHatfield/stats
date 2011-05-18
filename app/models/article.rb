@@ -22,7 +22,7 @@ class Article < ActiveRecord::Base
   def increment_page_view_on(date)
     date = date.to_date
     
-    daily_page_view = self.daily_page_views.where(:date => date).first
+    daily_page_view = self.daily_page_views.find_by_date(date)
     if daily_page_view
       daily_page_view.increment!(:count)
       return daily_page_view
@@ -34,7 +34,7 @@ class Article < ActiveRecord::Base
   def increment_keyphrase_view_on(date,keyphrase)
     date = date.to_date
     
-    daily_keyphrase_view = self.daily_keyphrase_views.where(:date => date, :keyphrase => keyphrase).first
+    daily_keyphrase_view = self.daily_keyphrase_views.find_by_date_and_keyphrase(date, keyphrase)
     if daily_keyphrase_view
       daily_keyphrase_view.increment!(:count)
       return daily_keyphrase_view
@@ -46,7 +46,7 @@ class Article < ActiveRecord::Base
   def increment_domain_view_on(date, domain)
     date = date.to_date
     
-    daily_domain_view = self.daily_domain_views.where(:date => date, :domain => domain).first
+    daily_domain_view = self.daily_domain_views.find_by_date_and_domain(date, domain)
     if daily_domain_view
       daily_domain_view.increment!(:count)
       return daily_domain_view

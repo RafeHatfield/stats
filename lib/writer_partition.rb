@@ -8,8 +8,15 @@ class WriterPartition
     shards_config = YAML.load_file("#{Rails.root.to_s}/config/shards.yml")['octopus'][Rails.env]
     
     @conns = []
-    %w(de fr net).each do |site|
-      config = shards_config[site]
+    shards = []
+    if ['development', 'test'].include?(Rails.env)
+      shards = %w(com)
+    else
+      shards = %w(com de fr net)
+    end
+    
+    shards.each do |shard|
+      config = shards_config[shard]
       @owner = config["username"]
       @conns << PGconn.new(config["host"], config["port"], '', '', config["database"], @owner, config["password"])
     end
@@ -91,83 +98,118 @@ class WriterPartition
   end
   
   def add_indices
-    0.upto(@partition_size - 1) do |index|
-      index_on_article_id_and_date(index)
-      index_on_writer_id_and_date(index)
+    0.upto(@partition_size - 1) do |partition|
+      # index_on_article_id_and_date(partition)
+      # index_on_writer_id_and_date(partition)
       unless @column == 'page'
-        index_on_column(index)
+        # index_on_column(partition)
+        # index used for tracking
+        index_on_date_and_column(partition)
+      else
+        # index used for tracking
+        index_on_date(partition)
       end
     end
   end
   
   def drop_indices
-    0.upto(@partition_size - 1) do |index|
-      drop_index_on_article_id_and_date(index)
-      drop_index_on_writer_id_and_date(index)
+    0.upto(@partition_size - 1) do |partition|
+      index_on_article_id_and_date(partition, true)
+      index_on_writer_id_and_date(partition, true)
       unless @column == 'page'
-        drop_index_on_column(index)
+        index_on_column(partition, true)
+        index_on_date_and_column(partition, true)
+      else
+        index_on_date(partition, true)
       end
     end
   end
   
-  def index_on_article_id_and_date(index)
-    cmd = <<-COMMANDS
-      CREATE INDEX index_#{master_table}_#{index}_on_article_id_n_date
-        ON daily_#{@column}_views_#{index}
-        USING btree
-        (article_id, date DESC);
-    COMMANDS
+  def index_on_article_id_and_date(index, drop=false)
+    index_name = "index_#{master_table}_#{index}_on_article_id_n_date"
+    
+    if drop
+      cmd = drop_index(index_name)
+    else
+      cmd = <<-COMMANDS
+        CREATE INDEX #{index_name}
+          ON daily_#{@column}_views_#{index}
+          USING btree
+          (article_id, date DESC);
+      COMMANDS
+    end
     @conns.each{|conn| conn.exec(cmd)}
   end
     
-  def index_on_writer_id_and_date(index)
-    cmd = <<-COMMANDS
-      CREATE INDEX index_#{master_table}_#{index}_on_writer_id_n_date
-        ON daily_#{@column}_views_#{index}
-        USING btree
-        (writer_id, date DESC);
-    COMMANDS
+  def index_on_writer_id_and_date(index, drop=false)
+    index_name = "index_#{master_table}_#{index}_on_writer_id_n_date"
+    if drop
+      cmd = drop_index(index_name)
+    else
+      cmd = <<-COMMANDS
+        CREATE INDEX #{index_name}
+          ON daily_#{@column}_views_#{index}
+          USING btree
+          (writer_id, date DESC);
+      COMMANDS
+    end
     @conns.each{|conn| conn.exec(cmd)}
   end
 
-  def index_on_column(index)
-    cmd = <<-COMMANDS
-      CREATE INDEX index_#{master_table}_#{index}_on_#{@column}
-        ON daily_#{@column}_views_#{index}
-        USING btree
-        (#{@column});
-    COMMANDS
+  def index_on_column(index, drop=false)
+    index_name = "index_#{master_table}_#{index}_on_#{@column}"
+    if drop
+      cmd = drop_index(index_name)
+    else
+      cmd = <<-COMMANDS
+        CREATE INDEX #{index_name}
+          ON daily_#{@column}_views_#{index}
+          USING btree
+          (#{@column});
+      COMMANDS
+    end
     @conns.each{|conn| conn.exec(cmd)}
   end
   
-  def drop_index_on_article_id_and_date(index)
-    cmd = <<-COMMANDS
-      DROP INDEX IF EXISTS index_#{master_table}_#{index}_on_article_id_n_date;
-    COMMANDS
+  def index_on_date_and_column(index, drop=false)
+    index_name = "index_#{master_table}_#{index}_on_date_n_#{@column}"
+    
+    if drop
+      cmd = drop_index(index_name)
+    else
+      cmd = <<-COMMANDS
+        CREATE INDEX #{index_name}
+          ON daily_#{@column}_views_#{index}
+          USING btree
+          (date DESC, #{@column});
+      COMMANDS
+    end
     @conns.each{|conn| conn.exec(cmd)}
   end
   
-  def drop_index_on_writer_id_and_date(index)
-    cmd = <<-COMMANDS
-      DROP INDEX IF EXISTS index_#{master_table}_#{index}_on_writer_id_n_date;
-    COMMANDS
+  def index_on_date(index, drop=false)
+    if drop
+      cmd = drop_index(index_name)
+    else
+      cmd = <<-COMMANDS
+        CREATE INDEX index_#{master_table}_#{index}_on_date
+          ON daily_#{@column}_views_#{index}
+          USING btree
+          (date DESC);
+      COMMANDS
+    end
     @conns.each{|conn| conn.exec(cmd)}
   end
   
-  def drop_index_on_column(index)
-    cmd = <<-COMMANDS
-      DROP INDEX IF EXISTS index_#{master_table}_#{index}_on_#{@column};
+  def drop_index(index_name)
+    <<-COMMANDS
+      DROP INDEX IF EXISTS #{index_name};
     COMMANDS
-    @conns.each{|conn| conn.exec(cmd)}
   end
-  
+      
   def drop_tables
     puts "Dropping partitioned tables"
     drop_functions    
-    # 0.upto(@partition_size - 1) do |p|
-    #   cmd = "DROP TABLE IF EXISTS #{master_table}_#{p};"
-    #   @conn.exec(cmd)
-    # end
     cmd = "Drop TABLE IF EXISTS #{master_table} CASCADE;"
     @conns.each{|conn| conn.exec(cmd)}
   end
