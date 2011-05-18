@@ -126,7 +126,7 @@ class WriterPartition
   end
   
   def index_on_article_id_and_date(index, drop=false)
-    index_name = "daily_#{@column}_views_#{index}_on_article_id_n_date"
+    index_name = "index_daily_#{@column}_views_#{index}_on_article_id_n_date"
     
     if drop
       cmd = drop_index(index_name)
@@ -142,7 +142,7 @@ class WriterPartition
   end
     
   def index_on_writer_id_and_date(index, drop=false)
-    index_name = "daily_#{@column}_views_#{index}_on_writer_id_n_date"
+    index_name = "index_daily_#{@column}_views_#{index}_on_writer_id_n_date"
     if drop
       cmd = drop_index(index_name)
     else
@@ -157,7 +157,7 @@ class WriterPartition
   end
 
   def index_on_column(index, drop=false)
-    index_name = "daily_#{@column}_views_#{index}_on_#{@column}"
+    index_name = "index_daily_#{@column}_views_#{index}_on_#{@column}"
     if drop
       cmd = drop_index(index_name)
     else
@@ -172,7 +172,7 @@ class WriterPartition
   end
   
   def index_on_date_and_column(index, drop=false)
-    index_name = "daily_#{@column}_views_#{index}_on_date_n_#{@column}"
+    index_name = "index_daily_#{@column}_views_#{index}_on_date_n_#{@column}"
     
     if drop
       cmd = drop_index(index_name)
@@ -188,7 +188,7 @@ class WriterPartition
   end
   
   def index_on_date(index, drop=false)
-    index_name = "daily_#{@column}_views_#{index}_on_date"
+    index_name = "index_daily_#{@column}_views_#{index}_on_date"
     if drop
       cmd = drop_index(index_name)
     else
