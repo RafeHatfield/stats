@@ -126,7 +126,7 @@ class WriterPartition
       cmd = drop_index(index_name)
     else
       cmd = <<-COMMANDS
-        CREATE INDEX index_#{master_table}_#{index}_on_date
+        CREATE INDEX CONCURRENTLY index_daily_#{@column}_views_#{index}_on_date
           ON daily_#{@column}_views_#{index}
           USING btree
           (date DESC);
