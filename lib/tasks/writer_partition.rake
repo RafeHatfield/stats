@@ -56,4 +56,12 @@ namespace :writer_partition do
   end
   
 end
+# recommended sequence
 
+# RAILS_ENV=production rake writer_partition:migrate column=page
+# RAILS_ENV=production rake writer_partition:migrate column=domain
+# RAILS_ENV=production rake writer_partition:migrate column=keyphrase
+
+# RAILS_ENV=production rake writer_partition:indices column=page
+# RAILS_ENV=production rake writer_partition:indices column=domain
+# RAILS_ENV=production rake writer_partition:indices column=keyphrase
