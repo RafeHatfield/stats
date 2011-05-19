@@ -26,6 +26,15 @@ namespace :writer_partition do
     partition.add_indices
   end
   
+  # RAILS_ENV=production rake writer_partition:pks column=keyphrase
+  desc "Add indices for each partition"
+  task :pks => :environment do
+    partition = WriterPartition.new(ENV['column'], PARTITION_SIZE)
+    
+    puts "Adding primary keys to partitioned tables"
+    partition.add_primary_keys
+  end
+  
   # RAILS_ENV=production rake writer_partition:drop_indices column=domain
   desc "Drop indices for each partition"
   task :drop_indices => :environment do

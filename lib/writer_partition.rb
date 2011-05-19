@@ -186,6 +186,15 @@ class WriterPartition
       DROP INDEX IF EXISTS #{index_name};
     COMMANDS
   end
+  
+  def add_primary_keys
+    0.upto(@partition_size - 1) do |partition|
+      cmd = <<-COMMANDS
+        ALTER TABLE daily_#{@column}_views_#{partition} ADD PRIMARY KEY (id);
+      COMMANDS
+      @conns.each{|conn| conn.exec(cmd)}
+    end    
+  end
       
   def drop_tables
     puts "Dropping partitioned tables"
