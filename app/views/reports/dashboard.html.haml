@@ -21,9 +21,9 @@
   = render 'loading_indicator'
 #source_chart
 
-%h2= t 'report.which_articles_people_are_reading'
-#articles
-  = render 'articles_table'
+= render 'articles_table'
+
+= render 'articles_votes'
   
 %h2= t 'report.how_people_finding_me'
 #keyphrases
@@ -35,7 +35,7 @@
 
 - content_for :page_javascript do
   :javascript
-    $(function(){
+    $(function(){ 
       
       // Render page views
       $.getJSON("#{writer_page_views_url(@user[:key], @user[:id])}", {}, function(data){
@@ -55,6 +55,9 @@
       
       // Render article counts
       $("#articles").paginated_table("#{writer_articles_url(@user[:key], @user[:id])}", 10);
+      
+      // Render article votes counts
+      $("#article_votes").paginated_table("#{article_votes_path(:key => @user[:key], :writer_id => @user[:id])}", 10);
       
       // Render the domain counts
       $("#domains").paginated_table("#{writer_domains_url(@user[:key], @user[:id])}", 10);

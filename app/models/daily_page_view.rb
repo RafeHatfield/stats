@@ -30,7 +30,7 @@ class DailyPageView < ActiveRecord::Base
   def self.article_counts_for_writer_between(writer_id, start_date, end_date, limit, offset)
     DailyPageView.
       partitioned(writer_id).
-      select("article_id, title, permalink, SUM(count) as count").
+      select("article_id, title, articles.permalink, SUM(count) as count").
       where(:writer_id => writer_id).
       between(start_date, end_date).
       joins(:article).

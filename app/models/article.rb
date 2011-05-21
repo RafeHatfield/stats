@@ -3,6 +3,7 @@ class Article < ActiveRecord::Base
   has_many :daily_page_views, :dependent => :destroy
   has_many :daily_keyphrase_views, :dependent => :destroy
   has_many :daily_domain_views, :dependent => :destroy
+  has_many :article_votes, :dependent => :destroy
 
   validates_presence_of :id, :title, :writer_id, :permalink
   validates_uniqueness_of :id

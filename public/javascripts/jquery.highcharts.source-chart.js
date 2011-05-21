@@ -3,7 +3,6 @@
 	$.fn.source_chart = function(data) {
 	
 	  if (!this.length) { return this; }
-	
 		return new Highcharts.Chart({
 			series: [{
 	       type: 'pie',

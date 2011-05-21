@@ -71,6 +71,10 @@ end
 # RAILS_ENV=production rake writer_partition:migrate column=domain 
 # RAILS_ENV=production rake writer_partition:migrate column=keyphrase
 
+# RAILS_ENV=production rake writer_partition:pks column=page
+# RAILS_ENV=production rake writer_partition:pks column=domain
+# RAILS_ENV=production rake writer_partition:pks column=keyphrase
+
 # RAILS_ENV=production rake writer_partition:indices column=keyphrase
 # RAILS_ENV=production rake writer_partition:indices column=page
 # RAILS_ENV=production rake writer_partition:indices column=domain
