@@ -41,8 +41,8 @@ private
 
   def self.votes_detail_for_article(votes, aid)
     article_vote = votes.find{|v| v.article_id == aid}
-    up_vote_count = votes.count{|vote| (article_vote.article_id == aid) && article_vote.vote == true}
-    down_vote_count = votes.count{|vote| (article_vote.article_id == aid) && article_vote.vote == false}
+    up_vote_count = votes.count{|v| (v.article_id == aid) && v.vote == true}
+    down_vote_count = votes.count{|v| (v.article_id == aid) && v.vote == false}
     {:id => article_vote.article_id, :title => article_vote.title, :permalink => article_vote.permalink, :up_votes_count => up_vote_count, :down_votes_count => down_vote_count, :note => article_vote.note}
   end
   
