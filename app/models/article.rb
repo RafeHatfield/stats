@@ -13,7 +13,7 @@ class Article < ActiveRecord::Base
 
     if Article.exists?(id)
       article = Article.find(id)
-      article.update_attribute(:title, data[:title])
+      article.update_attribute(:title, data[:title]) if data[:title].present?
       return article
     else
       Article.create!(:title => data[:title], :writer_id => data[:writer_id], :permalink => data[:permalink]){|a| a.id = id}

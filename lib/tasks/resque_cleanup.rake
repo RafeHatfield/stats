@@ -3,6 +3,7 @@ require 'progressbar'
 require 'resque'
 
 namespace :resque do
+  # RAILS_ENV=produciton rake resque:cleanup_failures
   desc "Retry the failed jobs"
   task :cleanup_failures do
     redis = Resque.redis
@@ -31,7 +32,7 @@ namespace :resque do
     pbar.finish
   end  
 
-
+  # RAILS_ENV=produciton rake resque:cleanup_retries
   desc "Clean up retried jobs"
   task :cleanup_retries => :environment do
     redis = Resque.redis

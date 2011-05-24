@@ -4,6 +4,8 @@ class ArticleVotesController < ApplicationController
   @@PER_PAGE = 20
   
   def create
+    return if params[:spam_filter].present?
+    
     article_id = params[:article_id]
     article = Article.find_and_update_title_or_create({
       :id => article_id,
@@ -22,7 +24,7 @@ class ArticleVotesController < ApplicationController
   end
   
   # article votes for a given writer
-  # http://localhost:3000/article_votes?writer_id=762016&key=2Srx
+  # http://localhost:3000/article_votes?writer_id=762016&key=2g9S
   def index
     @articles_votes = ArticleVote.votes_for_writer_between(params[:writer_id], @start_date, @end_date, params[:limit] || @@PER_PAGE, params[:offset] || 0)
     render :layout => false
@@ -36,9 +38,12 @@ class ArticleVotesController < ApplicationController
 
   def new
     article_id = params[:article_id]
-    @article = Article.find(article_id)
-    cookie = rand(10000)
-    @article_vote = @article.article_votes.build({:cookie => cookie, :writer_id => @article.writer_id, :article_id => article_id})
+    if article_id.present?
+      @article = Article.find(article_id)
+      cookie = rand(10000)
+      @article_vote = @article.article_votes.build({:cookie => cookie, :writer_id => @article.writer_id, :article_id => article_id, :title => @article.title})
+    end
+    @articles = Article.where(:writer_id => '587633')
     render :layout => false
   end  
 end

@@ -16,7 +16,6 @@ class ArticleVote < ActiveRecord::Base
       joins(:article).
       limit(limit).
       offset(offset)
-      
     article_ids = article_votes.collect{|vote| vote.article_id}.uniq
     result = []
     
@@ -40,10 +39,10 @@ class ArticleVote < ActiveRecord::Base
   
 private
 
-  def self.votes_detail_for_article(votes, id)
-    vote = votes.find{|v| v.article_id == id}
-    up_vote_count = votes.count{|vote| (vote.article_id == id) && vote.vote == true}
-    down_vote_count = votes.count{|vote| (vote.article_id == id) && vote.vote == false}
+  def self.votes_detail_for_article(votes, article_id)
+    vote = votes.find{|v| v.article_id == article_id}
+    up_vote_count = votes.count{|vote| (vote.article_id == article_id) && vote.vote == true}
+    down_vote_count = votes.count{|vote| (vote.article_id == article_id) && vote.vote == false}
     [vote.article_id, vote.title, vote.permalink, up_vote_count, down_vote_count, vote.note]
   end
   
