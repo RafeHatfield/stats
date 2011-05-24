@@ -1,5 +1,5 @@
-- @articles_votes.each do |id, title, permalink, up_vote, down_vote|
+- @articles_votes.each do |hash|
   %tr
-    %td= display_article_title(title)
-    %td== #{link_to I18n.t('report.details'), article_dashboard_url(@user[:key], id)} / #{link_to I18n.t('report.views'), permalink}
-    %td= display_votes(up_vote, down_vote)
+    %td= display_article_title(hash[:title])
+    %td== #{link_to I18n.t('report.details'), article_dashboard_url(@user[:key], hash[:id])} / #{link_to I18n.t('report.views'), hash[:permalink]}
+    %td= display_votes(hash[:up_votes_count], hash[:down_votes_count])

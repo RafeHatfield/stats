@@ -38,5 +38,4 @@ FactoryGirl.define do
     count 1
     writer_id 1
   end
-
 end

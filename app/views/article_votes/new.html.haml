@@ -1,7 +1,7 @@
 =# http://localhost:3000/new_article_votes/3CEa?article_id=363725
 %h2 Is this article helpful?
 - if @article
-  = form_tag article_votes_url(:article_id => @article.id) do
+  = form_tag article_votes_url do
     = radio_button_tag('article_vote[vote]', "true")
     = label_tag(:up_vote, "Yes")
     %br
@@ -10,6 +10,7 @@
     %br
     #note_field{:style => 'display:none'}
       = text_area_tag 'article_vote[note]'
+    = hidden_field_tag 'article_vote[id]', @article.id  
     = hidden_field_tag 'article_vote[title]', @article.title
     = hidden_field_tag 'article_vote[writer_id]', @article.writer_id
     = submit_tag "Vote"

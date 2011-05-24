@@ -6,9 +6,8 @@ class ArticleVotesController < ApplicationController
   def create
     return if params[:spam_filter].present?
     
-    article_id = params[:article_id]
     article = Article.find_and_update_title_or_create({
-      :id => article_id,
+      :id => params[:article_vote][:article_id],
       :title => params[:article_vote][:title],
       :writer_id => params[:article_vote][:writer_id],
       :permalink => params[:article_vote][:permalink]
@@ -24,7 +23,7 @@ class ArticleVotesController < ApplicationController
   end
   
   # article votes for a given writer
-  # http://localhost:3000/article_votes?writer_id=762016&key=2g9S
+  # http://localhost:3000/article_votes?writer_id=587644&key=2Srx
   def index
     @articles_votes = ArticleVote.votes_for_writer_between(params[:writer_id], @start_date, @end_date, params[:limit] || @@PER_PAGE, params[:offset] || 0)
     render :layout => false
