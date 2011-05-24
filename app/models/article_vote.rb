@@ -28,13 +28,15 @@ class ArticleVote < ActiveRecord::Base
   def self.vote_counts_for_article_between(article_id, start_date, end_date, limit, offset)
     total_vote_counts = ArticleVote.
       where(:article_id => article_id).
-      select("vote").
+      select("vote, note").
       between(start_date, end_date).
       limit(limit).offset(offset)
     
     up_vote_count = total_vote_counts.to_a.count{|vote| vote.vote == true}
     down_vote_count = total_vote_counts.to_a.count{|vote| vote.vote == false}
-    {:helpful => up_vote_count, :not_helpful => down_vote_count}
+    notes = total_vote_counts.to_a.find_all{|v| v.note if v.note.present?}.map{|v|v.note}
+    counts = {:helpful => up_vote_count, :not_helpful => down_vote_count}.map{|source_sym, count| [I18n.t("report.#{source_sym.to_s}"), count]}.to_json
+    {:counts => counts, :notes => notes}
   end
   
 private

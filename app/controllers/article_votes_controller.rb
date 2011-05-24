@@ -32,7 +32,7 @@ class ArticleVotesController < ApplicationController
   def show
     @article = Article.find(params[:id])
     article_votes = ArticleVote.vote_counts_for_article_between(params[:id], @start_date, @end_date, params[:limit] || @@PER_PAGE, params[:offset] || 0)
-    render :json => article_votes.map{|source_sym, count| [I18n.t("report.#{source_sym.to_s}"), count]}.to_json
+    render :json => article_votes.to_json
   end
 
   def new

@@ -24,6 +24,9 @@
   = render 'loading_indicator'
 #vote_chart
 
+= render 'votes_notes_table'
+
+
 %h2= t 'report.how_people_finding_article', :title => display_article_title(@article.title)
 #keyphrases
   = render 'keyphrases_table'
@@ -48,7 +51,10 @@
       // Render the sources asynchronously
       $.getJSON("#{article_vote_url(@article.id, :key => @user[:key])}", {}, function(data){
         $("#vote_loading").hide();
-        $('#vote_chart').source_chart(data);
+        $('#vote_chart').source_chart($.parseJSON(data.counts));
+        $.each(data.notes, function(index, value){
+          $('#vote_notes').append('<tr><td>'+value+'</td></tr>');
+        });
       });
       
       // Render the sources asynchronously

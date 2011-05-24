@@ -32,4 +32,5 @@ en:
     which_useful_articles: Which of My Articles Do People Find Useful?
     helpfulness_for_article: How helpful do people find "%{title}"?
     not_helpful: Not Helpful
-    
+    vote_responses: Specific Responses for "%{title}"
+    responses: Responses
