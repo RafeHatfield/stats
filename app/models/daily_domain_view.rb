@@ -5,16 +5,13 @@ class DailyDomainView < ActiveRecord::Base
   
   scope :between, lambda {|start_date, end_date| where(:date => start_date.to_date...(end_date.to_date + 1.day)) }
   scope :partitioned, lambda {|writer_id| where(:partition_id => writer_id.to_i % PARTITION_SIZE) }
+  set_table_name 'daily_domain_views_master'
             
   def self.domain_counts_for_writer_between(writer_id, start_date, end_date, limit, offset)
-    set_table_name 'daily_domain_views_master'
-    
     domain_counts = DailyDomainView.partitioned(writer_id).where(:writer_id => writer_id).between(start_date, end_date).group("domain").select("domain").order("sum_count desc").limit(limit).offset(offset).sum("count")
   end
   
-  def self.domain_counts_for_article_between(article_id, start_date, end_date, limit, offset)
-    set_table_name 'daily_domain_views_master'
-    
+  def self.domain_counts_for_article_between(article_id, start_date, end_date, limit, offset)    
     domain_counts = DailyDomainView.where(:article_id => article_id).between(start_date, end_date).group("domain").select("domain").order("sum_count desc").limit(limit).offset(offset).sum("count")
   end
   

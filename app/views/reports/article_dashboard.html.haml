@@ -19,6 +19,11 @@
   = render 'loading_indicator'
 #source_chart
 
+%h2= t('report.helpfulness_for_article', :title => display_article_title(@article.title))
+#vote_loading
+  = render 'loading_indicator'
+#vote_chart
+
 %h2= t 'report.how_people_finding_article', :title => display_article_title(@article.title)
 #keyphrases
   = render 'keyphrases_table'
@@ -30,7 +35,6 @@
 - content_for :page_javascript do
   :javascript
     $(function(){
-      
       // Render page views
       $.getJSON("#{article_page_views_url(@user[:key], @article.id)}", {}, function(data){
         $("#page_views_loading").hide();
@@ -39,6 +43,12 @@
         var total_views = 0;
         for(var i in data){ total_views += data[i]; }
         $('#total_views').text(total_views);
+      });
+      
+      // Render the sources asynchronously
+      $.getJSON("#{article_vote_url(@article.id, :key => @user[:key])}", {}, function(data){
+        $("#vote_loading").hide();
+        $('#vote_chart').source_chart(data);
       });
       
       // Render the sources asynchronously

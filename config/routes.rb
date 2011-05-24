@@ -1,5 +1,4 @@
 Stats::Application.routes.draw do
-  
   # Tracking
   match '/add_page_view' => 'tracking#add_page_view'
   
@@ -32,6 +31,9 @@ Stats::Application.routes.draw do
     
   # Articles
   match '/writer_articles/:key/:writer_id' => 'articles#for_writer', :as => :writer_articles
+  
+  # Article votes
+  resources :article_votes
 
   # My suite graphs and data.
   match '/report/:key/weekly_page_view_graph/' => 'mysuite_integration#weekly_page_view_graph'

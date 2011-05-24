@@ -1,0 +1,5 @@
+- @articles_votes.each do |id, title, permalink, up_vote, down_vote|
+  %tr
+    %td= display_article_title(title)
+    %td== #{link_to I18n.t('report.details'), article_dashboard_url(@user[:key], id)} / #{link_to I18n.t('report.views'), permalink}
+    %td= "+#{up_vote} / -#{down_vote}"

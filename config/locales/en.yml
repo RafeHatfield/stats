@@ -28,3 +28,8 @@ en:
     this_article_viewed_times: This article was viewed %{times} times.
     how_people_finding_article: How Are People Finding "%{title}"?
     keyphrases: Keyphrases
+    helpful: Helpful
+    which_useful_articles: Which of My Articles Do People Find Useful?
+    helpfulness_for_article: How helpful do people find "%{title}"?
+    not_helpful: Not Helpful
+    
