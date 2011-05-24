@@ -11,7 +11,7 @@ namespace :resque do
 
     pbar = ProgressBar.new("Cleaning up...", 100)
     count = 0
-    running = 5000.to_f
+    running = 10000.to_f
     
     Resque::Failure.all(0, running).each_with_index do |failure, index|
       case failure['exception'] 
