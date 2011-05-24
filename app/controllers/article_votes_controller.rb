@@ -40,8 +40,7 @@ class ArticleVotesController < ApplicationController
     article_id = params[:article_id]
     if article_id.present?
       @article = Article.find(article_id)
-      cookie = rand(10000)
-      @article_vote = @article.article_votes.build({:cookie => cookie, :writer_id => @article.writer_id, :article_id => article_id, :title => @article.title})
+      @article_vote = @article.article_votes.build({:writer_id => @article.writer_id, :article_id => article_id, :title => @article.title})
     end
     @articles = Article.where(:writer_id => '587633')
     render :layout => false
