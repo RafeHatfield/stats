@@ -36,7 +36,7 @@ class DailyKeyphraseViewTest < ActiveSupport::TestCase
       end
 
       expected_keyphrase_counts = [[phrase1, 3+6], [phrase2, 2]]
-      assert_equal expected_keyphrase_counts, DailyKeyphraseView.keyphrases_with_total_counts_for_writer_between(writer_id, 1.day.ago, 0.days.ago)
+      assert_equal expected_keyphrase_counts, DailyKeyphraseView.keyphrases_with_total_counts_for_writer_between(writer_id, 1.day.ago, 0.days.ago, 10, 0)
     end
     
     should "limit the keyphrases returned if we set the limit option" do
@@ -54,7 +54,7 @@ class DailyKeyphraseViewTest < ActiveSupport::TestCase
         article.increment_keyphrase_view_on(0.days.ago, phrase1)
       end
       expected_keyphrase_counts = [[phrase1, 3+6]]
-      assert_equal expected_keyphrase_counts, DailyKeyphraseView.keyphrases_with_total_counts_for_writer_between(writer_id, 1.day.ago, 0.days.ago, :limit => 1)
+      assert_equal expected_keyphrase_counts, DailyKeyphraseView.keyphrases_with_total_counts_for_writer_between(writer_id, 1.day.ago, 0.days.ago, 10, 0)
     end
     
   end
@@ -75,7 +75,7 @@ class DailyKeyphraseViewTest < ActiveSupport::TestCase
       end
 
       expected_keyphrase_counts = [[phrase1, 3+6], [phrase2, 2]]
-      assert_equal expected_keyphrase_counts, DailyKeyphraseView.keyphrases_with_total_counts_for_article_between(article.id, 1.day.ago, 0.days.ago)
+      assert_equal expected_keyphrase_counts, DailyKeyphraseView.keyphrases_with_total_counts_for_article_between(article.id, 1.day.ago, 0.days.ago, 10, 0)
     end
   end
   

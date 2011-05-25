@@ -160,15 +160,15 @@ class ArticleTest < ActiveSupport::TestCase
           article.increment_page_view_on(Date.today)
         end
       end
-      title_counts_out = DailyPageView.with_total_counts_for_writer_between(writer_id, Date.today, Date.today)
+      title_counts_out = DailyPageView.article_counts_for_writer_between(writer_id, Date.today, Date.today, 10, 0)
       title_counts_in = [
         {:id => 3, :title =>"Article 3",:permalink => "http://www.google.com", :page_views_count => 3},
         {:id => 2, :title =>"Article 2",:permalink => "http://www.google.com", :page_views_count => 2},
         {:id => 1, :title =>"Article 1",:permalink => "http://www.google.com", :page_views_count => 1}
-        ]      
+        ]
       article_counts = []
       title_counts_out.each do |a|
-        article_counts << {:id => a.article_id, :title => a.title, :permalink => a.permalink, :page_views_count => a.count_all.to_i}
+        article_counts << {:id => a.id, :title => a.title, :permalink => a.permalink, :page_views_count => a.count_all.to_i}
       end
       assert_equal title_counts_in, article_counts
     end

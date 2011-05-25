@@ -37,7 +37,7 @@ class DailyDomainViewTest < ActiveSupport::TestCase
       end
 
       expected_domain_counts = [[domain1, 3+6], [domain2, 2]]
-      assert_equal expected_domain_counts, DailyDomainView.get_counts_for_writer_between(writer_id, 1.day.ago, 0.days.ago).first
+      assert_equal expected_domain_counts, DailyDomainView.domain_counts_for_writer_between(writer_id, 1.day.ago, 0.days.ago).first
     end
     
     should "get limit the results if a limit option is set" do
@@ -56,7 +56,7 @@ class DailyDomainViewTest < ActiveSupport::TestCase
       end
 
       expected_domain_counts = [[domain1, 3+6]]
-      assert_equal expected_domain_counts, DailyDomainView.get_counts_for_writer_between(writer_id, 1.day.ago, 0.days.ago, :limit => 1).first
+      assert_equal expected_domain_counts, DailyDomainView.domain_counts_for_writer_between(writer_id, 1.day.ago, 0.days.ago, 10, 0).first
     end
     
   end
@@ -77,7 +77,7 @@ class DailyDomainViewTest < ActiveSupport::TestCase
       end
 
       expected_domain_counts = [[domain1, 3+6], [domain2, 2]]
-      assert_equal expected_domain_counts, DailyDomainView.get_counts_for_writer_between(article.id, 1.day.ago, 0.days.ago).first
+      assert_equal expected_domain_counts, DailyDomainView.domain_counts_for_writer_between(article.id, 1.day.ago, 0.days.ago, 10, 0).first
     end
     
   end
@@ -93,7 +93,7 @@ class DailyDomainViewTest < ActiveSupport::TestCase
       end
 
       expected_domain_counts = { :organic => 2, :other => 2, :internal => 2}
-      assert_equal expected_domain_counts, DailyDomainView.get_counts_for_writer_between(writer_id, 1.day.ago, 0.days.ago).last
+      assert_equal expected_domain_counts, DailyDomainView.domain_counts_for_writer_between(writer_id, 1.day.ago, 0.days.ago, 10, 0).last
     end
     
   end
@@ -108,7 +108,7 @@ class DailyDomainViewTest < ActiveSupport::TestCase
       end
 
       expected_domain_counts = { :organic => 2, :other => 2, :internal => 2}
-      assert_equal expected_domain_counts, DailyDomainView.get_counts_for_writer_between(article.id, 1.day.ago, 0.days.ago).last
+      assert_equal expected_domain_counts, DailyDomainView.domain_counts_for_writer_between(article.id, 1.day.ago, 0.days.ago, 10, 0).last
     end
     
   end
