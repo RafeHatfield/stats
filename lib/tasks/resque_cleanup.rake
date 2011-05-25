@@ -11,9 +11,10 @@ namespace :resque do
 
     pbar = ProgressBar.new("Cleaning up...", 100)
     count = 0
-    running = 10000.to_f
+    running = 5000.to_f
     
-    Resque::Failure.all(0, running).each_with_index do |failure, index|
+    0.upto(running) do |index|
+      failure = Resque::Failure.all(index, 1)
       case failure['exception'] 
       when 'ActiveRecord::RecordInvalid'
         value = redis.lindex(:failed, index)
@@ -27,8 +28,7 @@ namespace :resque do
       end
       percentage = (index/running).to_f * 100
       pbar.set percentage
-    end
-    
+    end    
     pbar.finish
   end  
 
