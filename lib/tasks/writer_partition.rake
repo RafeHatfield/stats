@@ -57,9 +57,8 @@ namespace :writer_partition do
   desc "Migration data from unpartitioned table"
   task :migrate => :environment do
     partition = WriterPartition.new(ENV['column'], PARTITION_SIZE)
-    start_date = '2011-05-01' 
-    end_date = '2011-05-11'
-    # need to migrate 05-12 data
+    start_date = '2011-05-12' 
+    end_date = '2011-05-12'
     puts "Migrating data to #{partition.master_table}"
     partition.migrate(start_date, end_date)
   end
