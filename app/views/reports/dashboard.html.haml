@@ -25,9 +25,9 @@
 
 = render 'articles_votes'
   
-= render 'keyphrases_table'
+= render 'keyphrases_table', :title => t('report.how_people_finding_me') 
 
-= render 'domains_table'
+= render 'domains_table', :title => t('report.where_readers_from') 
 
 - content_for :page_javascript do
   :javascript

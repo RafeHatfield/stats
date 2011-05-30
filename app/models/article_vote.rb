@@ -35,8 +35,10 @@ class ArticleVote < ActiveRecord::Base
     up_vote_count = total_vote_counts.to_a.count{|vote| vote.vote == true}
     down_vote_count = total_vote_counts.to_a.count{|vote| vote.vote == false}
     notes = total_vote_counts.to_a.find_all{|v| v.note if v.note.present?}.map{|v|v.note}
+    
     counts = {:helpful => up_vote_count, :not_helpful => down_vote_count}.map{|source_sym, count| [I18n.t("report.#{source_sym.to_s}"), count]}.to_json
-    {:counts => counts, :notes => notes}
+    empty = (up_vote_count == 0) && (down_vote_count == 0)
+    {:counts => counts, :notes => notes, :empty => empty}
   end
   
 private

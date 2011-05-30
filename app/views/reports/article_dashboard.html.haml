@@ -14,26 +14,17 @@
 #page_view_plot
 
 %h2.summary=raw t 'report.this_article_viewed_times', :times => "<span id='total_views'>...</span>"
-
 #sources_loading
   = render 'loading_indicator'
 #source_chart
 
-%h2= t('report.helpfulness_for_article', :title => display_article_title(@article.title))
-#vote_loading
-  = render 'loading_indicator'
-#vote_chart
+= render 'article_votes/vote_chart'
 
 = render 'votes_notes_table'
 
+= render 'keyphrases_table', :title => t('report.how_people_finding_article', :title => display_article_title(@article.title)) 
 
-%h2= t 'report.how_people_finding_article', :title => display_article_title(@article.title)
-#keyphrases
-  = render 'keyphrases_table'
-
-%h2= t('report.where_people_from')
-#domains
-  = render 'domains_table'
+= render 'domains_table', :title => t('report.where_people_from')
 
 - content_for :page_javascript do
   :javascript
@@ -48,13 +39,23 @@
         $('#total_views').text(total_views);
       });
       
-      // Render the sources asynchronously
+      // Render the votes asynchronously
       $.getJSON("#{article_vote_url(@article.id, :key => @user[:key])}", {}, function(data){
         $("#vote_loading").hide();
-        $('#vote_chart').source_chart($.parseJSON(data.counts));
-        $.each(data.notes, function(index, value){
-          $('#vote_notes').append('<tr><td>'+value+'</td></tr>');
-        });
+        if(data.empty){
+          $('#vote_chart').parent().hide();
+          $('#vote_notes').parent().parent().hide();
+        }
+        else{
+          $('#vote_chart').source_chart($.parseJSON(data.counts));
+          if(data.notes.length > 0){
+            $.each(data.notes, function(index, value){
+              $('#vote_notes').append('<tr><td>'+value+'</td></tr>');
+            });
+          }else{
+            $('#vote_notes').parent().parent().hide();
+          }
+        }
       });
       
       // Render the sources asynchronously
