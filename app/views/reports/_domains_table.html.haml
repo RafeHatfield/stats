@@ -1,10 +1,13 @@
-%table
-  %thead
-    %tr
-      %th.first= I18n.t('report.domains')
-      %th= I18n.t('report.views')
-  %tbody
-.loading
-  = render 'loading_indicator'
-.more
-  = render 'more'
+%div
+  %h2= t 'report.where_readers_from'
+  #domains
+    %table
+      %thead
+        %tr
+          %th.first= I18n.t('report.domains')
+          %th= I18n.t('report.views')
+      %tbody
+    .loading
+      = render 'loading_indicator'
+    .more
+      = render 'more'

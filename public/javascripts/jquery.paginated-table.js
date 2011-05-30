@@ -32,14 +32,19 @@
 
 		// Load the first set of data.
 		$.get(data_url, {limit : limit, offset : 0}, function(html){
-			// Hide the loading indicator.
-      $(".loading", o).hide();
-			// Append the returned html to the table.
-      $("table", o).append(html);
-			// Show the 'more' button if at least 'limit' items were loaded.
-			var items_loaded = $(html).filter("tr").length
-			if(items_loaded >= limit){
-				$(".more", o).show();
+			if(html == ''){
+				o.parent().hide();
+			}
+			else{
+				// Hide the loading indicator.
+	      $(".loading", o).hide();
+				// Append the returned html to the table.
+	      $("table", o).append(html);
+				// Show the 'more' button if at least 'limit' items were loaded.
+				var items_loaded = $(html).filter("tr").length
+				if(items_loaded >= limit){
+					$(".more", o).show();
+				}
 			}
     }); 
 

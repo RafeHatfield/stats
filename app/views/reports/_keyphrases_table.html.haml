@@ -1,10 +1,13 @@
-%table
-  %thead
-    %tr
-      %th.first= t('report.keyphrases')
-      %th= t('report.views')
-  %tbody
-.loading
-  = render 'loading_indicator'
-.more
-  = render 'more'
+%div
+  %h2= t 'report.how_people_finding_me'
+  #keyphrases
+    %table
+      %thead
+        %tr
+          %th.first= t('report.keyphrases')
+          %th= t('report.views')
+      %tbody
+    .loading
+      = render 'loading_indicator'
+    .more
+      = render 'more'

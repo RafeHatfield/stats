@@ -25,13 +25,9 @@
 
 = render 'articles_votes'
   
-%h2= t 'report.how_people_finding_me'
-#keyphrases
-  = render 'keyphrases_table'
+= render 'keyphrases_table'
 
-%h2= t 'report.where_readers_from'
-#domains
-  = render 'domains_table'
+= render 'domains_table'
 
 - content_for :page_javascript do
   :javascript

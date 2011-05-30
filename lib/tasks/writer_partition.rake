@@ -53,7 +53,7 @@ namespace :writer_partition do
     partition.drop_tables
   end
   
-  # RAILS_ENV=production rake writer_partition:migrate column=keyphrase
+  # RAILS_ENV=production rake writer_partition:migrate column=page
   desc "Migration data from unpartitioned table"
   task :migrate => :environment do
     partition = WriterPartition.new(ENV['column'], PARTITION_SIZE)
