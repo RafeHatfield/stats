@@ -1,5 +1,0 @@
-To start redis in development environment, run:
-rake redis:start
-
-To start redis in test environment, run:
-RAILS_ENV=test rake redis:start

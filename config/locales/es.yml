@@ -1,4 +1,44 @@
 es:
+  report:
+    mysuite_link: Volver a Mi Suite
+    download_csv: Descargar los datos de ayer
+    showing_all_articles: Mostrar todos los artículos
+    from: desde
+    to: hasta
+    update: Ir
+    readers_viewing: Número de lectores de mis artículos
+    which_articles_people_are_reading: ¿Cuántos de mis artículos reciben visitas?
+    how_people_finding_me: ¿A través de qué palabras encuentran los lectores mis artículos?
+    where_readers_from: Where Are My Readers Coming From? ¿De dónde proceden mis lectores?
+    view_all_articles: Ver todos los artículos
+    internal: Suite101
+    other: Otros
+    organic: Motores de búsqueda
+    article: Artículo
+    views: Visitas
+    view: Ver
+    details: Detalles
+    domains: Dominios
+    load_more: Más datos
+    generating_data:  Generando los datos.
+    people_viewing_article: Lectores de este artículo
+    where_people_from: ¿De dónde proceden los lectores?
+    your_articles_viewed_times: Tus artículos han recibido %{times} visitas en total.
+    stats_for_article:  Estadísticas de "%{title}"
+    this_article_viewed_times: Este artículo ha recibido %{times} visitas.
+    how_people_finding_article: ¿A través de qué palabras los lectores han encontrado el artículo "%{title}"?
+    keyphrases: Palabra/s clave
+    
+    helpful: Helpful
+    which_useful_articles: Which of My Articles Do People Find Useful?
+    helpfulness_for_article: How helpful do people find "%{title}"?
+    not_helpful: Not Helpful
+    vote_responses: Specific Responses for "%{title}"
+    responses: Responses
+    
+    
+    
+
   
   # Spanish translations for Rails
   # by Francisco Fernando García Nieto (ffgarcianieto@gmail.com)
