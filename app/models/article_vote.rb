@@ -25,12 +25,11 @@ class ArticleVote < ActiveRecord::Base
     result
   end
     
-  def self.vote_counts_for_article_between(article_id, start_date, end_date, limit, offset)
+  def self.vote_counts_for_article_between(article_id, start_date, end_date)
     total_vote_counts = ArticleVote.
       where(:article_id => article_id).
       select("vote, note").
-      between(start_date, end_date).
-      limit(limit).offset(offset)
+      between(start_date, end_date)
     
     up_vote_count = total_vote_counts.to_a.count{|vote| vote.vote == true}
     down_vote_count = total_vote_counts.to_a.count{|vote| vote.vote == false}

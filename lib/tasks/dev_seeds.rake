@@ -33,7 +33,9 @@ namespace :dev_seeds do
   task :fill => [:cleanup, :environment] do
     puts 'Hardcore populating action...'
     ARTICLES.each do |article|
-      90.downto(0) do |i_day|
+      30.downto(0) do |i_day|
+
+        # Register page views.
         count = (6.*Math.sin(i_day*(360/6.28))).to_i + 6 + rand(4)
         count.times do
           RawPageViewJob.perform(
@@ -49,7 +51,21 @@ namespace :dev_seeds do
             }.to_json
           )
         end
-        puts "Registered #{count} views on article #{article[:id]} for member #{article[:writer_id]} on #{i_day.days.ago.to_date}."
+        
+        # Register helpful votes.
+        helpful_count = (4.*Math.sin(i_day*(360/6.28))).to_i + 6 + rand(3)
+        helpful_count.times do
+          ArticleVote.create(:article_id => article[:id], :title => article[:title], :writer_id => article[:writer_id], :date => i_day.days.ago, :vote => true)
+        end
+        
+        # Register unhelpful votes.
+        unhelpful_count = (3.*Math.sin(i_day*(360/6.28))).to_i + 6 + rand(2)
+        unhelpful_count.times do
+          ArticleVote.create(:article_id => article[:id], :title => article[:title], :writer_id => article[:writer_id], :date => i_day.days.ago, :vote => false, :note => "A test note that mitch wrote.")
+        end
+
+        puts "Registered #{count} views #{helpful_count} helpful votes, and #{unhelpful_count} unhelpful votes, on article #{article[:id]} for member #{article[:writer_id]} on #{i_day.days.ago.to_date}."
+
       end
     end
     puts "Done..."

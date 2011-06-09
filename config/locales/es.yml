@@ -9,7 +9,7 @@ es:
     readers_viewing: Número de lectores de mis artículos
     which_articles_people_are_reading: ¿Cuántos de mis artículos reciben visitas?
     how_people_finding_me: ¿A través de qué palabras encuentran los lectores mis artículos?
-    where_readers_from: Where Are My Readers Coming From? ¿De dónde proceden mis lectores?
+    where_readers_from: ¿De dónde proceden mis lectores?
     view_all_articles: Ver todos los artículos
     internal: Suite101
     other: Otros
@@ -28,7 +28,6 @@ es:
     this_article_viewed_times: Este artículo ha recibido %{times} visitas.
     how_people_finding_article: ¿A través de qué palabras los lectores han encontrado el artículo "%{title}"?
     keyphrases: Palabra/s clave
-    
     helpful: Helpful
     which_useful_articles: Which of My Articles Do People Find Useful?
     helpfulness_for_article: How helpful do people find "%{title}"?

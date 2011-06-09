@@ -18,13 +18,13 @@
   = render 'loading_indicator'
 #source_chart
 
-= render 'article_votes/vote_chart'
-
-= render 'votes_notes_table'
-
 = render 'keyphrases_table', :title => t('report.how_people_finding_article', :title => display_article_title(@article.title)) 
 
 = render 'domains_table', :title => t('report.where_people_from')
+
+= render 'article_votes/vote_chart'
+
+= render 'votes_notes_table'
 
 - content_for :page_javascript do
   :javascript
@@ -44,7 +44,7 @@
         $("#vote_loading").hide();
         if(data.empty){
           $('#vote_chart').parent().hide();
-          $('#vote_notes').parent().parent().hide();
+          $('#vote_notes').parent().parent().hide(); 
         }
         else{
           $('#vote_chart').source_chart($.parseJSON(data.counts));
