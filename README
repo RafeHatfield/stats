@@ -6,11 +6,12 @@ DEVELOPMENT SETUP
 > rake db:create:all
 
 2) Create dev partition tables:
-# rake writer_partition:create column=page
-# rake writer_partition:create column=domain 
-# rake writer_partition:create column=keyphrase
+> rake writer_partition:create column=page
+> rake writer_partition:create column=domain 
+> rake writer_partition:create column=keyphrase
 
-2b) rake db:migrate
+2b) Create other tables:
+> rake db:migrate
 
 3) Create test data (need to start memcached on your machine first):
 > memcached

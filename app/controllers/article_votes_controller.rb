@@ -1,6 +1,7 @@
 class ArticleVotesController < ApplicationController
   before_filter :set_start_and_end_date, :only => [:index, :show]
   before_filter :get_user, :only => [:index, :show]
+  @@PER_PAGE = 20
   
   def create
     return if params[:spam_filter].present?
@@ -24,7 +25,7 @@ class ArticleVotesController < ApplicationController
   # article votes for a given writer
   # http://localhost:3000/article_votes?writer_id=587644&key=2Srx
   def index
-    @articles_votes = ArticleVote.votes_for_writer_between(params[:writer_id], @start_date, @end_date)
+    @articles_votes = ArticleVote.votes_for_writer_between(params[:writer_id], @start_date, @end_date, params[:limit] || @@PER_PAGE, params[:offset] || 0)
     render :layout => false
   end
   
