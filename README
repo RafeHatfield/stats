@@ -1,12 +1,16 @@
 DEVELOPMENT SETUP
 
+0) bundle install
+
 1) Create development / test databases:
 > rake db:create:all
 
 2) Create dev partition tables:
-# RAILS_ENV=production rake writer_partition:create column=page
-# RAILS_ENV=production rake writer_partition:create column=domain 
-# RAILS_ENV=production rake writer_partition:create column=keyphrase
+# rake writer_partition:create column=page
+# rake writer_partition:create column=domain 
+# rake writer_partition:create column=keyphrase
+
+2b) rake db:migrate
 
 3) Create test data (need to start memcached on your machine first):
 > memcached
@@ -38,7 +42,7 @@ Make sure redis is installed and redis-server is in your path
 	 	To create multiple rescue workers:
 	 	> COUNT=5 QUEUE=* rake resque:workers
 		
- 		Monitor rescue, visit: http://localhost:3000/resque
+ 		Monitor rescue, visit: http://localhost:3000/resque - doh!
 ]
 
 DEPLOYMENT / MANAGING SERVERS
