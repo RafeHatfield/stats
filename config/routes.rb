@@ -32,7 +32,9 @@ Stats::Application.routes.draw do
   # Articles
   match '/writer_articles/:key/:writer_id' => 'articles#for_writer', :as => :writer_articles
   
-  # Article votes
+  # Votes
+  match '/writer_votes/:key/:writer_id' => 'article_votes#for_writer', :as => :writer_votes
+  match '/article_votes/:key/:article_id' => 'article_votes#for_article', :as => :article_votes
   resources :article_votes
 
   # My suite graphs and data.

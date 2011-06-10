@@ -22,9 +22,11 @@
 
 = render 'domains_table', :title => t('report.where_people_from')
 
-= render 'article_votes/vote_chart'
-
-= render 'votes_notes_table'
+#votes_container
+  %h2= t('report.helpfulness_for_article', :title => display_article_title(@article.title))
+  #votes_loading
+    = render 'loading_indicator'
+  #votes_chart
 
 - content_for :page_javascript do
   :javascript
@@ -40,21 +42,13 @@
       });
       
       // Render the votes asynchronously
-      $.getJSON("#{article_vote_url(@article.id, :key => @user[:key])}", {}, function(data){
-        $("#vote_loading").hide();
+      $.getJSON("#{article_votes_url(@user[:key], @article.id)}", {}, function(data){
+        $("#votes_loading").hide();
         if(data.empty){
-          $('#vote_chart').parent().hide();
-          $('#vote_notes').parent().parent().hide(); 
+          $("#votes_container").hide();
         }
         else{
-          $('#vote_chart').source_chart($.parseJSON(data.counts));
-          if(data.notes.length > 0){
-            $.each(data.notes, function(index, value){
-              $('#vote_notes').append('<tr><td>'+value+'</td></tr>');
-            });
-          }else{
-            $('#vote_notes').parent().parent().hide();
-          }
+          $('#votes_chart').source_chart(data);
         }
       });
       

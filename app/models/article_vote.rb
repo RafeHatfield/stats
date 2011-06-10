@@ -8,36 +8,50 @@ class ArticleVote < ActiveRecord::Base
   
   belongs_to :article 
   
-  def self.votes_for_writer_between(writer_id, start_date, end_date, limit, offset)
+  def self.article_votes_for_writer_between(writer_id, start_date, end_date, limit, offset)
+    
     article_votes = ArticleVote.
       for_writer(writer_id).
-      select("article_id, title, permalink, vote, note").
       between(start_date, end_date).
       joins(:article).
       limit(limit).
-      offset(offset)
-    article_ids = article_votes.collect{|vote| vote.article_id}.uniq
-    result = []
+      offset(offset).
+      select("title").
+      group("title").
+      order("title")
+      
+    helpful = article_votes.
+      where(:vote => true).
+      count()
     
-    article_ids.each do |aid|
-      result << votes_detail_for_article(article_votes.to_a, aid)
+    not_helpful = article_votes.
+      where(:vote => false).
+      count()
+    
+    article_votes.map do |av|
+      {
+        :title => av.title,
+        :helpful => helpful[av.title] || 0,
+        :not_helpful => not_helpful[av.title] || 0
+      }
     end
-    result
+
   end
     
-  def self.vote_counts_for_article_between(article_id, start_date, end_date)
-    total_vote_counts = ArticleVote.
+  def self.votes_for_article_between(article_id, start_date, end_date)
+    helpful = ArticleVote.
       where(:article_id => article_id).
-      select("vote, note").
-      between(start_date, end_date)
-    
-    up_vote_count = total_vote_counts.to_a.count{|vote| vote.vote == true}
-    down_vote_count = total_vote_counts.to_a.count{|vote| vote.vote == false}
-    notes = total_vote_counts.to_a.find_all{|v| v.note if v.note.present?}.map{|v|v.note}
-    
-    counts = {:helpful => up_vote_count, :not_helpful => down_vote_count}.map{|source_sym, count| [I18n.t("report.#{source_sym.to_s}"), count]}.to_json
-    empty = (up_vote_count == 0) && (down_vote_count == 0)
-    {:counts => counts, :notes => notes, :empty => empty}
+      between(start_date, end_date).
+      where(:vote => true).
+      count()
+      
+    not_helpful = ArticleVote.
+      where(:article_id => article_id).
+      between(start_date, end_date).
+      where(:vote => false).
+      count()
+      
+    {:helpful => helpful, :not_helpful => not_helpful}
   end
   
 private
@@ -47,6 +61,10 @@ private
     up_vote_count = votes.count{|v| (v.article_id == aid) && v.vote == true}
     down_vote_count = votes.count{|v| (v.article_id == aid) && v.vote == false}
     {:id => article_vote.article_id, :title => article_vote.title, :permalink => article_vote.permalink, :up_votes_count => up_vote_count, :down_votes_count => down_vote_count, :note => article_vote.note}
+  end
+  
+  def self.merge_add(h1, h2)
+    h1.merge(h2){ |key, first, second| first.merge(second) }
   end
   
 end

@@ -1,6 +1,6 @@
 class ArticleVotesController < ApplicationController
-  before_filter :set_start_and_end_date, :only => [:index, :show]
-  before_filter :get_user, :only => [:index, :show]
+  before_filter :set_start_and_end_date, :only => [:for_writer, :for_article]
+  before_filter :get_user, :only => [:for_writer, :for_article]
   @@PER_PAGE = 20
   
   def create
@@ -22,26 +22,14 @@ class ArticleVotesController < ApplicationController
     end
   end
   
-  # article votes for a given writer
-  # http://localhost:3000/article_votes?writer_id=587644&key=2Srx
-  def index
-    @articles_votes = ArticleVote.votes_for_writer_between(params[:writer_id], @start_date, @end_date, params[:limit] || @@PER_PAGE, params[:offset] || 0)
+  def for_writer
+    @votes = ArticleVote.article_votes_for_writer_between(params[:writer_id], @start_date, @end_date, params[:limit] || @@PER_PAGE, params[:offset] || 0)
     render :layout => false
   end
   
-  def show
-    @article = Article.find(params[:id])
-    article_votes = ArticleVote.vote_counts_for_article_between(params[:id], @start_date, @end_date)
-    render :json => article_votes.to_json
+  def for_article
+    article_votes = ArticleVote.votes_for_article_between(params[:article_id], @start_date, @end_date)
+    render :json => article_votes.map{|sym, count| [I18n.t("report.#{sym.to_s}"), count]}.to_json
   end
 
-  def new
-    article_id = params[:article_id]
-    if article_id.present?
-      @article = Article.find(article_id)
-      @article_vote = @article.article_votes.build({:writer_id => @article.writer_id, :article_id => article_id, :title => @article.title})
-    end
-    @articles = Article.where(:writer_id => '587633')
-    render :layout => false
-  end  
 end
