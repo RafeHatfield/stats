@@ -41,7 +41,6 @@ end
 
 group :staging, :production do
   gem 'ar-octopus', :require => "octopus"
-  gem 'hoptoad_notifier'
 end
 
 group :test do
