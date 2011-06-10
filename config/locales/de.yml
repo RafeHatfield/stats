@@ -1,5 +1,41 @@
 de:
 
+  report:
+    mysuite_link: Zurück zur MySuite
+    download_csv: Download yesterday's data
+    showing_all_articles: Zeige alle artikel
+    from: von
+    to: auf
+    update: Aktualisierung
+    readers_viewing: Leser Sehen Meine Artikel
+    which_articles_people_are_reading: Welche Artikel von mir Leute lesen?
+    how_people_finding_me: Wie sind die Menschen Finding Me?
+    where_readers_from: Wo sind meine Leser her?
+    view_all_articles: Alle Artikel anzeigen
+    internal: Suite101
+    other: Andere
+    organic: Suchmaschine
+    article: Artikel
+    views: Aufrufe
+    view: Anzeigen
+    details: Informationen
+    domains: Domains
+    load_more: Mehr
+    generating_data: Generieren Sie Ihre Daten.
+    people_viewing_article: Die Menschen sehen Dieser Artikel
+    where_people_from: Wo sind Menschen aus?
+    your_articles_viewed_times: Ihre Artikel wurden gesichtet %{times} Mal insgesamt.
+    stats_for_article: Statistik für "%{title}"
+    this_article_viewed_times: Dieser Artikel wurde angesehen %{times} mal Zeiten.
+    how_people_finding_article: Wie sind die Menschen zu finden "%{title}"?
+    keyphrases: Suchausdrücke
+    helpful: Hilfreiche
+    which_useful_articles: Welche meiner Artikel Sie Leute finden, nützlich?
+    helpfulness_for_article: Wie hilfreich die Leute finden "%{title}"?
+    not_helpful: Nicht hilfreich
+    vote_responses: Konkrete Antworten für "%{title}"
+    responses: Antworten
+
   # German translations for Ruby on Rails
   # by Clemens Kofler (clemens@railway.at)
   # contributors:

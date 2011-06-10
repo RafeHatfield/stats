@@ -1,33 +1,42 @@
 fr:
 
   report:
-    mysuite_link: Back to MySuite
-    download_csv: Download Yesterday's Data
-    showing_all_articles: Showing all articles
-    from: from
-    to: to
-    update: Update
-    readers_viewing: Readers Viewing My Articles
-    which_articles_people_are_reading: Which of My Articles People Are Reading?
-    how_people_finding_me: How Are People Finding Me?
-    where_readers_from: Where Are My Readers Coming From?
-    view_all_articles: View All Articles
+    mysuite_link: Retour à MySuite
+    download_csv: Télécharger les données d'hier
+    showing_all_articles: Afficher tous les articles
+    from: de
+    to: à
+    update: Actualiser
+    readers_viewing: Les Lecteurs Profil Mes articles
+    which_articles_people_are_reading: Lequel de My People articles lis?
+    how_people_finding_me: Comment les gens me trouver?
+    where_readers_from: Où sont mes lecteurs en provenance?
+    view_all_articles: Voir tous les articles
     internal: Suite101
-    other: Other
-    organic: Search Engines
+    other: Autres
+    organic: Moteurs de recherche
     article: Article
-    views: Views
-    details: Detail
-    domains: Domains
-    load_more: Load More
-    generating_data:  Generating your data.
-    people_viewing_article: People Viewing This Article
-    where_people_from: Where Are People Coming From?
-    your_articles_viewed_times: Your articles were viewed %{times} times in total.
-    stats_for_article:  Stats for "%{title}"
-    this_article_viewed_times: This article was viewed %{times} times.
-    how_people_finding_article: How Are People Finding "%{title}"?
-    keyphrases: Keyphrases
+    views: Vues
+    view: Voir
+    details: Détails
+    domains: Domaines
+    load_more: Plus
+    generating_data:  Génération de vos données.
+    people_viewing_article: Personnes consultant ce article
+    where_people_from: Lorsque les gens viennent à partir?
+    your_articles_viewed_times: Vos articles ont été vus %{times} fois fois au total.
+    stats_for_article:  Stats pour "%{title}"
+    this_article_viewed_times: Cet article a été consulté %{times} fois fois.
+    how_people_finding_article: Comment les gens de recherche "%{title}"?
+    keyphrases: Phrases clés
+    helpful: Utile
+    which_useful_articles: Lequel de mes articles les gens trouvent utiles?
+    helpfulness_for_article: Comment aider les gens trouvent "%{title}"?
+    not_helpful: Pas utile
+    vote_responses: Des réponses précises pour "%{title}"
+    responses: Réponses
+
+    
 
   # French translations for Ruby on Rails
   # by Christian Lescuyer (christian@flyingcoders.com)

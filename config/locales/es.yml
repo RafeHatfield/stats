@@ -28,16 +28,12 @@ es:
     this_article_viewed_times: Este artículo ha recibido %{times} visitas.
     how_people_finding_article: ¿A través de qué palabras los lectores han encontrado el artículo "%{title}"?
     keyphrases: Palabra/s clave
-    helpful: Helpful
-    which_useful_articles: Which of My Articles Do People Find Useful?
-    helpfulness_for_article: How helpful do people find "%{title}"?
-    not_helpful: Not Helpful
-    vote_responses: Specific Responses for "%{title}"
-    responses: Responses
-    
-    
-    
-
+    helpful: Útiles
+    which_useful_articles: ¿Cuál de mis artículos no la gente a encontrar ayuda?
+    helpfulness_for_article: ¿Qué tan útil hacer la gente a encontrar "%{title}"?
+    not_helpful: No es útil
+    vote_responses: Respuestas para "%{title}"
+    responses: Respuestas
   
   # Spanish translations for Rails
   # by Francisco Fernando García Nieto (ffgarcianieto@gmail.com)
