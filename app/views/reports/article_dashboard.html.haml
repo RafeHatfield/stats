@@ -44,7 +44,7 @@
       // Render the votes asynchronously
       $.getJSON("#{article_votes_url(@user[:key], @article.id)}", {}, function(data){
         $("#votes_loading").hide();
-        if(data.empty){
+        if(data[0][1] == 0 && data[1][1] == 0){
           $("#votes_container").hide();
         }
         else{
