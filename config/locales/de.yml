@@ -1,34 +1,34 @@
 de:
 
   report:
-    mysuite_link: Zurück zur MySuite
-    download_csv: Download yesterday's data
-    showing_all_articles: Zeige alle artikel
+    mysuite_link: Zurück zu MySuite
+    download_csv: Gestrige Daten herunterladen
+    showing_all_articles: Alle Artikel anzeigen
     from: von
-    to: auf
+    to: bis
     update: Aktualisierung
-    readers_viewing: Leser Sehen Meine Artikel
-    which_articles_people_are_reading: Welche Artikel von mir Leute lesen?
-    how_people_finding_me: Wie sind die Menschen Finding Me?
-    where_readers_from: Wo sind meine Leser her?
-    view_all_articles: Alle Artikel anzeigen
+    readers_viewing: Leser, die meine Artikel aufgerufen haben
+    which_articles_people_are_reading: Welche meiner Artikel werden von Lesern aufgerufen?
+    how_people_finding_me: Wie werde ich von Lesern gefunden?
+    where_readers_from: Woher kommen meine Leser?
+    view_all_articles: Alle Artikel ansehen
     internal: Suite101
     other: Andere
-    organic: Suchmaschine
+    organic: Suchmaschinen
     article: Artikel
     views: Aufrufe
     view: Anzeigen
-    details: Informationen
+    details: Details
     domains: Domains
-    load_more: Mehr
-    generating_data: Generieren Sie Ihre Daten.
-    people_viewing_article: Die Menschen sehen Dieser Artikel
-    where_people_from: Wo sind Menschen aus?
-    your_articles_viewed_times: Ihre Artikel wurden gesichtet %{times} Mal insgesamt.
+    load_more: Mehr anzeigen
+    generating_data: Daten werden geladen.
+    people_viewing_article: Aufrufe dieses Artikels
+    where_people_from: Woher kommen die Leser?
+    your_articles_viewed_times: Ihre Artikel wurden insgesamt %{times} aufgerufen.
     stats_for_article: Statistik für "%{title}"
-    this_article_viewed_times: Dieser Artikel wurde angesehen %{times} mal Zeiten.
-    how_people_finding_article: Wie sind die Menschen zu finden "%{title}"?
-    keyphrases: Suchausdrücke
+    this_article_viewed_times: Dieser Artikel wurde %{times} aufgerufen.
+    how_people_finding_article: Wie haben Leser "%{title}" gefunden?
+    keyphrases: Suchbegriffe
     helpful: Hilfreiche
     which_useful_articles: Welche meiner Artikel Sie Leute finden, nützlich?
     helpfulness_for_article: Wie hilfreich die Leute finden "%{title}"?
