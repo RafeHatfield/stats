@@ -35,7 +35,10 @@ fr:
     not_helpful: Pas utile
     vote_responses: Des réponses précises pour "%{title}"
     responses: Réponses
-
+    this_month: Ce Mois
+    last_month: Mois Dernier
+    this_week: Cette Semaine
+    last_week: Semaine Dernière
     
 
   # French translations for Ruby on Rails

@@ -15,6 +15,9 @@
         marginLeft: 30,
         marginRight: 10
       },
+      credits: {
+        enabled: false
+      },
       title: false,
       legend: {
         enabled: #{legend_enabled}
@@ -49,14 +52,14 @@
         }
       },
       series: [{
-        name: 'This Week',
+        name: "#{t('report.this_week')}",
         pointInterval: #{1.day * 1000},
         pointStart: #{@this_start_date.at_midnight.to_i * 1000},
         data: #{@view_counts_this_week.inspect},
         xAxis: 0        
       },
       {
-        name: 'Last week',
+        name: "#{t('report.last_week')}",
         pointInterval: #{1.day * 1000},
         pointStart: #{@last_start_date.at_midnight.to_i * 1000},
         data: #{@view_counts_last_week.inspect},

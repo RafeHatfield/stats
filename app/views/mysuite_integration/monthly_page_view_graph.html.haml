@@ -17,6 +17,9 @@
         marginLeft: 30,
         marginRight: 10
       },
+      credits: {
+        enabled: false
+      },
       title: false,
       legend: {
         enabled: #{legend_enabled}
@@ -53,14 +56,14 @@
       },
       series: [
       {
-        name: 'Last Month',
+        name: "#{t('report.last_month')}",
         pointInterval: #{1.day * 1000},
         pointStart: #{@last_start_date.at_midnight.to_i * 1000},
         data: #{@view_counts_last_month.to_json},
         xAxis: 1
       },
       {
-        name: 'This Month',
+        name: "#{t('report.this_month')}",
         pointInterval: #{1.day * 1000},
         pointStart: #{@this_start_date.at_midnight.to_i * 1000},
         data: #{@view_counts_this_month.to_json},

@@ -34,6 +34,10 @@ es:
     not_helpful: No es útil
     vote_responses: Respuestas para "%{title}"
     responses: Respuestas
+    this_month: Este Mes
+    last_month: Mes Pasado
+    this_week: Esta Semana
+    last_week: Semana Pasada
   
   # Spanish translations for Rails
   # by Francisco Fernando García Nieto (ffgarcianieto@gmail.com)

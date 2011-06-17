@@ -35,6 +35,10 @@ de:
     not_helpful: Nicht hilfreich
     vote_responses: Konkrete Antworten für "%{title}"
     responses: Antworten
+    this_month: Dieser Monat
+    last_month: Letzter Monat
+    this_week: Letzte Woche
+    last_week: Diese Woche
 
   # German translations for Ruby on Rails
   # by Clemens Kofler (clemens@railway.at)

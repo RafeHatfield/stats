@@ -34,3 +34,7 @@ en:
     not_helpful: Not Helpful
     vote_responses: Specific Responses for "%{title}"
     responses: Responses
+    this_month: This Month
+    last_month: Last Month
+    this_week: This week
+    last_week: Last week
