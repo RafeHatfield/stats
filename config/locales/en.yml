@@ -1,7 +1,7 @@
 en:
   report:
     mysuite_link: Back to MySuite
-    download_csv: Download Yesterday's Data
+    download_csv: Download Data
     showing_all_articles: Showing all articles
     from: from
     to: to

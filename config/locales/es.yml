@@ -1,7 +1,7 @@
 es:
   report:
     mysuite_link: Volver a Mi Suite
-    download_csv: Descargar los datos de ayer
+    download_csv: Descargar los datos
     showing_all_articles: Mostrar todos los artículos
     from: desde
     to: hasta

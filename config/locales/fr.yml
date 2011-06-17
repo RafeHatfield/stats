@@ -2,7 +2,7 @@ fr:
 
   report:
     mysuite_link: Retour à MySuite
-    download_csv: Télécharger les données d'hier
+    download_csv: Télécharger les données
     showing_all_articles: Afficher tous les articles
     from: de
     to: à

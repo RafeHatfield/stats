@@ -17,10 +17,10 @@ class ReportsController < ApplicationController
   end
         
   def article_views_csv
-    @article_counts = DailyPageView.with_total_counts_for_writer_between(@user[:id], @start_date, @end_date)
+    @article_counts = DailyPageView.article_counts_for_writer_between(@user[:id], @start_date, @end_date, 5000, 0)
     
     csv_string = FasterCSV.generate do |csv|
-      csv << ["Title", "Views Yesterday"]
+      csv << [I18n.t('report.article'), I18n.t('report.views')]
       @article_counts.each do |article_count|
         csv << [article_count[:title], article_count[:count]]
       end
