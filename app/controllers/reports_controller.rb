@@ -22,7 +22,7 @@ class ReportsController < ApplicationController
     csv_string = FasterCSV.generate do |csv|
       csv << [I18n.t('report.article'), I18n.t('report.views')]
       @article_counts.each do |article_count|
-        csv << [article_count[:title], article_count[:count]]
+        csv << [CGI.unescape(article_count[:title]), article_count[:count]]
       end
     end
 
