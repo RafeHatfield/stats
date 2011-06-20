@@ -24,7 +24,7 @@ de:
     generating_data: Daten werden geladen.
     people_viewing_article: Aufrufe dieses Artikels
     where_people_from: Woher kommen die Leser?
-    your_articles_viewed_times: Ihre Artikel wurden insgesamt %{times} aufgerufen.
+    your_articles_viewed_times: Ihre Artikel wurden insgesamt %{times} mal aufgerufen.
     stats_for_article: Statistik für "%{title}"
     this_article_viewed_times: Dieser Artikel wurde %{times} aufgerufen.
     how_people_finding_article: Wie haben Leser "%{title}" gefunden?

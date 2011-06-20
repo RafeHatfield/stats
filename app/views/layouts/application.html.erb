@@ -13,7 +13,7 @@
 
   <div class="header" align="center">  
       <img src="http://graphics.suite101.com/stats_logo.png">
-      <a id="mysuite" href="http://my.suite101.com"><%= I18n.t 'report.mysuite_link'%></a>
+      <a id="mysuite" href="http://my.<%= request.domain %>"><%= I18n.t 'report.mysuite_link'%></a>
   </div>
   <div class="content">
     <%= yield %>
