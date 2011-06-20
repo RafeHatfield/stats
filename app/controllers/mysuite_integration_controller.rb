@@ -67,7 +67,7 @@ class MysuiteIntegrationController < ApplicationController
 
       render :layout => false
     end
-    
+  
     # Render javascript which will update the #total_page_views element with the lifetime page views of this user.
     def update_total_page_views
       total_page_views = DailyPageView.counts_for_writer_between(@user[:id], 90.days.ago.to_date, Date.today).sum
