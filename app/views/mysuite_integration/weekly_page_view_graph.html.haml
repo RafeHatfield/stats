@@ -1,10 +1,14 @@
-= javascript_include_tag 'jquery', 'highcharts'
+= javascript_include_tag 'jquery', 'highcharts', 'application.js'
 
 - plot_height = params[:size]=='small' ? 175 : 500
 - legend_enabled = params[:size]=='small' ? false : true
+- left_margin = params[:size]=='small' ? 0 : 40
 
 :javascript
   $(function(){  
+    
+    localize_highcharts("#{I18n.locale}");
+    
     // Make the 'page_view_plot' div a highchart showing the total view counts.
     var chart;
     chart = new Highcharts.Chart({
@@ -12,7 +16,7 @@
         renderTo: 'page_view_plot',
         defaultSeriesType: 'column',
         height: "#{plot_height}",
-        marginLeft: 40,
+        marginLeft: #{left_margin},
         marginRight: 10
       },
       credits: {

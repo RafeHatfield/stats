@@ -33,6 +33,8 @@
   :javascript
     $(function(){ 
       
+      localize_highcharts("#{I18n.locale}");
+      
       // Render page views
       $.getJSON("#{writer_page_views_url(@user[:key], @user[:id])}", {}, function(data){
         $("#page_views_loading").hide();

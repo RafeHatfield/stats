@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   
   before_filter :set_locale
   around_filter :select_shard
-    
+      
   def domain_extension
     if request.domain
       request.domain.split('.').last.to_sym

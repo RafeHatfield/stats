@@ -31,6 +31,8 @@
 - content_for :page_javascript do
   :javascript
     $(function(){
+      localize_highcharts("#{I18n.locale}");
+      
       // Render page views
       $.getJSON("#{article_page_views_url(@user[:key], @article.id)}", {}, function(data){
         $("#page_views_loading").hide();

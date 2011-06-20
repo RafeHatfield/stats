@@ -1,11 +1,14 @@
-= javascript_include_tag 'jquery', 'highcharts'
+= javascript_include_tag 'jquery', 'highcharts', 'application'
 
 - plot_height = params[:size]=='small' ? 175 : 500
-- xlabel = params[:size]=='small' ?  "%e %b" : "%e %b, %Y"
-- right_margin = params[:size]=='small' ? 5 : 25
+- xlabel = params[:size]=='small' ?  "" : "%e %b, %Y"
+- right_margin = params[:size]=='small' ? 0 : 25
+- left_margin = params[:size]=='small' ? 0 : 40
 
 :javascript
   $(function(){
+    
+    localize_highcharts("#{I18n.locale}");
     
     // Make the 'page_view_plot' div a highchart showing the total view counts.
     var chart;
@@ -14,7 +17,7 @@
         renderTo: 'page_view_plot',
         defaultSeriesType: 'line',
         height: "#{plot_height}",
-        marginLeft: 40,
+        marginLeft: #{left_margin},
         marginRight: #{right_margin}
       },
       credits: {
@@ -26,7 +29,7 @@
       },
       xAxis: {
         type: 'datetime',
-        tickInterval: #{4.weeks * 1000},
+        tickInterval: #{2.weeks * 1000},
         labels: {
           formatter: function() {
             return Highcharts.dateFormat("#{xlabel}", this.value);
