@@ -39,6 +39,7 @@ fr:
     last_month: Mois Dernier
     this_week: Cette Semaine
     last_week: Semaine Dernière
+    suite101_article_stats: suite101_article_stats
     
 
   # French translations for Ruby on Rails

@@ -39,6 +39,7 @@ de:
     last_month: Letzter Monat
     this_week: Letzte Woche
     last_week: Diese Woche
+    suite101_article_stats: suite101_artikel_stats
 
   # German translations for Ruby on Rails
   # by Clemens Kofler (clemens@railway.at)

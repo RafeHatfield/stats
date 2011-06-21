@@ -20,7 +20,7 @@ class ReportsController < ApplicationController
     @article_counts = DailyPageView.article_counts_for_writer_between(@user[:id], @start_date, @end_date, 5000, 0)
     
     csv_string = FasterCSV.generate do |csv|
-      csv << [I18n.t('report.article'), I18n.t('report.views')]
+      csv << [I18n.t('report.article'), "#{I18n.t('report.views')} (#{I18n.l(@start_date)} - #{I18n.l(@end_date)})"]
       @article_counts.each do |article_count|
         csv << [CGI.unescape(article_count[:title]), article_count[:count]]
       end
@@ -28,7 +28,7 @@ class ReportsController < ApplicationController
 
     send_data csv_string,
               :type => 'text/csv; charset=iso-8859-1; header=present',
-              :disposition => "attachment; filename=article_counts.csv"    
+              :disposition => "attachment; filename=#{I18n.t('report.suite101_article_stats')}.csv"    
   end
 
 private

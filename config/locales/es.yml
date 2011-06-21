@@ -38,6 +38,7 @@ es:
     last_month: Mes Pasado
     this_week: Esta Semana
     last_week: Semana Pasada
+    suite101_article_stats: suite101_articulo_estad
   
   # Spanish translations for Rails
   # by Francisco Fernando García Nieto (ffgarcianieto@gmail.com)
