@@ -1,3 +1,19 @@
+# == Schema Information
+# Schema version: 20110519222312
+#
+# Table name: daily_keyphrase_views_master
+#
+#  id           :integer         not null, primary key
+#  date         :date
+#  article_id   :integer
+#  keyphrase    :string(255)
+#  count        :integer
+#  writer_id    :integer
+#  created_at   :datetime
+#  updated_at   :datetime
+#  partition_id :integer
+#
+
 class DailyKeyphraseView < ActiveRecord::Base
   belongs_to :article  
   validates_presence_of :date, :article_id, :writer_id, :count

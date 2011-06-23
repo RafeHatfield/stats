@@ -154,7 +154,11 @@ class RawPageViewJobTest < ActiveSupport::TestCase
       end
       
     end
-
+    
+    should "fail silently on spider views" do
+      data = "{\"permalink\":\"'   escape('http://www.suite101.com/content/slentrolweight-loss-drug-for-dogs-a27283')   '\",\"title\":\"'    escape('Slentrol:Weight Loss Drug for Dogs')   '\",\"cookie_id\":\"'   cookie_id   '\",\"date\":\"2011-05-30T21:14:09Z\",\"article_id\":\"'   escape('27283')   '\",\"referrer_url\":\"'    referrer_url   '\",\"writer_id\":\"'   353507   '\"}"
+      RawPageViewJob.perform(data)
+    end
     
   end
   

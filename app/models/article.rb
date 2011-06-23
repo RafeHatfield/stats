@@ -1,3 +1,16 @@
+# == Schema Information
+# Schema version: 20110519222312
+#
+# Table name: articles
+#
+#  id         :integer         not null, primary key
+#  title      :string(255)
+#  writer_id  :integer
+#  permalink  :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class Article < ActiveRecord::Base
 
   has_many :daily_page_views, :dependent => :destroy

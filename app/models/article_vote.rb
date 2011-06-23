@@ -1,3 +1,18 @@
+# == Schema Information
+# Schema version: 20110519222312
+#
+# Table name: article_votes
+#
+#  id         :integer         not null, primary key
+#  article_id :integer
+#  date       :date
+#  note       :text
+#  vote       :boolean
+#  writer_id  :integer
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class ArticleVote < ActiveRecord::Base
   attr_accessible :article_id, :date, :note, :vote, :writer_id
   

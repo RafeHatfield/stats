@@ -11,19 +11,36 @@ class RawPageViewJob
 
   def self.perform(raw_page_view_data)
     hash = ActiveSupport::JSON.decode(raw_page_view_data)
-      
-    select_shard(hash['permalink']) do      
-      view = RawPageView.new(hash)
-      begin
-        view.save!
-        process_raw_page_view(view)
-      rescue ActiveRecord::RecordNotSaved
-        # Only throw validation errors.
+    
+    unless spider_view?(hash)
+    
+      select_shard(hash['permalink']) do      
+        view = RawPageView.new(hash)
+        begin
+          view.save!
+          process_raw_page_view(view)
+        rescue ActiveRecord::RecordNotSaved
+          # Only throw validation errors.
+        end
       end
+      
     end
+    
   end
 
 private
+
+  # Determine if this view was from a spider
+  def self.spider_view?(data_hash)
+    # Spiders don't seem to properly execute the javascript on the tracking page,
+    # so the cookie_id variable doesn't get executed, it just inputs "cookie_id" as a string
+      
+    if /cookie_id/.match(data_hash["cookie_id"])
+      return true
+    else
+      return false
+    end
+  end
 
   def self.domain_extension(url)
     extension = Addressable::URI.parse(url).host.split('.').last.to_sym

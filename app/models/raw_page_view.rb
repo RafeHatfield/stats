@@ -1,3 +1,18 @@
+# == Schema Information
+# Schema version: 20110519222312
+#
+# Table name: raw_page_views
+#
+#  id           :integer         not null, primary key
+#  article_id   :integer
+#  permalink    :string(255)
+#  title        :string(255)
+#  writer_id    :integer
+#  referrer_url :string(1000)
+#  cookie_id    :string(255)
+#  date         :datetime
+#
+
 class RawPageView < ActiveRecord::Base
   validates_presence_of :title, :article_id, :permalink, :title, :writer_id, :cookie_id, :date
   validates_numericality_of :article_id, :writer_id, :only_integer => true

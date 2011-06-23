@@ -1,3 +1,19 @@
+# == Schema Information
+# Schema version: 20110519222312
+#
+# Table name: daily_domain_views_master
+#
+#  id           :integer         not null, primary key
+#  date         :date
+#  article_id   :integer
+#  domain       :string(255)
+#  count        :integer
+#  writer_id    :integer
+#  created_at   :datetime
+#  updated_at   :datetime
+#  partition_id :integer
+#
+
 class DailyDomainView < ActiveRecord::Base
   belongs_to :article
   
