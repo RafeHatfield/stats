@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   before_filter :set_locale
   around_filter :select_shard
   before_filter :session_expiry
+  before_filter :set_default_table_lengths
        
   def domain_extension
     if request.domain
@@ -52,6 +53,13 @@ protected
   # Parse a date string using the i18n date format.
   def parse_i18n_date(date_str)
     Date.strptime(date_str, I18n.t('date.formats.default'))
+  end
+  
+  def set_default_table_lengths
+    session[:articles_length] ||= 25
+    session[:keyphrases_length] ||= 10
+    session[:domains_length] ||= 10
+    session[:votes_length] ||= 10
   end
   
   def set_start_and_end_date

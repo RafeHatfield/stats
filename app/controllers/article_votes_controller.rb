@@ -24,6 +24,10 @@ class ArticleVotesController < ApplicationController
   
   def for_writer
     @votes = ArticleVote.article_votes_for_writer_between(params[:writer_id], @start_date, @end_date, params[:limit] || @@PER_PAGE, params[:offset] || 0)
+    
+    # Update the number of votes to show.
+    session[:votes_length] = session[:votes_length].to_i + params[:limit].to_i
+    
     render :layout => false
   end
   

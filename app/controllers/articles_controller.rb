@@ -5,6 +5,10 @@ class ArticlesController < ApplicationController
   
   def for_writer
     @article_counts = DailyPageView.article_counts_for_writer_between(params[:writer_id], @start_date, @end_date, params[:limit] || @@PER_PAGE, params[:offset] || 0)
+    
+    # Update the number of articles to show.
+    session[:articles_length] = session[:articles_length].to_i + params[:limit].to_i
+      
     render :partial => 'articles', :locals => {:article_counts => @article_counts} and return
   end
       

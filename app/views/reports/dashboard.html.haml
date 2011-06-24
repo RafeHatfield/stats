@@ -52,16 +52,16 @@
       });
       
       // Render article counts
-      $("#articles").paginated_table("#{writer_articles_url(@user[:key], @user[:id])}", 25, 50);
+      $("#articles").paginated_table("#{writer_articles_url(@user[:key], @user[:id])}", 50, #{session[:articles_length]});
       
       // Render article votes counts
-      $("#article_votes").paginated_table("#{writer_votes_url(@user[:key], @user[:id])}", 10);
+      $("#article_votes").paginated_table("#{writer_votes_url(@user[:key], @user[:id])}", 10, #{session[:votes_length]});
       
       // Render the domain counts
-      $("#domains").paginated_table("#{writer_domains_url(@user[:key], @user[:id])}", 10);
+      $("#domains").paginated_table("#{writer_domains_url(@user[:key], @user[:id])}", 2, #{session[:domains_length]});
       
       // Render the keyphrase counts
-      $("#keyphrases").paginated_table("#{writer_keyphrases_url(@user[:key], @user[:id])}", 10);
+      $("#keyphrases").paginated_table("#{writer_keyphrases_url(@user[:key], @user[:id])}", 10, #{session[:keyphrases_length]});
       
       var dates = $( "#start_date, #end_date" ).datepicker({
         numberOfMonths: 1,
