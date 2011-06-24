@@ -59,19 +59,19 @@
       },
       series: [
       {
-        name: "#{t('report.last_month')}",
-        pointInterval: #{1.day * 1000},
-        pointStart: #{@last_start_date.at_midnight.to_i * 1000},
-        data: #{@view_counts_last_month.to_json},
-        xAxis: 1
-      },
-      {
         name: "#{t('report.this_month')}",
         pointInterval: #{1.day * 1000},
         pointStart: #{@this_start_date.at_midnight.to_i * 1000},
         data: #{@view_counts_this_month.to_json},
         type: 'line',
         xAxis: 0
+      },
+      {
+        name: "#{t('report.last_month')}",
+        pointInterval: #{1.day * 1000},
+        pointStart: #{@last_start_date.at_midnight.to_i * 1000},
+        data: #{@view_counts_last_month.to_json},
+        xAxis: 1
       }
       ]
       
