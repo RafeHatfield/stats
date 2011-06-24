@@ -52,7 +52,7 @@
       });
       
       // Render article counts
-      $("#articles").paginated_table("#{writer_articles_url(@user[:key], @user[:id])}", 10);
+      $("#articles").paginated_table("#{writer_articles_url(@user[:key], @user[:id])}", 25, 50);
       
       // Render article votes counts
       $("#article_votes").paginated_table("#{writer_votes_url(@user[:key], @user[:id])}", 10);

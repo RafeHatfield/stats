@@ -1,9 +1,13 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
+
+  ## Timeout after inactivity of one hour.
+  MAX_SESSION_PERIOD = 3600
   
   before_filter :set_locale
   around_filter :select_shard
-      
+  before_filter :session_expiry
+       
   def domain_extension
     if request.domain
       request.domain.split('.').last.to_sym
@@ -36,6 +40,14 @@ class ApplicationController < ActionController::Base
   end
   
 protected
+ 
+  # Expire session variables after an hour.
+  def session_expiry
+    reset_session if session[:expiry_time] and session[:expiry_time] < Time.now
+
+    session[:expiry_time] = MAX_SESSION_PERIOD.seconds.from_now
+    return true
+  end
   
   # Parse a date string using the i18n date format.
   def parse_i18n_date(date_str)
