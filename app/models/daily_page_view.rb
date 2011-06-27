@@ -50,7 +50,7 @@ class DailyPageView < ActiveRecord::Base
       between(start_date, end_date).
       joins(:article).
       group("article_id, title, permalink").
-      order("count DESC").
+      order("count DESC, article_id ASC").
       limit(limit).
       offset(offset)
   end
