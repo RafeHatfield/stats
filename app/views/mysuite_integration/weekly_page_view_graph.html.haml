@@ -55,19 +55,20 @@
           return Highcharts.dateFormat("%B %e %Y", this.x) + ': ' + this.y;
         }
       },
-      series: [{
-        name: "#{t('report.this_week')}",
-        pointInterval: #{1.day * 1000},
-        pointStart: #{@this_start_date.at_midnight.to_i * 1000},
-        data: #{@view_counts_this_week.inspect},
-        xAxis: 0        
-      },
+      series: [
       {
         name: "#{t('report.last_week')}",
         pointInterval: #{1.day * 1000},
         pointStart: #{@last_start_date.at_midnight.to_i * 1000},
         data: #{@view_counts_last_week.inspect},
         xAxis: 1
+      },
+      {
+        name: "#{t('report.this_week')}",
+        pointInterval: #{1.day * 1000},
+        pointStart: #{@this_start_date.at_midnight.to_i * 1000},
+        data: #{@view_counts_this_week.inspect},
+        xAxis: 0        
       }] 
     });
       
