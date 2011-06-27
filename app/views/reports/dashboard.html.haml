@@ -58,7 +58,7 @@
       $("#article_votes").paginated_table("#{writer_votes_url(@user[:key], @user[:id])}", 10, #{session[:votes_length]});
       
       // Render the domain counts
-      $("#domains").paginated_table("#{writer_domains_url(@user[:key], @user[:id])}", 2, #{session[:domains_length]});
+      $("#domains").paginated_table("#{writer_domains_url(@user[:key], @user[:id])}", 10, #{session[:domains_length]});
       
       // Render the keyphrase counts
       $("#keyphrases").paginated_table("#{writer_keyphrases_url(@user[:key], @user[:id])}", 10, #{session[:keyphrases_length]});
