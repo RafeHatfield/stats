@@ -1,23 +1,35 @@
 namespace :dev_seeds do  
 
   WRITER_ID = 1
-  ARTICLES = [
-    {:id => 11111, :title => "Article 1", :writer_id => WRITER_ID},
-    {:id => 22222, :title => "Article 2", :writer_id => WRITER_ID},
-    {:id => 33333, :title => "Article 3", :writer_id => WRITER_ID}
-  ]
+  
+  ARTICLES = []
+  1.upto(30) do |i|
+    ARTICLES << {:id => i, :title => "Article #{i}", :writer_id => WRITER_ID}
+  end
+
   REFERRER_URLS = [
     "http://www.google.ca/search?q=awesome+sauce&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a",
     "http://www.google.ca/search?q=happy+dogs&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a",
-    "http://www.bing.com/search?q=awesome+sauce&x=0&y=0&form=MSNH14&qs=n&sk=",
+    "http://www.bing.com/search?q=sauce&x=0&y=0&form=MSNH14&qs=n&sk=",
     "http://www.google.com/search?q=awesome&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a",
     "http://www.google.com/search?q=awesome+sauce&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a",
-    "http://www.bing.com/search?q=awesome&x=0&y=0&form=MSNH14&qs=n&sk=",
+    "http://www.bing.com/search?q=greatness&x=0&y=0&form=MSNH14&qs=n&sk=",
     "",
     "",
     "http://www.happyplanet.net/ten-great-articles-you-should-read",
     "http://www.suite101.com/my_article_that_i_wrote",
-    "http://my.suite101.de/my_article_that_i_wrote"
+    "http://my.suite101.de/my_article_that_i_wrote",
+    "http://ca.search.yahoo.com/search?p=totally+awesome+sauce&fr2=sb-top&fr=yfp-t-715&rd=r1",
+    "http://www.msn.com/search?q=apple+sauce&x=0&y=0&form=MSNH14&qs=n&sk=",
+    "http://www.search.com/search?q=french+people",
+    "http://www.openlinkingpeople.de",
+    "http://www.myblog.wordpress.com",
+    "http://search.aol.ca/aol/search?invocationType=&query=people+eaters",
+    "http://www.google.com/search?q=purple&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a",
+    "http://www.google.com/search?q=apples&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a",
+    "http://www.google.au/search?q=tally+hoo&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a",
+    "http://www.bing.de/search?q=flying+saucer&x=0&y=0&form=MSNH14&qs=n&sk=",
+    "http://www.bing.net/search?q=open+easy+rider&x=0&y=0&form=MSNH14&qs=n&sk="
   ]
 
   desc "Cleanup the development database"
@@ -41,7 +53,6 @@ namespace :dev_seeds do
           RawPageViewJob.perform(
             {
               :writer_id => article[:writer_id],
-              :cookie_id => "arandomcookie",
               :permalink => "http://www.suite101.com/content/chocolate-has-an-expiration-date-a347637",
               :article_id => article[:id],
               :referrer_url => REFERRER_URLS[rand(REFERRER_URLS.count)],
