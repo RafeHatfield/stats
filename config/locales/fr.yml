@@ -8,9 +8,9 @@ fr:
     to: à
     update: Actualiser
     readers_viewing: Les Lecteurs Profil Mes articles
-    which_articles_people_are_reading: Lequel de My People articles lis?
-    how_people_finding_me: Comment les gens me trouver?
-    where_readers_from: Où sont mes lecteurs en provenance?
+    which_articles_people_are_reading: Quels sont mes articles les plus lus?
+    how_people_finding_me: Quels sont les mots clés utilisés par les lecteurs?
+    where_readers_from: d'où viennent mes lecteurs?
     view_all_articles: Voir tous les articles
     internal: Suite101
     other: Autres
