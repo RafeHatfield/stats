@@ -29,7 +29,7 @@ es:
     how_people_finding_article: ¿A través de qué palabras los lectores han encontrado el artículo "%{title}"?
     keyphrases: Palabra/s clave
     helpful: Útiles
-    which_useful_articles: ¿Cuál de mis artículos no la gente a encontrar ayuda?
+    which_useful_articles: ¿Cuál de mis artículos fue marcado como “útil” por los lectores?
     helpfulness_for_article: ¿Qué tan útil hacer la gente a encontrar "%{title}"?
     not_helpful: No es útil
     vote_responses: Respuestas para "%{title}"
