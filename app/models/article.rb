@@ -21,12 +21,13 @@ class Article < ActiveRecord::Base
   validates_presence_of :id, :title, :writer_id, :permalink
   validates_uniqueness_of :id
     
-  def self.find_and_update_title_or_create(data)
+  def self.find_and_update_or_create(data)
     id = data[:id]
 
     if Article.exists?(id)
       article = Article.find(id)
       article.update_attribute(:title, data[:title]) if data[:title].present?
+      article.update_attribute(:permalink, data[:permalink]) if data[:permalink].present?
       return article
     else
       Article.create!(:title => data[:title], :writer_id => data[:writer_id], :permalink => data[:permalink]){|a| a.id = id}
