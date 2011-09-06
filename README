@@ -70,6 +70,9 @@ ssh into production machine:
 	> ssh stats2
 	> ssh stats-db
 	> ssh stats-db-slave
+
+ssh into staging machine:
+  > ssh stats-staging
 	
 access live app:
 	> cd /data/suite101/current

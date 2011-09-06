@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110906181305) do
+ActiveRecord::Schema.define(:version => 20110906222837) do
 
   create_table "article_votes", :force => true do |t|
     t.integer  "article_id"
@@ -1545,6 +1545,8 @@ ActiveRecord::Schema.define(:version => 20110906181305) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "daily_total_views", ["date"], :name => "index_daily_total_views_on_date", :unique => true
 
   create_table "raw_page_views", :force => true do |t|
     t.integer  "article_id"
