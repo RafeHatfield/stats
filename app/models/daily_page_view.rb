@@ -23,6 +23,16 @@ class DailyPageView < ActiveRecord::Base
   scope :partitioned, lambda {|writer_id| where(:partition_id => writer_id.to_i % PARTITION_SIZE) }
   set_table_name 'daily_page_views_master'
   
+  def self.summarize_by_date(date)
+    summarized_views = where(:date => date).group("date").sum("count").first
+    if summarized_views
+      return summarized_views.last
+    else
+      return nil
+    end
+    
+  end
+  
   # Get the number of views for all articles for writer_id on each day between and including start_date and end_date.
   def self.counts_for_writer_between(writer_id, start_date, end_date)
     date_counts = DailyPageView.partitioned(writer_id).select("date, sum(count) as count").where(:writer_id => writer_id).between(start_date, end_date).group(:date).order(:date).all
