@@ -15,7 +15,7 @@ class DailyTotalViewsController < ApplicationController
       date_to_process = Date.parse("2011-02-01").to_date
     end
 
-    if date_to_process < 2.days.ago.to_date
+    if date_to_process <= 2.days.ago.to_date
 
       total_views = DailyPageView.summarize_by_date(date_to_process)
       unless DailyTotalView.exists?(:date => date_to_process)
@@ -27,7 +27,7 @@ class DailyTotalViewsController < ApplicationController
     
     # Display in xml format.
     
-    @daily_total_views = DailyTotalView.where("date >= '#{92.days.ago.to_date}'").order("date").all
+    @daily_total_views = DailyTotalView.where("date >= '#{92.days.ago.to_date}' and date <= '#{2.days.ago.to_date}'").order("date").all
     
     if @daily_total_views.empty?
       head :ok

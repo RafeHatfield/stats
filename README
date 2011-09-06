@@ -83,7 +83,8 @@ deploy:
 	> cap staging deploy
 	> cap production deploy
 	
-	
+run migrations on production:
+  > cap production deploy:migrate
 	
 
 
