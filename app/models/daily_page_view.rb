@@ -28,7 +28,7 @@ class DailyPageView < ActiveRecord::Base
     if summarized_views
       return summarized_views.last
     else
-      return nil
+      return 0
     end
     
   end

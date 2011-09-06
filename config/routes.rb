@@ -43,5 +43,7 @@ Stats::Application.routes.draw do
   match '/report/:key/twelve_week_page_view_graph/' => 'mysuite_integration#twelve_week_page_view_graph'
   match '/report/:key/page_view_sparkline.gif' => 'mysuite_integration#page_view_sparkline'
   match '/report/:key/update_total_page_views.js' => 'mysuite_integration#update_total_page_views'
+
+  resources :daily_total_views
   
 end
