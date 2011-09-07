@@ -7,7 +7,7 @@ xml.root do
     
   xml.settings do
     @x_axis_dates.each do |date|
-      xml.axisx date
+      xml.axisx date.strftime('%b %d %Y')
     end
     
     xml.axisy @min_views
