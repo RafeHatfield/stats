@@ -23,11 +23,11 @@ class ArticleVotesController < ApplicationController
   end
   
   def for_writer
-		if params[:limit] > 5000
-			params[:limit] = 5000
+		if params[:limit].to_i > 5000
+			params[:limit].to_i = 5000
 		end
 	
-    @votes = ArticleVote.article_votes_for_writer_between(params[:writer_id], @start_date, @end_date, params[:limit] || @@PER_PAGE, params[:offset] || 0)
+    @votes = ArticleVote.article_votes_for_writer_between(params[:writer_id], @start_date, @end_date, params[:limit].to_i || @@PER_PAGE, params[:offset] || 0)
     
     # Update the number of votes to show.
     session[:votes_length] = session[:votes_length].to_i + params[:limit].to_i
