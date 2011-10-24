@@ -2,7 +2,11 @@ class DomainsController < ApplicationController
   before_filter :set_start_and_end_date
   @@PER_PAGE = 20
   
-  def for_writer  
+  def for_writer
+		if params[:limit] > 5000
+			params[:limit] = 5000
+		end
+	  
     domain_counts = DailyDomainView.domain_counts_for_writer_between(params[:writer_id], @start_date, @end_date, params[:limit] || @@PER_PAGE, params[:offset] || 0)
     
     # Update the number of domains to show.
