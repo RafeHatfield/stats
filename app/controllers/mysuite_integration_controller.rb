@@ -11,6 +11,11 @@ class MysuiteIntegrationController < ApplicationController
       end
 
       total_view_counts = view_counts_by_week.sum    
+			
+			if total_view_counts == 0
+				total_view_counts = 1
+			end
+			
       sum = 0
       cumulative_view_counts = view_counts_by_week.map {|count| sum += count}
       cumulative_percentages = cumulative_view_counts.map {|count| (100 * count / total_view_counts).to_i}
