@@ -6,7 +6,7 @@ class ArticleVotesController < ApplicationController
   def create
     return if params[:spam_filter].present?
     
-    article = Article.find_and_update_title_or_create({
+    article = Article.find_and_update_or_create({
       :id => params[:article_vote][:id],
       :title => params[:article_vote][:title],
       :writer_id => params[:article_vote][:writer_id],
