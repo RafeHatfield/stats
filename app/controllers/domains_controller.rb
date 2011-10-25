@@ -4,7 +4,7 @@ class DomainsController < ApplicationController
   
   def for_writer
 		if params[:limit].to_i > 5000
-			params[:limit].to_i = 5000
+			params[:limit] = 5000
 		end
 	  
     domain_counts = DailyDomainView.domain_counts_for_writer_between(params[:writer_id], @start_date, @end_date, params[:limit].to_i || @@PER_PAGE, params[:offset] || 0)

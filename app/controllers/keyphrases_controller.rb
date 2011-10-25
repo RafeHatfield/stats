@@ -9,7 +9,7 @@ class KeyphrasesController < ApplicationController
   
   def for_writer
 		if params[:limit].to_i > 5000
-			params[:limit].to_i = 5000
+			params[:limit] = 5000
 		end
 	
     keyphrase_counts = DailyKeyphraseView.keyphrases_with_total_counts_for_writer_between(params[:writer_id], @start_date, @end_date, params[:limit].to_i || @@PER_PAGE, params[:offset] || 0)
