@@ -47,10 +47,20 @@ Stats::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
+	
+	#Gmail SMTP server setup
+	ActionMailer::Base.smtp_settings ={
+		:address => "smtp.gmail.com",
+		:enable_starttls_auto => "true",
+		:port => 587,
+		:authentication => :plain,
+		:user_name => "vandev2011@gmail.com",
+		:password => 'vancouver2011'
+	}
 
 	config.middleware.use ExceptionNotifier,
 	    :email_prefix => "[STATSMELTDOWN] ",
-	    :sender_address => %{"Alerts" <alerts@suite101.com>},
+	    :sender_address => %{"VanDev" <vandev2011@gmail.com>},
 	    :exception_recipients => %w{rafe.hatfield@suite101.com}
 
 end
