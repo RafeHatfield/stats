@@ -43,6 +43,7 @@ end
 
 group :staging, :production do
   gem 'ar-octopus', :require => "octopus"
+	gem 'exception_notification'
 end
 
 group :test do
@@ -53,8 +54,3 @@ group :test do
 	gem 'shoulda-context'
 	gem 'factory_girl_rails', '1.1.beta1'
 end
-
-group :production do
-	gem 'exception_notification'
-end
-
