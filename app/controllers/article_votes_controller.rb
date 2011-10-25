@@ -4,7 +4,10 @@ class ArticleVotesController < ApplicationController
   @@PER_PAGE = 20
   
   def create
-    return if params[:spam_filter].present?
+    # return if params[:spam_filter].present?
+		if params[:spam_filter].present?
+			render :text => 'Green eggs and spam!' and return
+		end
     
     article = Article.find_and_update_or_create({
       :id => params[:article_vote][:id],

@@ -20,7 +20,7 @@ class Article < ActiveRecord::Base
 
   validates_presence_of :id, :title, :writer_id, :permalink
   validates_uniqueness_of :id
-    
+	
   def self.find_and_update_or_create(data)
     id = data[:id]
 
