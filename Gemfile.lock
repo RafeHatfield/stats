@@ -87,6 +87,8 @@ GEM
     erubis (2.6.6)
       abstract (>= 1.0.0)
     escape (0.0.4)
+    exception_notification (2.5.2)
+      actionmailer (>= 3.0.4)
     eycap (0.5.16)
       capistrano (>= 2.2.0)
       hoe (>= 1.5.1)
@@ -112,6 +114,9 @@ GEM
     json_pure (1.5.1)
     kaminari (0.10.4)
       rails (>= 3.0.0)
+    launchy (2.0.3)
+    letter_opener (0.0.2)
+      launchy
     linecache (0.43)
     mail (2.2.15)
       activesupport (>= 2.3.6)
@@ -240,6 +245,7 @@ DEPENDENCIES
   capybara
   cucumber-rails
   engineyard
+  exception_notification
   eycap
   factory_girl_rails (= 1.1.beta1)
   fastercsv
@@ -247,6 +253,7 @@ DEPENDENCIES
   haml
   jquery-rails (>= 0.2.6)
   kaminari
+  letter_opener
   memcache
   memcache-client
   newrelic_rpm

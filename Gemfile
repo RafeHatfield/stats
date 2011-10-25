@@ -37,6 +37,8 @@ group :development do
 	gem "autotest"
 	gem "rails3-generators"
 	gem 'rails_best_practices'
+	gem 'exception_notification'
+	gem 'letter_opener'
 end
 
 group :staging, :production do
@@ -51,3 +53,8 @@ group :test do
 	gem 'shoulda-context'
 	gem 'factory_girl_rails', '1.1.beta1'
 end
+
+group :production do
+	gem 'exception_notification'
+end
+

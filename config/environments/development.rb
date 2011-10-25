@@ -25,6 +25,14 @@ Stats::Application.configure do
   
   # Print log messages to the console
   # ActiveRecord::Base.logger = Logger.new(STDOUT)
+	
+	config.middleware.use ExceptionNotifier,
+	    :email_prefix => "[STATSMELTDOWN] ",
+	    :sender_address => %{"Alerts" <alerts@suite101.com>},
+	    :exception_recipients => %w{rafe.hatfield@suite101.com}
+	
+	config.action_mailer.delivery_method = :letter_opener
+	
 end
 
 SHARDING_ENABLED = false

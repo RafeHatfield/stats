@@ -12,9 +12,11 @@ class ArticleVotesController < ApplicationController
       :writer_id => params[:article_vote][:writer_id],
       :permalink => params[:article_vote][:permalink]
     })
+
     date = Time.zone.utc_to_local(Time.now.utc.getutc)
     params[:article_vote][:date] = date.to_date
     article_vote = article.article_votes.build(params[:article_vote])
+
     if article_vote.save
       render :text => 'Thanks you.' and return
     else
@@ -23,6 +25,7 @@ class ArticleVotesController < ApplicationController
   end
   
   def for_writer
+	
 		if params[:limit].to_i > 5000
 			params[:limit] = 5000
 		end

@@ -47,6 +47,12 @@ Stats::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
+
+	config.middleware.use ExceptionNotifier,
+	    :email_prefix => "[STATSMELTDOWN] ",
+	    :sender_address => %{"Alerts" <alerts@suite101.com>},
+	    :exception_recipients => %w{rafe.hatfield@suite101.com}
+
 end
 
 SHARDING_ENABLED = true
