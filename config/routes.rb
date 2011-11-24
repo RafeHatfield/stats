@@ -2,6 +2,15 @@ Stats::Application.routes.draw do
   # Tracking
   match '/add_page_view' => 'tracking#add_page_view'
   
+  # fitter_happier
+  match '/fitter_happier' => 'fitter_happier#index'
+  
+  # fitter_happier/site_check
+  match '/fitter_happier/site_check' => 'fitter_happier#site_check'
+  
+  # fitter_happier/site_and_database_check
+  match '/fitter_happier/site_and_database_check' => 'fitter_happier#site_and_database_check'
+  
   # Admin
   match '/admin' => 'admin#index'
   
